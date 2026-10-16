@@ -13,6 +13,8 @@ import AppShell from '../components/ui/AppShell.astro';
 import Nav from '../components/sections/Nav.astro';
 import Hero from '../components/sections/Hero.astro';
 import LanguageSwitcher from '../components/sections/LanguageSwitcher.astro';
+import SocialProof from '../components/sections/SocialProof.astro';
+import AgentsTeam from '../components/sections/AgentsTeam.astro';
 import { getContent } from '../i18n';
 
 const c = getContent('en');
@@ -89,5 +91,11 @@ const c = getContent('en');
 
     <!-- Task 6: Hero -->
     <Hero content={c.hero} locale="en" />
+
+    <!-- Task 7: SocialProof -->
+    <SocialProof content={c.socialProof} locale="en" />
+
+    <!-- Task 7: AgentsTeam -->
+    <AgentsTeam content={c.agents} locale="en" />
   </body>
 </html>
