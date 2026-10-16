@@ -47,6 +47,19 @@ after(() => {
   }
 });
 
+test('social preview is a 1200 by 630 PNG', async () => {
+  const response = await fetch(`${origin}/og/social-preview.png`);
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type') ?? '', /^image\/png(?:;|$)/);
+
+  const image = Buffer.from(await response.arrayBuffer());
+  // PNG signature
+  assert.deepEqual([...image.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  // IHDR: width at offset 16, height at offset 20 (big-endian uint32)
+  assert.equal(image.readUInt32BE(16), 1200);
+  assert.equal(image.readUInt32BE(20), 630);
+});
+
 test('GET / returns 200 with complete Saga OS SEO metadata', async () => {
   const response = await fetch(origin);
   assert.equal(response.status, 200);
