@@ -1,0 +1,314 @@
+---
+/**
+ * Nav.astro — Saga OS sticky top navigation.
+ *
+ * Props: content (Content['nav']), locale (Locale).
+ * Renders brand lockup, anchor links, language switcher, primary CTA.
+ * Mobile: hamburger toggles the menu drawer.
+ *
+ * Design: flat, light mode, stone/white/jet-black tokens.
+ * No emerald, no Plus Jakarta, no drop shadows on the bar.
+ */
+import type { NavContent } from '../../data/types';
+import type { Locale } from '../../i18n';
+import { localizePath } from '../../i18n';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  content: NavContent;
+  locale: Locale;
+}
+
+const { content, locale } = Astro.props;
+const homeHref = localizePath('/', locale);
+---
+
+<header class="nav-header">
+  {/* ── Desktop nav ── */}
+  <nav
+    class="hidden lg:flex flex-row items-center justify-between h-[68px] px-[48px] xl:px-[80px] max-w-[1440px] mx-auto w-full"
+    aria-label="Main navigation"
+  >
+    {/* Brand lockup */}
+    <a
+      href={homeHref}
+      class="brand-lockup"
+      aria-label={content.homeAriaLabel}
+    >
+      <img
+        src="/saga.svg"
+        alt=""
+        width="28"
+        height="28"
+        class="brand-logo"
+        aria-hidden="true"
+      />
+      <span class="brand-wordmark">{content.brand}</span>
+    </a>
+
+    {/* Center: links */}
+    <ul class="flex flex-row items-center gap-8 list-none m-0 p-0">
+      {content.links.map((link) => (
+        <li>
+          <a href={link.href} class="nav-link">
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {/* Right: language switcher + CTA */}
+    <div class="flex flex-row items-center gap-5">
+      <LanguageSwitcher locale={locale} />
+      <a
+        href="#"
+        data-open="waitlist"
+        class="nav-cta"
+      >
+        {content.primaryCta.label}
+      </a>
+    </div>
+  </nav>
+
+  {/* ── Mobile nav ── */}
+  <nav class="lg:hidden" aria-label="Main navigation, mobile">
+    <div class="flex items-center justify-between h-14 px-4 sm:px-6">
+      {/* Brand */}
+      <a
+        href={homeHref}
+        class="brand-lockup"
+        aria-label={content.homeAriaLabel}
+      >
+        <img
+          src="/saga.svg"
+          alt=""
+          width="24"
+          height="24"
+          class="brand-logo"
+          aria-hidden="true"
+        />
+        <span class="brand-wordmark">{content.brand}</span>
+      </a>
+
+      {/* Hamburger */}
+      <button
+        id="nav-toggle"
+        type="button"
+        class="nav-hamburger"
+        aria-expanded="false"
+        aria-controls="nav-mobile-menu"
+        aria-label="Open navigation menu"
+      >
+        {/* Hamburger icon */}
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          aria-hidden="true"
+          class="nav-icon-open"
+        >
+          <rect y="3" width="22" height="2" rx="1" fill="currentColor" />
+          <rect y="10" width="22" height="2" rx="1" fill="currentColor" />
+          <rect y="17" width="22" height="2" rx="1" fill="currentColor" />
+        </svg>
+        {/* Close icon */}
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          aria-hidden="true"
+          class="nav-icon-close hidden"
+        >
+          <path
+            d="M3 3L19 19M19 3L3 19"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </div>
+
+    {/* Mobile menu drawer */}
+    <div
+      id="nav-mobile-menu"
+      class="hidden border-t border-line"
+    >
+      <ul class="flex flex-col list-none m-0 px-4 sm:px-6 py-3 gap-0.5">
+        {content.links.map((link) => (
+          <li>
+            <a href={link.href} class="mobile-link">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* Mobile footer row: lang + CTA */}
+      <div class="flex items-center gap-4 px-4 sm:px-6 pb-4 pt-1">
+        <LanguageSwitcher locale={locale} />
+        <a
+          href="#"
+          data-open="waitlist"
+          class="nav-cta flex-1 text-center"
+        >
+          {content.primaryCta.label}
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .nav-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  /* Brand lockup */
+  .brand-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .brand-logo {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+
+  .brand-wordmark {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  /* Desktop links */
+  .nav-link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-muted);
+    text-decoration: none;
+    line-height: 1;
+    transition: color 0.15s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-ink);
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Primary CTA button */
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    height: 38px;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .nav-cta:hover {
+    opacity: 0.85;
+  }
+
+  .nav-cta:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  /* Hamburger button */
+  .nav-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+    border-radius: var(--radius);
+    padding: 0;
+  }
+
+  .nav-hamburger:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  /* Mobile links */
+  .mobile-link {
+    display: block;
+    padding: 10px 8px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-ink-2);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+
+  .mobile-link:hover {
+    background: var(--color-soft);
+    color: var(--color-ink);
+  }
+
+  .mobile-link:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-mobile-menu');
+  const iconOpen = toggle?.querySelector('.nav-icon-open');
+  const iconClose = toggle?.querySelector('.nav-icon-close');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+  });
+
+  // Close menu on link click
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+    });
+  });
+</script>

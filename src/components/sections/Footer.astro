@@ -1,0 +1,405 @@
+---
+/**
+ * Footer.astro -- Site footer.
+ *
+ * Props: content (Content['footer']), locale (Locale).
+ *
+ * Renders ALL slice fields:
+ *   - Brand lockup: /saga.svg logo + tagline.
+ *   - linkGroups: one column per group with heading + links.
+ *     In-page anchor hrefs (starting with #) are used as-is.
+ *     Homepage-root hrefs (starting with /) use localizePath.
+ *   - contact: email (mailto link) + repo (rendered as plain text
+ *     if it starts with "TODO:", since the repo link is not yet known).
+ *   - legal: DEFERRED DECISION -- chosen option (a): render legal
+ *     links as non-link "coming soon" text. Reasoning: the /privacy
+ *     and /terms pages do not exist. Leaving live links that 404 breaks
+ *     trust (antislop-ui R-24, R-26). Option (a) is honest: it shows
+ *     the labels exist and signals the pages are coming, without sending
+ *     users to a dead route. This is preferred over (b) omitting entirely
+ *     because visitors who care about Privacy/Terms should see an honest
+ *     signal, not a footer that pretends the pages don't exist.
+ *   - copyright: plain text.
+ *   - LanguageSwitcher: locale toggle at the bottom.
+ *
+ * Design notes:
+ *   - Light mode footer consistent with the rest of the page (no dark footer
+ *     because FinalCta already provides the dark closing block).
+ *   - Flat/minimal; no glow, no shadow.
+ *   - Visible :focus-visible on all interactive elements.
+ *   - All copy from content. No hardcoded strings. No em dashes.
+ */
+import type { FooterContent } from '../../data/types';
+import type { Locale } from '../../i18n';
+import { localizePath } from '../../i18n';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  content: FooterContent;
+  locale: Locale;
+}
+
+const { content, locale } = Astro.props;
+
+// Determine if the contact repo is still a TODO placeholder.
+const isRepoTodo = content.contact.repo.trimStart().startsWith('TODO:');
+---
+
+<footer class="footer">
+  <div class="footer-container">
+
+    {/* ── Top row: brand + link groups ── */}
+    <div class="footer-top">
+
+      {/* Brand column */}
+      <div class="footer-brand-col">
+        <a href={localizePath('/', locale)} class="footer-brand-link" aria-label={content.homeAriaLabel}>
+          <img
+            src="/saga.svg"
+            alt=""
+            width="28"
+            height="28"
+            class="footer-logo"
+            aria-hidden="true"
+          />
+          <span class="footer-wordmark">Saga OS</span>
+        </a>
+        <p class="footer-tagline">{content.tagline}</p>
+      </div>
+
+      {/* Link groups */}
+      {content.linkGroups.map((group) => (
+        <div class="footer-link-group">
+          <h3 class="footer-group-heading">{group.heading}</h3>
+          <ul class="footer-link-list" role="list">
+            {group.links.map((link) => {
+              // In-page anchors stay as-is; root-relative paths get localized.
+              const href = link.href.startsWith('#')
+                ? link.href
+                : localizePath(link.href, locale);
+              return (
+                <li>
+                  <a href={href} class="footer-link">{link.label}</a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+
+      {/* Contact column */}
+      <div class="footer-link-group">
+        <h3 class="footer-group-heading">{content.contact.contactHeading}</h3>
+        <ul class="footer-link-list" role="list">
+          <li>
+            <a href={`mailto:${content.contact.email}`} class="footer-link">
+              {content.contact.email}
+            </a>
+          </li>
+          <li>
+            {isRepoTodo ? (
+              <span class="footer-repo-todo">
+                {content.contact.repoComingLabel}
+              </span>
+            ) : (
+              <a
+                href={content.contact.repo}
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {content.contact.repoLabel}
+              </a>
+            )}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    {/* ── Divider ── */}
+    <div class="footer-divider" role="separator" aria-hidden="true" />
+
+    {/* ── Bottom row: legal + copyright + language switcher ── */}
+    <div class="footer-bottom">
+
+      {/* Legal links -- option (a): rendered as non-link "coming soon" text.
+          The /privacy and /terms pages do not exist yet. Live links would 404
+          and break trust. Honest "coming soon" labels are shown instead. */}
+      <div class="footer-legal" role="list" aria-label="Legal">
+        {content.legal.map((item) => (
+          <span class="footer-legal-item" role="listitem">
+            <span class="footer-legal-label">{item.label}</span>
+            <span class="footer-legal-soon">{content.comingSoonLabel}</span>
+          </span>
+        ))}
+      </div>
+
+      {/* Copyright */}
+      <p class="footer-copyright">{content.copyright}</p>
+
+      {/* Language switcher */}
+      <div class="footer-lang">
+        <LanguageSwitcher locale={locale} />
+      </div>
+
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 64px 48px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* ── Top row ──
+     Brand column on the left, link groups on the right.
+     Desktop: flex row with auto layout.
+     Mobile: stacks to a column.
+  */
+  .footer-top {
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  /* ── Brand column ── */
+  .footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1.5;
+    min-width: 180px;
+  }
+
+  .footer-brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .footer-brand-link:focus-visible {
+    outline: 3px solid var(--color-ink-2);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  .footer-logo {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+  }
+
+  .footer-tagline {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.55;
+    max-width: 220px;
+  }
+
+  /* ── Link group columns ── */
+  .footer-link-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .footer-group-heading {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .footer-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-ink-2);
+    text-decoration: none;
+    line-height: 1.3;
+    transition: color 0.15s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-ink);
+  }
+
+  .footer-link:focus-visible {
+    outline: 3px solid var(--color-ink-2);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Repo TODO: shown when the public repo link is not yet known */
+  .footer-repo-todo {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--color-faint);
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  /* ── Divider ── */
+  .footer-divider {
+    height: 1px;
+    background: var(--color-line);
+  }
+
+  /* ── Bottom row ── */
+  .footer-bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* Legal items -- option (a): non-link "coming soon" affordance */
+  .footer-legal {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .footer-legal-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .footer-legal-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-muted);
+    line-height: 1;
+  }
+
+  .footer-legal-soon {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-faint);
+    background: var(--color-soft);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-pill);
+    padding: 2px 7px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  /* Copyright */
+  .footer-copyright {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-faint);
+    margin: 0;
+    line-height: 1;
+    flex: 1;
+    text-align: right;
+  }
+
+  /* Language switcher */
+  .footer-lang {
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ── */
+
+  @media (max-width: 1023px) {
+    .footer-container {
+      padding: 56px 32px 36px;
+      gap: 36px;
+    }
+
+    .footer-top {
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer-top {
+      flex-wrap: wrap;
+      gap: 28px;
+    }
+
+    .footer-brand-col {
+      flex: 1 0 100%;
+    }
+
+    .footer-link-group {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .footer-copyright {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-container {
+      padding: 44px 16px 28px;
+      gap: 28px;
+    }
+
+    .footer-top {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .footer-tagline {
+      max-width: 100%;
+    }
+  }
+</style>

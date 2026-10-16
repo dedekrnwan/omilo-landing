@@ -1,0 +1,346 @@
+---
+/**
+ * AgentsTeam.astro — "Meet your AI staff" section.
+ *
+ * Props: content (Content['agents']), locale (Locale).
+ *
+ * Design notes:
+ *   - Intentional responsive card grid (not a bento mosaic).
+ *   - Each agent card shows: name, job, shift, engine.
+ *   - Each agent gets an auto-drawn inline-SVG mascot mark: a simple flat
+ *     geometric shape whose accent color varies per agent using theme vars
+ *     (color-link, color-ok, color-warn, color-ink-2, color-muted).
+ *     Echoes the AppShell agent identity dots. No pulse, no glow.
+ *   - Reveal stagger across cards.
+ *   - All copy from content prop. No hardcoded strings. No em dashes.
+ *
+ * Mascot palette cycles across agents:
+ *   0: color-link  (blue)
+ *   1: color-ok    (green)
+ *   2: color-warn  (amber)
+ *   3: color-ink-2 (dark brown)
+ *   4: color-muted (stone grey)
+ *   5: color-link  (repeats)
+ *   6: color-ok
+ */
+import type { AgentsContent } from '../../data/types';
+import type { Locale } from '../../i18n';
+import Reveal from '../ui/Reveal.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  content: AgentsContent;
+  locale: Locale;
+}
+
+// locale is reserved for future i18n use.
+const { content, locale: _locale } = Astro.props;
+const shiftLabel = content.shiftLabel ?? 'Shift';
+const engineLabel = content.engineLabel ?? 'Engine';
+
+// Accent colors cycle across agents using CSS vars (resolved at render-time by browser).
+const ACCENT_VARS = [
+  'var(--color-link)',
+  'var(--color-ok)',
+  'var(--color-warn)',
+  'var(--color-ink-2)',
+  'var(--color-muted)',
+];
+
+// Mascot shape variants — simple flat geometric SVG marks.
+// Five distinct shapes so the palette+shape pair is unique per agent up to 5,
+// then palette repeats (unlikely to have >5 agents, but handled gracefully).
+type MascotShape = 'hexagon' | 'diamond' | 'triangle' | 'circle-square' | 'cross-circle';
+
+const MASCOT_SHAPES: MascotShape[] = [
+  'hexagon',
+  'diamond',
+  'triangle',
+  'circle-square',
+  'cross-circle',
+];
+
+function getMascotSVG(shape: MascotShape, accent: string): string {
+  // All marks are 32x32, flat fill on a 32x32 viewBox, no stroke glow, no shadow.
+  switch (shape) {
+    case 'hexagon':
+      // Regular hexagon (flat-top orientation)
+      return `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <polygon points="16,3 27,9 27,23 16,29 5,23 5,9" fill="${accent}" opacity="0.15"/>
+        <polygon points="16,7 23.7,11.5 23.7,20.5 16,25 8.3,20.5 8.3,11.5" fill="${accent}"/>
+      </svg>`;
+    case 'diamond':
+      // Rotated square (diamond)
+      return `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <rect x="7" y="7" width="18" height="18" rx="2" transform="rotate(45 16 16)" fill="${accent}" opacity="0.15"/>
+        <rect x="10" y="10" width="12" height="12" rx="1.5" transform="rotate(45 16 16)" fill="${accent}"/>
+      </svg>`;
+    case 'triangle':
+      // Equilateral triangle, pointing up
+      return `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <polygon points="16,4 28,28 4,28" fill="${accent}" opacity="0.15"/>
+        <polygon points="16,9 24.5,25 7.5,25" fill="${accent}"/>
+      </svg>`;
+    case 'circle-square':
+      // Circle with a smaller square inset
+      return `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="13" fill="${accent}" opacity="0.15"/>
+        <circle cx="16" cy="16" r="9" fill="${accent}"/>
+        <rect x="12" y="12" width="8" height="8" rx="1" fill="white" opacity="0.9"/>
+      </svg>`;
+    case 'cross-circle':
+    default:
+      // Circle with a cross/plus mark
+      return `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="13" fill="${accent}" opacity="0.15"/>
+        <circle cx="16" cy="16" r="9" fill="${accent}"/>
+        <path d="M16 11v10M11 16h10" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+      </svg>`;
+  }
+}
+---
+
+<section id="agents" class="at-section">
+  <div class="at-container">
+
+    {/* Section header */}
+    <Reveal>
+      <SectionHeader
+        eyebrow={content.eyebrow}
+        title={content.heading}
+        subtitle={content.subhead}
+      />
+    </Reveal>
+
+    {/* Agent roster grid */}
+    <div class="at-grid">
+      {content.roster.map((agent, i) => {
+        const accent = ACCENT_VARS[i % ACCENT_VARS.length];
+        const shape = MASCOT_SHAPES[i % MASCOT_SHAPES.length];
+        const mascotSVG = getMascotSVG(shape, accent);
+        const delay = 80 + i * 60;
+
+        return (
+          <Reveal delay={delay} class="at-card-reveal">
+            <article class="at-card">
+
+              {/* Mascot mark */}
+              <div class="at-mascot" aria-hidden="true" set:html={mascotSVG} />
+
+              {/* Agent identity */}
+              <div class="at-card-body">
+                <h3 class="at-name">{agent.name}</h3>
+                <p class="at-job">{agent.job}</p>
+
+                <dl class="at-meta">
+                  <div class="at-meta-row">
+                    {/* Clock icon */}
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true" class="at-meta-icon">
+                      <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/>
+                      <path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <dt class="sr-only">{shiftLabel}</dt>
+                    <dd class="at-meta-value">{agent.shift}</dd>
+                  </div>
+
+                  {agent.engine && (
+                    <div class="at-meta-row">
+                      {/* Engine / processor icon */}
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true" class="at-meta-icon">
+                        <rect x="3.5" y="3.5" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.1"/>
+                        <path d="M5 1v1.5M8 1v1.5M5 10.5V12M8 10.5V12M1 5h1.5M1 8h1.5M10.5 5H12M10.5 8H12" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                      </svg>
+                      <dt class="sr-only">{engineLabel}</dt>
+                      <dd class="at-meta-value">{agent.engine}</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+
+            </article>
+          </Reveal>
+        );
+      })}
+    </div>
+
+    {/* Shift footnote */}
+    <Reveal delay={content.roster.length * 60 + 100}>
+      <p class="at-shift-note">{content.shiftNote}</p>
+    </Reveal>
+
+  </div>
+</section>
+
+<style>
+  .at-section {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .at-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 80px 48px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  /* ── Grid: 3-column desktop, 2-column tablet, 1-column mobile ── */
+  .at-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* Reveal wrapper as a grid cell needs display:contents to pass through */
+  .at-card-reveal {
+    display: contents;
+  }
+
+  /* ── Agent card ── */
+  .at-card {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--color-surface);
+    transition: border-color 0.15s ease;
+  }
+
+  .at-card:hover {
+    border-color: var(--color-ink-2);
+  }
+
+  /* Mascot mark — no glow, no pulse, flat */
+  .at-mascot {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Card body content */
+  .at-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .at-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .at-job {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* Meta: shift + engine */
+  .at-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 4px 0 0;
+  }
+
+  .at-meta-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .at-meta-icon {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    margin-top: 1px;
+  }
+
+  .at-meta-value {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Shift footnote */
+  .at-shift-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 60ch;
+    padding-top: 4px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  /* Screen-reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ── Responsive ── */
+
+  /* 2-column at tablet */
+  @media (max-width: 1023px) {
+    .at-container {
+      padding: 64px 32px 80px;
+      gap: 40px;
+    }
+
+    .at-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+
+  /* 1-column at mobile */
+  @media (max-width: 640px) {
+    .at-container {
+      padding: 48px 16px 64px;
+      gap: 36px;
+    }
+
+    .at-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .at-card {
+      padding: 22px 18px 18px;
+    }
+  }
+
+  /* Narrow mobile */
+  @media (max-width: 480px) {
+    .at-container {
+      padding: 36px 12px 52px;
+    }
+  }
+</style>

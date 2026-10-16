@@ -1,0 +1,155 @@
+---
+/**
+ * SocialProof.astro — Saga OS landing page social proof section.
+ *
+ * Props: content (Content['socialProof']), locale (Locale).
+ *
+ * Design notes:
+ *   - Honest framing only. No invented logos, counts, or testimonials.
+ *   - The `note` and `proofPlaceholder` fields contain TODO strings that must
+ *     render visibly so the owner knows what to fill before launch.
+ *   - Placeholder treatment: a muted, framed row that clearly reads as
+ *     "to be added" — not hidden, not disguised.
+ *   - Flat/minimal. Light mode. Generous whitespace.
+ *
+ * All copy from content prop. No hardcoded strings. No em dashes.
+ */
+import type { SocialProofContent } from '../../data/types';
+import type { Locale } from '../../i18n';
+import Reveal from '../ui/Reveal.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  content: SocialProofContent;
+  locale: Locale;
+}
+
+// locale is reserved for future i18n use.
+const { content, locale: _locale } = Astro.props;
+---
+
+<section id="social-proof" class="sp-section">
+  <div class="sp-container">
+
+    <Reveal>
+      <SectionHeader
+        title={content.heading}
+        subtitle={content.body}
+        align="center"
+      />
+    </Reveal>
+
+    {/* Visible placeholder treatment — the TODO strings render as an honest
+        pre-launch reminder, framed to read clearly as "to be added". */}
+    <Reveal delay={100}>
+      <div class="sp-placeholder-frame" role="note" aria-label="Social proof placeholder">
+
+        {/* Icon: placeholder / add mark */}
+        <div class="sp-placeholder-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="26" height="26" rx="6" stroke="var(--color-line)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <path d="M14 9v10M9 14h10" stroke="var(--color-muted)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        {/* proofPlaceholder — the raw TODO: string, visible */}
+        <p class="sp-placeholder-label">{content.proofPlaceholder}</p>
+
+        {/* Divider */}
+        <div class="sp-placeholder-divider" aria-hidden="true"></div>
+
+        {/* note — the full owner instruction, wrapped in a distinct style */}
+        <p class="sp-placeholder-note">{content.note}</p>
+
+      </div>
+    </Reveal>
+
+  </div>
+</section>
+
+<style>
+  .sp-section {
+    background: var(--color-soft);
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .sp-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 80px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+
+  /* Placeholder frame — muted, dashed border, clearly "to be added" */
+  .sp-placeholder-frame {
+    width: 100%;
+    max-width: 640px;
+    border: 1.5px dashed var(--color-line);
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    background: var(--color-surface);
+  }
+
+  .sp-placeholder-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sp-placeholder-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-muted);
+    margin: 0;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .sp-placeholder-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--color-line);
+    margin: 4px 0;
+  }
+
+  .sp-placeholder-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 52ch;
+    opacity: 0.85;
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .sp-container {
+      padding: 64px 32px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .sp-container {
+      padding: 48px 16px;
+      gap: 36px;
+    }
+
+    .sp-placeholder-frame {
+      padding: 24px 20px;
+    }
+  }
+</style>

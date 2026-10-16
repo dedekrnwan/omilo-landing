@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config';
+import type { Locale } from '../i18n';
+
+import WaitlistDialog from '../components/waitlist/WaitlistDialog.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  ogImageAlt: string;
+  canonical?: string;
+}
+
+const { title, description, locale, ogImageAlt, canonical } = Astro.props;
+
+const canonicalUrl =
+  canonical ?? new URL(Astro.url.pathname, Astro.site ?? SITE).toString();
+const ogImage = new URL('/og/social-preview.png', Astro.site ?? SITE).toString();
+
+const ogLocale = locale === 'en' ? 'en_US' : 'id_ID';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      name: 'Saga OS',
+      url: Astro.site?.toString() ?? SITE,
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'Saga OS',
+      applicationCategory: 'BusinessApplication',
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/saga.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#171717" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Saga OS" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+
+    <WaitlistDialog locale={locale} />
+
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+        );
+        const mount = () =>
+          document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+        if (document.readyState !== 'loading') {
+          mount();
+        } else {
+          document.addEventListener('DOMContentLoaded', mount);
+        }
+      } else {
+        document.querySelectorAll('[data-reveal]').forEach((el) =>
+          el.classList.add('is-visible'),
+        );
+      }
+    </script>
+  </body>
+</html>

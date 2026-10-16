@@ -1,0 +1,212 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource/bricolage-grotesque";
+@import "@fontsource/ibm-plex-mono";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", var(--font-sans);
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-app: #f5f5f4;
+  --color-surface: #ffffff;
+  --color-soft: #fafaf9;
+  --color-ink: #0c0a09;
+  --color-ink-2: #44403c;
+  --color-muted: #78716c;
+  --color-faint: #a8a29e;
+  --color-line: #e7e5e4;
+  --color-primary: #171717;
+  --color-on-primary: #ffffff;
+  --color-link: #2563eb;
+
+  /* status */
+  --color-ok: #15803d;
+  --color-warn: #b45309;
+  --color-bad: #b91c1c;
+  --color-info: #1d4ed8;
+
+  /* status tints (background fills for policy chips) */
+  --color-ok-tint: #f0fdf4;
+  --color-warn-tint: #fffbeb;
+  --color-bad-tint: #fef2f2;
+  --color-info-tint: #eff6ff;
+
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  --shadow-float: 0 12px 16px -16px rgba(0, 0, 0, 0.25);
+
+  /* On-ink surface tokens -- for text on the dark FinalCta section */
+  --color-on-ink-secondary: rgba(255, 255, 255, 0.65);
+  --color-on-ink-faint: rgba(255, 255, 255, 0.40);
+}
+
+/* Visually hidden but screen-reader accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-app);
+    color: var(--color-ink);
+    margin: 0;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ink-2);
+    outline-offset: 2px;
+  }
+
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Motion utilities (subtle, MOTION dial ~2). All effects are gated
+   by prefers-reduced-motion so motion-sensitive users get none.
+   ────────────────────────────────────────────────────────────── */
+
+/* Card / surface hover: gentle lift + stronger shadow */
+.u-hover-lift {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  will-change: transform;
+}
+.u-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-float);
+}
+
+/* Interactive row/card: hover tint + lift, press feedback */
+.u-interactive {
+  transition: transform .18s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.u-interactive:hover {
+  transform: translateY(-2px);
+}
+.u-interactive:active {
+  transform: translateY(0) scale(.99);
+}
+
+/* Press feedback for buttons/links */
+.u-press {
+  transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease, background-color .2s ease;
+}
+.u-press:hover {
+  transform: translateY(-1px);
+}
+.u-press:active {
+  transform: translateY(0) scale(.97);
+}
+
+/* Icon tile that nudges/scales when its parent card is hovered */
+.u-icon-pop {
+  transition: transform .2s ease, background-color .2s ease;
+}
+.group:hover .u-icon-pop,
+.u-interactive:hover .u-icon-pop,
+.u-hover-lift:hover .u-icon-pop {
+  transform: scale(1.08);
+}
+
+/* Chevron nudge on hover (for list-item style cards) */
+.u-chevron {
+  transition: transform .2s ease;
+}
+.group:hover .u-chevron,
+.u-interactive:hover .u-chevron {
+  transform: translateX(3px);
+}
+
+/* Animated underline for nav/text links */
+.u-underline {
+  position: relative;
+}
+.u-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .22s ease;
+}
+.u-underline:hover::after,
+.u-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Gentle tilt + lift for phone mockups / visuals on hover */
+.u-tilt {
+  transition: transform .3s ease, box-shadow .3s ease;
+  will-change: transform;
+}
+.u-tilt:hover {
+  transform: translateY(-6px) rotate(-1deg);
+}
+
+/* Reveal stagger: children fade in sequentially (works with [data-reveal]) */
+.u-stagger > [data-reveal] { transition-delay: 0ms; }
+.u-stagger > [data-reveal]:nth-child(2) { transition-delay: 70ms; }
+.u-stagger > [data-reveal]:nth-child(3) { transition-delay: 140ms; }
+.u-stagger > [data-reveal]:nth-child(4) { transition-delay: 210ms; }
+.u-stagger > [data-reveal]:nth-child(5) { transition-delay: 280ms; }
+.u-stagger > [data-reveal]:nth-child(6) { transition-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .u-hover-lift,
+  .u-interactive,
+  .u-press,
+  .u-icon-pop,
+  .u-chevron,
+  .u-tilt {
+    transition: none;
+  }
+  .u-hover-lift:hover,
+  .u-interactive:hover,
+  .u-interactive:active,
+  .u-press:hover,
+  .u-press:active,
+  .u-tilt:hover,
+  .group:hover .u-icon-pop,
+  .group:hover .u-chevron,
+  .u-interactive:hover .u-icon-pop,
+  .u-interactive:hover .u-chevron {
+    transform: none;
+  }
+  .u-underline::after {
+    transition: none;
+  }
+}
