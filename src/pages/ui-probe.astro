@@ -19,6 +19,8 @@ import ApprovalLoop from '../components/sections/ApprovalLoop.astro';
 import Features from '../components/sections/Features.astro';
 import Integrations from '../components/sections/Integrations.astro';
 import MultiCompany from '../components/sections/MultiCompany.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import Pricing from '../components/sections/Pricing.astro';
 import { getContent } from '../i18n';
 
 const c = getContent('en');
@@ -113,5 +115,11 @@ const c = getContent('en');
 
     <!-- Task 9: MultiCompany -->
     <MultiCompany content={c.multiCompany} locale="en" />
+
+    <!-- Task 10: HowItWorks -->
+    <HowItWorks content={c.howItWorks} locale="en" />
+
+    <!-- Task 10: Pricing -->
+    <Pricing content={c.pricing} locale="en" />
   </body>
 </html>

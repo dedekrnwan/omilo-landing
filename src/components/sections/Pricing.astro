@@ -1,0 +1,309 @@
+---
+/**
+ * Pricing.astro -- "Pricing" section.
+ *
+ * Props: content (Content['pricing']), locale (Locale).
+ *
+ * FACTUAL FRAMING (non-negotiable):
+ *   saga-os is open-source / self-hosted. The software is free. You bring your
+ *   own Claude (API key OR Claude Code subscriptions) and pay only that usage.
+ *   There are NO SaaS per-seat tiers. No multi-tier price table. No invented
+ *   prices. The slice's earlyAccessNote carries a TODO: placeholder that MUST
+ *   render visibly as "to be added" -- never filled with invented pricing.
+ *
+ * Renders:
+ *   - Section header (eyebrow, heading, body) from slice.
+ *   - All points (FeatureItem[]) with relevant inline-SVG icons.
+ *   - earlyAccessNote: if it starts with "TODO:" render it as a visible
+ *     placeholder box labelled "to be added" (owner fills before launch).
+ *   - Primary CTA: Button with data-open="waitlist" and slice ctaPrimary.label.
+ *
+ * Design notes:
+ *   - No three-column pricing card layout. One honest layout: framing + points + CTA.
+ *   - Warm stone bg (--color-surface) to contrast with the how-it-works section.
+ *   - All copy from content. No hardcoded strings. No em dashes.
+ *   - Flat/minimal; no glow, no shadow. Visible focus on the CTA.
+ */
+import type { PricingContent } from '../../data/types';
+import type { Locale } from '../../i18n';
+import Reveal from '../ui/Reveal.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  content: PricingContent;
+  locale: Locale;
+}
+
+// locale reserved for future i18n use.
+const { content, locale: _locale } = Astro.props;
+
+// Inline-SVG icons per point title -- relevant to the content, not generic AI marks.
+function getPointIcon(title: string): string {
+  const key = title.toLowerCase();
+
+  if (key.includes('free') || key.includes('open') || key.includes('source') || key.includes('mit')) {
+    // Open lock / open source symbol
+    return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+      <rect x="3" y="9" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M7 9V6a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="10" cy="14" r="1.5" fill="currentColor" opacity="0.7"/>
+    </svg>`;
+  }
+
+  if (key.includes('bring') || key.includes('claude') || key.includes('key') || key.includes('api')) {
+    // Key / plugin icon
+    return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+      <circle cx="7.5" cy="8.5" r="4" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M10.5 11.5L17 18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M14 15l1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M15.5 13.5l1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  if (key.includes('spend') || key.includes('monitor') || key.includes('cost') || key.includes('budget')) {
+    // Bar chart / monitor icon
+    return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+      <path d="M3 16V11M7 16V7M11 16V10M15 16V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M1.5 16h17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  // Fallback: checkmark circle
+  return `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+    <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M6.5 10l2.5 2.5 4-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+
+// Determine if earlyAccessNote is a TODO placeholder.
+const isTodoNote = content.earlyAccessNote.trimStart().startsWith('TODO:');
+// Strip the "TODO: " prefix for display; the box treatment makes it clear.
+const todoNoteText = isTodoNote
+  ? content.earlyAccessNote.replace(/^TODO:\s*/i, '').trim()
+  : content.earlyAccessNote;
+---
+
+<section id="pricing" class="pr-section">
+  <div class="pr-container">
+
+    {/* Section header */}
+    <Reveal>
+      <SectionHeader
+        eyebrow={content.eyebrow}
+        title={content.heading}
+        subtitle={content.body}
+      />
+    </Reveal>
+
+    {/* Points */}
+    <div class="pr-points">
+      {content.points.map((point, i) => (
+        <Reveal delay={80 + i * 90}>
+          <div class="pr-point">
+            <div class="pr-point-icon" set:html={getPointIcon(point.title)} />
+            <div class="pr-point-text">
+              <h3 class="pr-point-title">{point.title}</h3>
+              <p class="pr-point-body">{point.body}</p>
+            </div>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+
+    {/* Early access note -- rendered visibly as "to be added" if it's a TODO placeholder */}
+    <Reveal delay={260}>
+      {isTodoNote ? (
+        <div class="pr-todo" role="note" aria-label="Content to be added before launch">
+          <div class="pr-todo-label">To be added before launch</div>
+          <p class="pr-todo-body">{todoNoteText}</p>
+        </div>
+      ) : (
+        <p class="pr-note">{content.earlyAccessNote}</p>
+      )}
+    </Reveal>
+
+    {/* Primary CTA */}
+    <Reveal delay={320}>
+      <div class="pr-cta">
+        <Button
+          href="#"
+          variant="primary"
+          data-open="waitlist"
+        >
+          {content.ctaPrimary.label}
+        </Button>
+      </div>
+    </Reveal>
+
+  </div>
+</section>
+
+<style>
+  .pr-section {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .pr-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 80px 48px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* ── Points grid ──
+     Desktop: 3-col (one per point).
+     Tablet: 2-col.
+     Mobile: 1-col.
+  */
+  .pr-points {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .pr-point {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 28px 24px;
+    background: var(--color-soft);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    transition: border-color 0.15s ease;
+  }
+
+  .pr-point:hover {
+    border-color: var(--color-ink-2);
+  }
+
+  .pr-point-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-ink-2);
+    flex-shrink: 0;
+  }
+
+  .pr-point-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pr-point-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .pr-point-body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── TODO placeholder box ──
+     Rendered when earlyAccessNote starts with "TODO:".
+     Visually distinct: dashed border, muted background, labelled header.
+     Purpose: owner fills this with real managed/early-access terms before launch.
+  */
+  .pr-todo {
+    border: 1.5px dashed var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-soft);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 680px;
+  }
+
+  .pr-todo-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  .pr-todo-body {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Inline note (when earlyAccessNote is real copy, not a TODO) */
+  .pr-note {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  /* ── CTA ── */
+  .pr-cta {
+    display: flex;
+    align-items: center;
+  }
+
+  /* ── Responsive ── */
+
+  @media (max-width: 1023px) {
+    .pr-container {
+      padding: 64px 32px 80px;
+      gap: 40px;
+    }
+
+    .pr-points {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pr-container {
+      padding: 48px 16px 64px;
+      gap: 36px;
+    }
+
+    .pr-points {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .pr-point {
+      padding: 22px 18px;
+    }
+
+    .pr-todo {
+      padding: 16px 18px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pr-container {
+      padding: 36px 12px 52px;
+    }
+  }
+</style>
