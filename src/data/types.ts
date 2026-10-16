@@ -133,6 +133,10 @@ export interface OfferContent extends SectionHead {
 
 export interface DemoContent extends SectionHead { videoSrc: string; caption?: string }
 
+export interface ExampleHelper { mascot: MascotKey; role: string; body: string }
+export interface ExampleCard { label: string; title: string; helpers: ExampleHelper[] }
+export interface ExamplesContent extends SectionHead { cards: ExampleCard[] }
+
 export interface FinalCtaContent { headline: string; subtext: string; cta: string; microcopy: string }
 
 export interface FooterContent { tagline: string; note: string; contactLabel: string; email: string; sourceLabel: string; copyright: string }
@@ -160,6 +164,7 @@ export interface Content {
   demo: DemoContent;
   loop: LoopContent;
   helpers: HelpersContent;
+  examples: ExamplesContent;
   workspace: WorkspaceContent;
   guardrails: GuardrailsContent;
   engines: EnginesContent;

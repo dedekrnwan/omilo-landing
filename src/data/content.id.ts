@@ -315,6 +315,41 @@ export const content: Content = {
     ],
   },
 
+  examples: {
+    eyebrow: 'Cocok untuk bisnis Anda',
+    heading: 'Sesuai cara bisnis Anda berjalan.',
+    subhead: 'Helper yang sama, pekerjaan berbeda. Anda yang menentukan tugas masing-masing.',
+    cards: [
+      {
+        label: 'Contoh',
+        title: 'Kedai kopi',
+        helpers: [
+          { mascot: 'marketing', role: 'Pemasaran', body: 'Membuat postingan menu dan area pengiriman' },
+          { mascot: 'support', role: 'Layanan', body: 'Menjawab pesan "apakah bisa antar?"' },
+          { mascot: 'finance', role: 'Keuangan', body: 'Penjualan dan biaya mingguan' },
+        ],
+      },
+      {
+        label: 'Contoh',
+        title: 'Toko online',
+        helpers: [
+          { mascot: 'ops', role: 'Ops', body: 'Cek pesanan, stok, dan pembayaran' },
+          { mascot: 'sales', role: 'Penjualan', body: 'Menindaklanjuti calon pembeli grosir' },
+          { mascot: 'support', role: 'Layanan', body: 'Membuat draf balasan untuk retur' },
+        ],
+      },
+      {
+        label: 'Contoh',
+        title: 'Agensi atau jasa',
+        helpers: [
+          { mascot: 'dev', role: 'Dev', body: 'Memperbarui situs klien' },
+          { mascot: 'chief', role: 'Chief of Staff', body: 'Menulis laporan klien mingguan' },
+          { mascot: 'sales', role: 'Penjualan', body: 'Membuat draf proposal untuk klien baru' },
+        ],
+      },
+    ],
+  },
+
   demo: {
     eyebrow: 'Lihat langsung',
     heading: 'Melihat ke dalam Omilo',

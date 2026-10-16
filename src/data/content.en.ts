@@ -315,6 +315,41 @@ export const content: Content = {
     ],
   },
 
+  examples: {
+    eyebrow: 'Fits your business',
+    heading: 'Fits the way your business runs.',
+    subhead: 'Same helpers, different jobs. You decide what each one owns.',
+    cards: [
+      {
+        label: 'Example',
+        title: 'Coffee shop',
+        helpers: [
+          { mascot: 'marketing', role: 'Marketing', body: 'Posts about the menu and delivery area' },
+          { mascot: 'support', role: 'Support', body: 'Answers "do you deliver?" messages' },
+          { mascot: 'finance', role: 'Finance', body: 'Weekly sales and costs' },
+        ],
+      },
+      {
+        label: 'Example',
+        title: 'Online store',
+        helpers: [
+          { mascot: 'ops', role: 'Ops', body: 'Checks orders, stock and payments' },
+          { mascot: 'sales', role: 'Sales', body: 'Follows up wholesale leads' },
+          { mascot: 'support', role: 'Support', body: 'Drafts replies for returns' },
+        ],
+      },
+      {
+        label: 'Example',
+        title: 'Agency or services',
+        helpers: [
+          { mascot: 'dev', role: 'Dev', body: 'Updates client websites' },
+          { mascot: 'chief', role: 'Chief of Staff', body: 'Writes the weekly client report' },
+          { mascot: 'sales', role: 'Sales', body: 'Drafts proposals for new clients' },
+        ],
+      },
+    ],
+  },
+
   demo: {
     eyebrow: 'See it in action',
     heading: 'A look inside Omilo',
