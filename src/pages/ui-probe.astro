@@ -2,6 +2,7 @@
 /**
  * ui-probe.astro — throwaway build-smoke page (deleted in a later task).
  * Imports all five UI primitives so `astro build` exercises them.
+ * Also imports Task 6 section components: Nav, Hero, LanguageSwitcher.
  * DO NOT link from the real site; this page is for CI/build checks only.
  */
 import Button from '../components/ui/Button.astro';
@@ -9,6 +10,12 @@ import Reveal from '../components/ui/Reveal.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import Badge from '../components/ui/Badge.astro';
 import AppShell from '../components/ui/AppShell.astro';
+import Nav from '../components/sections/Nav.astro';
+import Hero from '../components/sections/Hero.astro';
+import LanguageSwitcher from '../components/sections/LanguageSwitcher.astro';
+import { getContent } from '../i18n';
+
+const c = getContent('en');
 ---
 
 <!doctype html>
@@ -71,5 +78,16 @@ import AppShell from '../components/ui/AppShell.astro';
     <section style="margin: 2rem 0; max-width: 900px;">
       <AppShell />
     </section>
+
+    <!-- Task 6: LanguageSwitcher -->
+    <section style="margin: 2rem 0;">
+      <LanguageSwitcher locale="en" />
+    </section>
+
+    <!-- Task 6: Nav -->
+    <Nav content={c.nav} locale="en" />
+
+    <!-- Task 6: Hero -->
+    <Hero content={c.hero} locale="en" />
   </body>
 </html>

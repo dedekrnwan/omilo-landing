@@ -1,0 +1,77 @@
+---
+/**
+ * LanguageSwitcher.astro
+ * Compact EN | ID locale toggle for the nav bar.
+ * Props: locale (Locale) — marks the active locale, links to the other.
+ */
+import type { Locale } from '../../i18n';
+import { localizePath, otherLocale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const other = otherLocale(locale);
+const otherHref = localizePath('/', other);
+
+const labels: Record<Locale, string> = { en: 'EN', id: 'ID' };
+---
+
+<div class="lang-switcher" role="navigation" aria-label="Language">
+  <span
+    class="lang-item lang-item--active"
+    aria-current="true"
+    aria-label={`Current language: ${locale.toUpperCase()}`}
+  >
+    {labels[locale]}
+  </span>
+  <span class="lang-divider" aria-hidden="true">|</span>
+  <a
+    href={otherHref}
+    class="lang-item lang-item--link"
+    aria-label={`Switch to ${labels[other]}`}
+    hreflang={other}
+  >
+    {labels[other]}
+  </a>
+</div>
+
+<style>
+  .lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-sans);
+  }
+
+  .lang-item {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .lang-item--active {
+    color: var(--color-ink);
+    cursor: default;
+  }
+
+  .lang-divider {
+    font-size: 11px;
+    color: var(--color-line);
+    user-select: none;
+    line-height: 1;
+  }
+
+  .lang-item--link {
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .lang-item--link:hover {
+    color: var(--color-ink);
+  }
+</style>
