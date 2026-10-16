@@ -21,6 +21,9 @@ import Integrations from '../components/sections/Integrations.astro';
 import MultiCompany from '../components/sections/MultiCompany.astro';
 import HowItWorks from '../components/sections/HowItWorks.astro';
 import Pricing from '../components/sections/Pricing.astro';
+import Faq from '../components/sections/Faq.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
+import Footer from '../components/sections/Footer.astro';
 import { getContent } from '../i18n';
 
 const c = getContent('en');
@@ -121,5 +124,14 @@ const c = getContent('en');
 
     <!-- Task 10: Pricing -->
     <Pricing content={c.pricing} locale="en" />
+
+    <!-- Task 11: Faq -->
+    <Faq content={c.faq} locale="en" />
+
+    <!-- Task 11: FinalCta -->
+    <FinalCta content={c.finalCta} locale="en" />
+
+    <!-- Task 11: Footer -->
+    <Footer content={c.footer} locale="en" />
   </body>
 </html>
