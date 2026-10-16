@@ -1,0 +1,75 @@
+---
+/**
+ * ui-probe.astro — throwaway build-smoke page (deleted in a later task).
+ * Imports all five UI primitives so `astro build` exercises them.
+ * DO NOT link from the real site; this page is for CI/build checks only.
+ */
+import Button from '../components/ui/Button.astro';
+import Reveal from '../components/ui/Reveal.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Badge from '../components/ui/Badge.astro';
+import AppShell from '../components/ui/AppShell.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UI probe (not for production)</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body style="padding: 2rem; font-family: sans-serif;">
+    <h1>UI probe -- build smoke</h1>
+
+    <!-- Button: all variants -->
+    <section style="margin: 2rem 0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+      <Button href="#" variant="primary">Primary</Button>
+      <Button href="#" variant="secondary">Secondary</Button>
+      <Button href="#" variant="ghost">Ghost</Button>
+      <div style="background:#0c0a09; padding: 0.5rem 1rem; border-radius: 8px; display: flex; gap: 1rem;">
+        <Button href="#" variant="ghost-inverse">Ghost Inverse</Button>
+        <Button href="#" variant="secondary-inverse">Secondary Inverse</Button>
+      </div>
+    </section>
+
+    <!-- Badge: all tones -->
+    <section style="margin: 2rem 0; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+      <Badge label="Neutral" tone="neutral" />
+      <Badge label="Status OK" tone="ok" />
+      <Badge label="Coming Soon" tone="soon" />
+    </section>
+
+    <!-- SectionHeader: default + inverse + centered -->
+    <section style="margin: 2rem 0; display: flex; flex-direction: column; gap: 2rem;">
+      <SectionHeader
+        eyebrow="Eyebrow"
+        title="Default section title"
+        subtitle="Supporting subtitle copy that spans one or two lines."
+      />
+      <SectionHeader
+        title="Centered, no eyebrow"
+        subtitle="A centered layout, no eyebrow pill."
+        align="center"
+      />
+      <div style="background:#0c0a09; padding: 2rem; border-radius: 12px;">
+        <SectionHeader
+          eyebrow="Inverse"
+          title="Inverse tone title"
+          subtitle="White text on a dark background."
+          tone="inverse"
+        />
+      </div>
+    </section>
+
+    <!-- Reveal -->
+    <Reveal class="probe-reveal" delay={100}>
+      <p>Reveal wrapper (data-reveal element)</p>
+    </Reveal>
+
+    <!-- AppShell -->
+    <section style="margin: 2rem 0; max-width: 900px;">
+      <AppShell />
+    </section>
+  </body>
+</html>
