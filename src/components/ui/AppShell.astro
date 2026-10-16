@@ -12,13 +12,44 @@
  * - Agent color dots are identity marks, not status indicators (no pulse).
  * - Numbers are clearly illustrative ("~2.1 K tok") — not presented as live data.
  * - Sidebar hides on narrow viewports (< 640px) via CSS.
+ *
+ * Props: all optional with saga-os-appropriate English fallbacks so the
+ * component stays self-contained when used without content props.
  */
 
 interface Props {
   class?: string;
+  // Nav / breadcrumb labels
+  navOverview?: string;
+  navActiveRuns?: string;
+  // Working card
+  agentName?: string;
+  agentRole?: string;
+  agentStatus?: string;
+  agentReasoning?: string;
+  // Token meter
+  meterLabel?: string;
+  // Queued rows
+  queuedRow1Name?: string;
+  queuedRow1State?: string;
+  queuedRow2Name?: string;
+  queuedRow2State?: string;
 }
 
-const { class: className } = Astro.props;
+const {
+  class: className,
+  navOverview = 'Overview',
+  navActiveRuns = 'Active runs',
+  agentName = 'Marketing',
+  agentRole = 'Morning shift',
+  agentStatus = 'Working',
+  agentReasoning = 'Reading last week\'s posts, drafting three for your review.',
+  meterLabel = 'Token budget',
+  queuedRow1Name = 'Sales · Follow-up drafts',
+  queuedRow1State = 'queued',
+  queuedRow2Name = 'Ops · Weekly summary',
+  queuedRow2State = 'waiting',
+} = Astro.props;
 ---
 
 <div
@@ -53,7 +84,7 @@ const { class: className } = Astro.props;
       <nav class="flex flex-col px-2 gap-0.5">
         <a href="#" class="nav-row nav-row--active" tabindex="-1">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1.5" fill="currentColor" opacity=".7"/><rect x="9" y="2" width="5" height="5" rx="1.5" fill="currentColor" opacity=".4"/><rect x="2" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity=".4"/><rect x="9" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity=".4"/></svg>
-          Overview
+          {navOverview}
         </a>
         <a href="#" class="nav-row" tabindex="-1">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2C8 2 3 5.5 3 9a5 5 0 0 0 10 0C13 5.5 8 2 8 2Z" fill="currentColor" opacity=".5"/><circle cx="8" cy="9" r="2" fill="currentColor"/></svg>
@@ -82,22 +113,18 @@ const { class: className } = Astro.props;
         <div class="flex items-center gap-2">
           <span
             class="agent-dot"
-            title="Analyst"
             style="background: var(--color-link);"
           ></span>
           <span
             class="agent-dot"
-            title="Writer"
             style="background: var(--color-ok);"
           ></span>
           <span
             class="agent-dot"
-            title="Reviewer"
             style="background: var(--color-warn);"
           ></span>
           <span
             class="agent-dot agent-dot--idle"
-            title="Idle slot"
           ></span>
         </div>
       </div>
@@ -108,9 +135,9 @@ const { class: className } = Astro.props;
 
       <!-- Breadcrumb / page title -->
       <div class="flex items-center gap-2 text-xs text-muted">
-        <span>Overview</span>
+        <span>{navOverview}</span>
         <span aria-hidden="true">/</span>
-        <span class="text-ink font-medium">Active runs</span>
+        <span class="text-ink font-medium">{navActiveRuns}</span>
       </div>
 
       <!-- Working card — the centrepiece inset surface -->
@@ -127,23 +154,23 @@ const { class: className } = Astro.props;
                 style="width:8px; height:8px; border-radius:50%; background:var(--color-link); flex-shrink:0; display:inline-block;"
                 aria-hidden="true"
               ></span>
-              <span class="text-sm font-semibold text-ink">Analyst</span>
-              <span class="text-xs text-muted font-medium">· Research</span>
+              <span class="text-sm font-semibold text-ink">{agentName}</span>
+              <span class="text-xs text-muted font-medium">· {agentRole}</span>
             </div>
             <!-- Reasoning snippet — clearly illustrative, one line -->
             <p class="text-xs text-muted leading-relaxed pl-[20px]">
-              Scanning community signals across 3 data sources&hellip;
+              {agentReasoning}
             </p>
           </div>
 
           <!-- Status tag (plain text, no dot-glow) -->
-          <span class="status-tag">Working</span>
+          <span class="status-tag">{agentStatus}</span>
         </div>
 
         <!-- Token / cost meter — labelled as illustrative -->
         <div class="flex flex-col gap-1.5">
           <div class="flex items-center justify-between text-[10px] text-muted">
-            <span>Token budget</span>
+            <span>{meterLabel}</span>
             <span aria-label="approximately 2.1 thousand tokens used of 8 thousand">~2.1 K / 8 K tok</span>
           </div>
           <div
@@ -163,13 +190,13 @@ const { class: className } = Astro.props;
       <div class="flex flex-col gap-2">
         <div class="queue-row">
           <span class="queue-dot" style="background:var(--color-ok);"></span>
-          <span class="text-xs text-ink flex-1">Writer · Draft synthesis</span>
-          <span class="text-[10px] text-muted">queued</span>
+          <span class="text-xs text-ink flex-1">{queuedRow1Name}</span>
+          <span class="text-[10px] text-muted">{queuedRow1State}</span>
         </div>
         <div class="queue-row">
           <span class="queue-dot" style="background:var(--color-warn);"></span>
-          <span class="text-xs text-ink flex-1">Reviewer · Fact-check pass</span>
-          <span class="text-[10px] text-muted">waiting</span>
+          <span class="text-xs text-ink flex-1">{queuedRow2Name}</span>
+          <span class="text-[10px] text-muted">{queuedRow2State}</span>
         </div>
       </div>
 

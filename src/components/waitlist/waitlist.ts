@@ -164,8 +164,17 @@ function clearFieldError(fieldId: string) {
   field?.removeAttribute('aria-invalid');
 }
 
+function getSubmitBtn(form: HTMLFormElement): HTMLButtonElement | null {
+  return form.querySelector<HTMLButtonElement>('[type="submit"]');
+}
+
 function validateForm(form: HTMLFormElement): boolean {
   let valid = true;
+
+  const submitBtn = getSubmitBtn(form);
+  const msgNameRequired = submitBtn?.dataset.validationNameRequired ?? 'Name is required.';
+  const msgEmailRequired = submitBtn?.dataset.validationEmailRequired ?? 'Email is required.';
+  const msgEmailInvalid = submitBtn?.dataset.validationEmailInvalid ?? 'Please enter a valid email address.';
 
   const name = (form.elements.namedItem('name') as HTMLInputElement)?.value.trim() ?? '';
   const email = (form.elements.namedItem('email') as HTMLInputElement)?.value.trim() ?? '';
@@ -175,15 +184,15 @@ function validateForm(form: HTMLFormElement): boolean {
   clearFieldError('wl-interest');
 
   if (!name) {
-    showFieldError('wl-name', 'Name is required.');
+    showFieldError('wl-name', msgNameRequired);
     valid = false;
   }
 
   if (!email) {
-    showFieldError('wl-email', 'Email is required.');
+    showFieldError('wl-email', msgEmailRequired);
     valid = false;
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showFieldError('wl-email', 'Please enter a valid email address.');
+    showFieldError('wl-email', msgEmailInvalid);
     valid = false;
   }
 
@@ -204,6 +213,9 @@ async function handleSubmit(e: SubmitEvent) {
   if (!validateForm(form)) return;
 
   const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]');
+  const msgConnectionError = submitBtn?.dataset.connectionError ?? 'Connection failed, please try again.';
+  const msgErrorFallback = submitBtn?.dataset.errorMessage ?? 'Something went wrong, please try again.';
+
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.textContent = submitBtn.dataset.labelSending ?? 'Sending...';
@@ -246,7 +258,7 @@ async function handleSubmit(e: SubmitEvent) {
     } else {
       if (errorView) {
         const errMsg = errorView.querySelector('.waitlist-error-msg');
-        if (errMsg) errMsg.textContent = data.error ?? 'Something went wrong, please try again.';
+        if (errMsg) errMsg.textContent = data.error ?? msgErrorFallback;
         errorView.hidden = false;
       }
       if (submitBtn) {
@@ -257,7 +269,7 @@ async function handleSubmit(e: SubmitEvent) {
   } catch {
     if (errorView) {
       const errMsg = errorView.querySelector('.waitlist-error-msg');
-      if (errMsg) errMsg.textContent = 'Connection failed, please try again.';
+      if (errMsg) errMsg.textContent = msgConnectionError;
       errorView.hidden = false;
     }
     if (submitBtn) {

@@ -43,7 +43,7 @@ public/
     social-preview.png   1200x630 OG image (regenerate from social-preview.html)
     social-preview.html  Source for the OG image (Playwright-rasterized)
   robots.txt
-tests/           node --test suite (14+ tests)
+tests/           node --test suite (15 tests)
 ```
 
 ## Deploy

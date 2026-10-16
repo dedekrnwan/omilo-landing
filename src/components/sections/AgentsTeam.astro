@@ -35,6 +35,8 @@ interface Props {
 
 // locale is reserved for future i18n use.
 const { content, locale: _locale } = Astro.props;
+const shiftLabel = content.shiftLabel ?? 'Shift';
+const engineLabel = content.engineLabel ?? 'Engine';
 
 // Accent colors cycle across agents using CSS vars (resolved at render-time by browser).
 const ACCENT_VARS = [
@@ -137,7 +139,7 @@ function getMascotSVG(shape: MascotShape, accent: string): string {
                       <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.1"/>
                       <path d="M6.5 3.5v3l2 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <dt class="sr-only">Shift</dt>
+                    <dt class="sr-only">{shiftLabel}</dt>
                     <dd class="at-meta-value">{agent.shift}</dd>
                   </div>
 
@@ -148,7 +150,7 @@ function getMascotSVG(shape: MascotShape, accent: string): string {
                         <rect x="3.5" y="3.5" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.1"/>
                         <path d="M5 1v1.5M8 1v1.5M5 10.5V12M8 10.5V12M1 5h1.5M1 8h1.5M10.5 5H12M10.5 8H12" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
                       </svg>
-                      <dt class="sr-only">Engine</dt>
+                      <dt class="sr-only">{engineLabel}</dt>
                       <dd class="at-meta-value">{agent.engine}</dd>
                     </div>
                   )}

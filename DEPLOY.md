@@ -45,7 +45,7 @@ No other environment variables are required. The site runs with no env vars set;
 
 Build and deploy:
 - [ ] `npm ci && npm run build` succeeds; `npx astro check` returns 0 errors.
-- [ ] `npm test` is all green (14+ tests including OG PNG dimension check).
+- [ ] `npm test` is all green (15 tests including OG PNG dimension check).
 - [ ] Domain confirmed and set in `astro.config.mjs` (`site`) and `src/config.ts` (`SITE`).
 - [ ] `SLACK_WEBHOOK_URL` set in Vercel; submit the waitlist dialog and confirm the Slack message.
 

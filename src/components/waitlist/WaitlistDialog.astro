@@ -158,6 +158,11 @@ const wl = getContent(locale).waitlist;
           class="waitlist-submit-btn"
           data-label-default={wl.submitLabel}
           data-label-sending={wl.submitSending}
+          data-validation-name-required={wl.validationNameRequired}
+          data-validation-email-required={wl.validationEmailRequired}
+          data-validation-email-invalid={wl.validationEmailInvalid}
+          data-connection-error={wl.connectionError}
+          data-error-message={wl.errorMessage}
         >
           {wl.submitLabel}
         </button>

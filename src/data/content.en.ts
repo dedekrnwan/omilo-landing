@@ -22,6 +22,7 @@ export const content: Content = {
       { label: 'FAQ', href: '#faq' },
     ],
     primaryCta: { label: 'Join the waitlist' },
+    homeAriaLabel: 'Saga OS, home',
   },
 
   hero: {
@@ -31,11 +32,19 @@ export const content: Content = {
     ctaPrimary: { label: 'Join the waitlist' },
     ctaSecondary: { label: 'See how it works' },
     microcopy: 'Open-source and self-hosted. You bring your own Claude and pay only for the usage.',
-    mockTitle: 'Marketing agent, morning shift',
-    mockStatus: 'Working',
-    mockReasoning: 'Reviewing last week\'s posts, drafting three for your review.',
-    mockToolCall: 'docs_read: Company/Voice.md',
-    mockMeter: 'Tokens, cost and time tracked per run',
+    mock: {
+      navOverview: 'Overview',
+      navActiveRuns: 'Active runs',
+      agentName: 'Marketing',
+      agentRole: 'Morning shift',
+      agentStatus: 'Working',
+      agentReasoning: 'Reading last week\'s posts, drafting three for your review.',
+      meterLabel: 'Token budget',
+      queuedRow1Name: 'Sales · Follow-up drafts',
+      queuedRow1State: 'queued',
+      queuedRow2Name: 'Ops · Weekly summary',
+      queuedRow2State: 'waiting',
+    },
   },
 
   socialProof: {
@@ -97,6 +106,8 @@ export const content: Content = {
     ],
     shiftNote:
       'Shifts are cron schedules in your own time zone. Each agent carries its own little SVG character, drawn by the app from its id and its job.',
+    shiftLabel: 'Shift',
+    engineLabel: 'Engine',
   },
 
   approvalLoop: {
@@ -222,6 +233,12 @@ export const content: Content = {
         body: 'Each company gets its own database and vault. With Postgres you can give each one a separate database.',
       },
     ],
+    diagram: {
+      loginHeading: 'One login',
+      loginSub: 'Your account',
+      companyDetail: 'Own agents + Inbox',
+      isolatedLabel: 'Fully isolated',
+    },
   },
 
   howItWorks: {
@@ -332,6 +349,8 @@ export const content: Content = {
       { label: 'Terms', href: '/terms' },
     ],
     copyright: '© 2026 Saga OS. MIT licensed.',
+    homeAriaLabel: 'Saga OS, home',
+    comingSoonLabel: 'coming soon',
   },
 
   waitlist: {
@@ -356,5 +375,9 @@ export const content: Content = {
     successMessage: 'You are on the list. We will be in touch.',
     closeLabel: 'Close',
     errorMessage: 'Something went wrong. Please try again, or email hello@saga.co.id.',
+    validationNameRequired: 'Name is required.',
+    validationEmailRequired: 'Email is required.',
+    validationEmailInvalid: 'Please enter a valid email address.',
+    connectionError: 'Connection failed, please try again.',
   },
 };

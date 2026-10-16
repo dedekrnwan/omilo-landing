@@ -49,6 +49,26 @@ export interface NavContent {
   brand: string;
   links: NavLink[];
   primaryCta: Cta;
+  // Accessible label for the brand logo link (localized).
+  homeAriaLabel: string;
+}
+
+export interface HeroMock {
+  // Nav / breadcrumb labels shown in the AppShell sidebar and breadcrumb.
+  navOverview: string;
+  navActiveRuns: string;
+  // Working card: the agent currently running a shift.
+  agentName: string;
+  agentRole: string;
+  agentStatus: string;
+  agentReasoning: string;
+  // Token meter label.
+  meterLabel: string;
+  // Two queued rows beneath the working card.
+  queuedRow1Name: string;
+  queuedRow1State: string;
+  queuedRow2Name: string;
+  queuedRow2State: string;
 }
 
 export interface HeroContent {
@@ -58,11 +78,7 @@ export interface HeroContent {
   ctaSecondary: Cta;
   microcopy: string;
   // Labels for the stylized Workspace mock rendered beside the copy.
-  mockTitle: string;
-  mockStatus: string;
-  mockReasoning: string;
-  mockToolCall: string;
-  mockMeter: string;
+  mock: HeroMock;
 }
 
 export interface SocialProofContent {
@@ -87,6 +103,9 @@ export interface AgentsContent {
   subhead: string;
   roster: AgentCard[];
   shiftNote: string;
+  // Screen-reader labels for the dt elements in each agent card.
+  shiftLabel: string;
+  engineLabel: string;
 }
 
 export interface ApprovalStep {
@@ -133,11 +152,22 @@ export interface IntegrationsContent {
   roadmapNote: string;
 }
 
+export interface MultiCompanyDiagram {
+  // "One login" node labels.
+  loginHeading: string;
+  loginSub: string;
+  // Shared label for the company cards: "Own agents + Inbox" equivalent.
+  companyDetail: string;
+  // Isolation badge label beneath each company card.
+  isolatedLabel: string;
+}
+
 export interface MultiCompanyContent {
   eyebrow: string;
   heading: string;
   body: string;
   points: FeatureItem[];
+  diagram: MultiCompanyDiagram;
 }
 
 export interface HowItWorksStep {
@@ -188,6 +218,10 @@ export interface FooterContent {
   contact: FooterContact;
   legal: NavLink[];
   copyright: string;
+  // Accessible label for the footer brand logo link (localized).
+  homeAriaLabel: string;
+  // Badge label for legal items that have no page yet.
+  comingSoonLabel: string;
 }
 
 export interface WaitlistInterestOption {
@@ -213,6 +247,12 @@ export interface WaitlistContent {
   successMessage: string;
   closeLabel: string;
   errorMessage: string;
+  // Client-side validation messages (passed via data-* attributes to waitlist.ts).
+  validationNameRequired: string;
+  validationEmailRequired: string;
+  validationEmailInvalid: string;
+  // Inline error shown when the fetch itself fails (network error).
+  connectionError: string;
 }
 
 // ---------------------------------------------------------------------------

@@ -53,7 +53,7 @@ const isRepoTodo = content.contact.repo.trimStart().startsWith('TODO:');
 
       {/* Brand column */}
       <div class="footer-brand-col">
-        <a href={localizePath('/', locale)} class="footer-brand-link" aria-label="Saga OS home">
+        <a href={localizePath('/', locale)} class="footer-brand-link" aria-label={content.homeAriaLabel}>
           <img
             src="/saga.svg"
             alt=""
@@ -130,7 +130,7 @@ const isRepoTodo = content.contact.repo.trimStart().startsWith('TODO:');
         {content.legal.map((item) => (
           <span class="footer-legal-item" role="listitem">
             <span class="footer-legal-label">{item.label}</span>
-            <span class="footer-legal-soon">coming soon</span>
+            <span class="footer-legal-soon">{content.comingSoonLabel}</span>
           </span>
         ))}
       </div>

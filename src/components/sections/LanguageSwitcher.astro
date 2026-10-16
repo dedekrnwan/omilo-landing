@@ -17,13 +17,23 @@ const other = otherLocale(locale);
 const otherHref = localizePath('/', other);
 
 const labels: Record<Locale, string> = { en: 'EN', id: 'ID' };
+
+// Localized aria strings: avoids hardcoded English on /id/.
+const currentLangLabel: Record<Locale, string> = {
+  en: 'Current language: EN',
+  id: 'Bahasa aktif: ID',
+};
+const switchToLabel: Record<Locale, string> = {
+  en: 'Switch to ID',
+  id: 'Ganti ke EN',
+};
 ---
 
 <div class="lang-switcher" role="navigation" aria-label="Language">
   <span
     class="lang-item lang-item--active"
     aria-current="true"
-    aria-label={`Current language: ${locale.toUpperCase()}`}
+    aria-label={currentLangLabel[locale]}
   >
     {labels[locale]}
   </span>
@@ -31,7 +41,7 @@ const labels: Record<Locale, string> = { en: 'EN', id: 'ID' };
   <a
     href={otherHref}
     class="lang-item lang-item--link"
-    aria-label={`Switch to ${labels[other]}`}
+    aria-label={switchToLabel[locale]}
     hreflang={other}
   >
     {labels[other]}

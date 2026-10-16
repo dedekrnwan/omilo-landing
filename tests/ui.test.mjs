@@ -1,6 +1,5 @@
 /**
- * Task 4 smoke test: assert that `astro build` succeeds with all five UI
- * primitives in use via the throwaway probe page (src/pages/ui-probe.astro).
+ * Build smoke test: assert that `astro build` succeeds.
  *
  * Strategy: run `astro build` as a child process and assert exit code 0.
  * This is cheaper than spinning up a dev server and avoids port collisions.
@@ -37,7 +36,7 @@ function runBuild() {
   });
 }
 
-test('astro build succeeds (all five UI primitives compile via ui-probe)', async () => {
+test('astro build succeeds', async () => {
   const { code, stderr } = await runBuild();
   if (code !== 0) {
     console.error('--- astro build stderr ---\n', stderr);

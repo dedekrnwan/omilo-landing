@@ -3,9 +3,11 @@
  *
  * Strategy: spawn a single Astro dev server on port 4334 and hit both routes.
  * Each test asserts:
- *   - GET / → 200, correct EN hero headline, all 11 section anchor ids present
- *   - GET /id/ → 200, correct ID hero headline, all 11 section anchor ids present
+ *   - GET / → 200, correct EN hero headline, all 10 section anchor ids present
+ *   - GET /id/ → 200, correct ID hero headline, all 10 section anchor ids present
  *   - /id/ HTML does NOT contain the EN hero headline (no locale fallback leak)
+ *
+ * Note: Hero has no anchor id, so SECTION_IDS has 10 entries (not 11).
  */
 
 import assert from 'node:assert/strict';
@@ -89,7 +91,7 @@ after(() => {
 // Tests
 // ---------------------------------------------------------------------------
 
-test('GET / returns 200 with EN hero headline and all 11 section ids', async () => {
+test('GET / returns 200 with EN hero headline and all 10 section ids', async () => {
   const response = await fetch(origin + '/');
   assert.equal(response.status, 200, 'Expected GET / to return 200');
 
@@ -111,7 +113,7 @@ test('GET / returns 200 with EN hero headline and all 11 section ids', async () 
   assert.ok(html.includes('<main'), 'Expected <main> element in GET / HTML');
 });
 
-test('GET /id/ returns 200 with ID hero headline and all 11 section ids', async () => {
+test('GET /id/ returns 200 with ID hero headline and all 10 section ids', async () => {
   const response = await fetch(origin + '/id/');
   assert.equal(response.status, 200, 'Expected GET /id/ to return 200');
 

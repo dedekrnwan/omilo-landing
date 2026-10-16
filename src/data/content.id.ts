@@ -22,6 +22,7 @@ export const content: Content = {
       { label: 'FAQ', href: '#faq' },
     ],
     primaryCta: { label: 'Gabung waitlist' },
+    homeAriaLabel: 'Saga OS, beranda',
   },
 
   hero: {
@@ -31,11 +32,19 @@ export const content: Content = {
     ctaPrimary: { label: 'Gabung waitlist' },
     ctaSecondary: { label: 'Lihat cara kerjanya' },
     microcopy: 'Open-source dan di-hosting sendiri. Anda pakai Claude milik sendiri dan hanya membayar pemakaiannya.',
-    mockTitle: 'Agen Marketing, shift pagi',
-    mockStatus: 'Sedang bekerja',
-    mockReasoning: 'Membaca postingan pekan lalu, menyusun tiga draf untuk Anda tinjau.',
-    mockToolCall: 'docs_read: Company/Voice.md',
-    mockMeter: 'Token, biaya, dan waktu tercatat tiap run',
+    mock: {
+      navOverview: 'Ikhtisar',
+      navActiveRuns: 'Sedang berjalan',
+      agentName: 'Marketing',
+      agentRole: 'Shift pagi',
+      agentStatus: 'Bekerja',
+      agentReasoning: 'Membaca postingan pekan lalu, menyusun tiga draf untuk Anda tinjau.',
+      meterLabel: 'Anggaran token',
+      queuedRow1Name: 'Sales · Draf tindak lanjut',
+      queuedRow1State: 'antre',
+      queuedRow2Name: 'Ops · Rangkuman mingguan',
+      queuedRow2State: 'menunggu',
+    },
   },
 
   socialProof: {
@@ -97,6 +106,8 @@ export const content: Content = {
     ],
     shiftNote:
       'Shift adalah jadwal cron di zona waktu Anda sendiri. Tiap agen punya karakter SVG kecilnya sendiri, digambar aplikasi dari id dan pekerjaannya.',
+    shiftLabel: 'Shift',
+    engineLabel: 'Engine',
   },
 
   approvalLoop: {
@@ -222,6 +233,12 @@ export const content: Content = {
         body: 'Tiap perusahaan punya database dan vault sendiri. Dengan Postgres, Anda bisa memberi tiap perusahaan database terpisah.',
       },
     ],
+    diagram: {
+      loginHeading: 'Satu login',
+      loginSub: 'Akun Anda',
+      companyDetail: 'Agen + Inbox sendiri',
+      isolatedLabel: 'Sepenuhnya terpisah',
+    },
   },
 
   howItWorks: {
@@ -332,6 +349,8 @@ export const content: Content = {
       { label: 'Ketentuan', href: '/ketentuan' },
     ],
     copyright: '© 2026 Saga OS. Berlisensi MIT.',
+    homeAriaLabel: 'Saga OS, beranda',
+    comingSoonLabel: 'segera hadir',
   },
 
   waitlist: {
@@ -356,5 +375,9 @@ export const content: Content = {
     successMessage: 'Anda sudah masuk daftar. Kami akan menghubungi Anda.',
     closeLabel: 'Tutup',
     errorMessage: 'Ada yang tidak beres. Coba lagi, atau email ke hello@saga.co.id.',
+    validationNameRequired: 'Nama wajib diisi.',
+    validationEmailRequired: 'Email wajib diisi.',
+    validationEmailInvalid: 'Masukkan alamat email yang valid.',
+    connectionError: 'Koneksi gagal, coba lagi.',
   },
 };

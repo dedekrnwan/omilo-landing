@@ -101,7 +101,20 @@ const { content, locale: _locale } = Astro.props;
       {/* ─── RIGHT: AppShell workspace mock ─── */}
       <Reveal delay={120} class="hero-visual-wrapper">
         <div class="hero-visual-scale">
-          <AppShell class="hero-app-shell" />
+          <AppShell
+            class="hero-app-shell"
+            navOverview={content.mock.navOverview}
+            navActiveRuns={content.mock.navActiveRuns}
+            agentName={content.mock.agentName}
+            agentRole={content.mock.agentRole}
+            agentStatus={content.mock.agentStatus}
+            agentReasoning={content.mock.agentReasoning}
+            meterLabel={content.mock.meterLabel}
+            queuedRow1Name={content.mock.queuedRow1Name}
+            queuedRow1State={content.mock.queuedRow1State}
+            queuedRow2Name={content.mock.queuedRow2Name}
+            queuedRow2State={content.mock.queuedRow2State}
+          />
         </div>
       </Reveal>
       {/* ─── END RIGHT ─── */}
