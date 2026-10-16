@@ -1,0 +1,45 @@
+---
+/** Demo.astro: a framed product video, right after the hero. */
+import type { Content } from '../../data/types';
+import SectionHead from '../ui/SectionHead.astro';
+interface Props { content: Content['demo'] }
+const { content } = Astro.props;
+---
+<section class="block" id="demo" aria-labelledby="demo-h">
+  <div class="wrap">
+    <SectionHead id="demo-h" eyebrow={content.eyebrow} heading={content.heading} subhead={content.subhead} />
+    <figure class="frame">
+      <video
+        class="vid"
+        controls
+        preload="metadata"
+        playsinline
+        aria-label={content.heading}
+      >
+        <source src={content.videoSrc} type="video/mp4" />
+      </video>
+      {content.caption && <figcaption class="cap fn">{content.caption}</figcaption>}
+    </figure>
+  </div>
+</section>
+<style>
+  .frame {
+    margin: 0;
+    background: var(--app);
+    border: 1px solid var(--line-strong);
+    border-radius: 18px;
+    padding: 8px;
+    box-shadow: 0 40px 80px -48px rgba(28, 25, 23, .4);
+  }
+  .vid {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+  }
+  .cap { margin: 10px 4px 2px; text-align: right; }
+</style>

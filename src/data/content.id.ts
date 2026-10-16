@@ -315,6 +315,14 @@ export const content: Content = {
     ],
   },
 
+  demo: {
+    eyebrow: 'Lihat langsung',
+    heading: 'Melihat ke dalam Omilo',
+    subhead: 'Helper mengusulkan pekerjaan, Anda memutuskan di satu tempat, lalu run berjalan. Inilah ruang kerjanya dari awal sampai akhir.',
+    videoSrc: '/videos/omilo-product-video.mp4',
+    caption: 'Panduan produk.',
+  },
+
   finalCta: {
     headline: 'Rekrut staf AI pertama Anda',
     subtext: 'Ceritakan bisnis Anda dan pekerjaan apa yang berulang tiap minggu. Kami bantu siapkan dua helper pertama Anda.',

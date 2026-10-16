@@ -315,6 +315,14 @@ export const content: Content = {
     ],
   },
 
+  demo: {
+    eyebrow: 'See it in action',
+    heading: 'A look inside Omilo',
+    subhead: 'Helpers propose the work, you decide in one place, and the run happens. Here is the workspace from end to end.',
+    videoSrc: '/videos/omilo-product-video.mp4',
+    caption: 'Product walkthrough.',
+  },
+
   finalCta: {
     headline: 'Hire your first AI staff',
     subtext: "Tell us what your business does and which work repeats every week. We'll help you set up your first two helpers.",

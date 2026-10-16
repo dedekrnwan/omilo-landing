@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import { getContent, type Locale } from '../i18n';
 import Nav from './sections/Nav.astro';
 import Hero from './sections/Hero.astro';
+import Demo from './sections/Demo.astro';
 import Growth from './sections/Growth.astro';
 import Loop from './sections/Loop.astro';
 import Helpers from './sections/Helpers.astro';
@@ -22,6 +23,7 @@ const c = getContent(locale);
   <Nav content={c.nav} locale={locale} />
   <main>
     <Hero content={c.hero} locale={locale} />
+    <Demo content={c.demo} />
     <Growth content={c.growth} />
     <Loop content={c.loop} />
     <Helpers content={c.helpers} />

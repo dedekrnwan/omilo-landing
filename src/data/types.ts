@@ -131,6 +131,8 @@ export interface OfferContent extends SectionHead {
   note: string;
 }
 
+export interface DemoContent extends SectionHead { videoSrc: string; caption?: string }
+
 export interface FinalCtaContent { headline: string; subtext: string; cta: string; microcopy: string }
 
 export interface FooterContent { tagline: string; note: string; contactLabel: string; email: string; sourceLabel: string; copyright: string }
@@ -155,6 +157,7 @@ export interface Content {
   meta: MetaContent;
   nav: NavContent;
   hero: HeroContent;
+  demo: DemoContent;
   loop: LoopContent;
   helpers: HelpersContent;
   workspace: WorkspaceContent;

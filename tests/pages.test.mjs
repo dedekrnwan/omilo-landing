@@ -3,8 +3,8 @@
  *
  * Strategy: spawn a single Astro dev server on port 4334 and hit both routes.
  * Each test asserts:
- *   - GET / → 200, correct EN hero headline, all 10 section anchor ids present
- *   - GET /id/ → 200, correct ID hero headline, all 10 section anchor ids present
+ *   - GET / → 200, correct EN hero headline, all 11 section anchor ids present
+ *   - GET /id/ → 200, correct ID hero headline, all 11 section anchor ids present
  *   - /id/ HTML does NOT contain the EN hero headline (no locale fallback leak)
  *
  * Note: Hero has no anchor id, so SECTION_IDS has 10 entries (not 11).
@@ -25,6 +25,7 @@ const ID_HERO_HEADLINE = 'Kembangkan bisnis Anda';
 
 // All section anchor ids that must appear in every locale's page.
 const SECTION_IDS = [
+  'demo',
   'growth',
   'loop',
   'helpers',
