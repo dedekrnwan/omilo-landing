@@ -1,6 +1,6 @@
 /**
  * Task 4 smoke test: assert that `astro build` succeeds with all five UI
- * primitives in use via the throwaway probe page (src/pages/_ui-probe.astro).
+ * primitives in use via the throwaway probe page (src/pages/ui-probe.astro).
  *
  * Strategy: run `astro build` as a child process and assert exit code 0.
  * This is cheaper than spinning up a dev server and avoids port collisions.

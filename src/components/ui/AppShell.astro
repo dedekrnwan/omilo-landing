@@ -32,9 +32,9 @@ const { class: className } = Astro.props;
   <!-- Window chrome bar -->
   <div class="chrome flex items-center gap-2 px-4 py-2.5 bg-surface border-b border-line">
     <!-- Traffic-light dots (decorative affordance only, not status) -->
-    <span class="dot" style="background:#e7e5e4;"></span>
-    <span class="dot" style="background:#e7e5e4;"></span>
-    <span class="dot" style="background:#e7e5e4;"></span>
+    <span class="dot" style="background:var(--color-line);"></span>
+    <span class="dot" style="background:var(--color-line);"></span>
+    <span class="dot" style="background:var(--color-line);"></span>
     <span class="chrome-title">Saga OS</span>
   </div>
 
@@ -83,17 +83,17 @@ const { class: className } = Astro.props;
           <span
             class="agent-dot"
             title="Analyst"
-            style="background: #2563eb;"
+            style="background: var(--color-link);"
           ></span>
           <span
             class="agent-dot"
             title="Writer"
-            style="background: #15803d;"
+            style="background: var(--color-ok);"
           ></span>
           <span
             class="agent-dot"
             title="Reviewer"
-            style="background: #b45309;"
+            style="background: var(--color-warn);"
           ></span>
           <span
             class="agent-dot agent-dot--idle"
@@ -124,7 +124,7 @@ const { class: className } = Astro.props;
             <div class="flex items-center gap-2">
               <!-- Agent identity dot (matches sidebar dot, same hue = same agent) -->
               <span
-                style="width:8px; height:8px; border-radius:50%; background:#2563eb; flex-shrink:0; display:inline-block;"
+                style="width:8px; height:8px; border-radius:50%; background:var(--color-link); flex-shrink:0; display:inline-block;"
                 aria-hidden="true"
               ></span>
               <span class="text-sm font-semibold text-ink">Analyst</span>
@@ -162,12 +162,12 @@ const { class: className } = Astro.props;
       <!-- Two placeholder rows (queued jobs) — clearly empty state, not fake data -->
       <div class="flex flex-col gap-2">
         <div class="queue-row">
-          <span class="queue-dot" style="background:#15803d;"></span>
+          <span class="queue-dot" style="background:var(--color-ok);"></span>
           <span class="text-xs text-ink flex-1">Writer · Draft synthesis</span>
           <span class="text-[10px] text-muted">queued</span>
         </div>
         <div class="queue-row">
-          <span class="queue-dot" style="background:#b45309;"></span>
+          <span class="queue-dot" style="background:var(--color-warn);"></span>
           <span class="text-xs text-ink flex-1">Reviewer · Fact-check pass</span>
           <span class="text-[10px] text-muted">waiting</span>
         </div>
