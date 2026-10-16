@@ -1,0 +1,9 @@
+# SDD scratch (git-ignored working area for subagent-driven execution)
+.superpowers/
+
+# dependencies / build output (Task 1 extends this list)
+node_modules/
+dist/
+.astro/
+.vercel/
+.env
