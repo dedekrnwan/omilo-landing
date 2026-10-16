@@ -1,212 +1,87 @@
+/* Omilo landing: the Saga OS app design system opened up into a page.
+   Stone-100 around, white inset panels, black primary actions, soft 8-12px corners.
+   Inter for UI, Bricolage Grotesque for display, Fraunces for the closing headline,
+   IBM Plex Mono for numbers. Helpers are drawn as the app's mascots (Mascot.astro).
+   Light only, like the app. Use the tokens below, not raw hex values. */
 @import "@fontsource-variable/inter";
-@import "@fontsource/bricolage-grotesque";
-@import "@fontsource/ibm-plex-mono";
+@import "@fontsource/bricolage-grotesque/500.css";
+@import "@fontsource/bricolage-grotesque/600.css";
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Bricolage Grotesque", var(--font-sans);
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-
-  --color-app: #f5f5f4;
-  --color-surface: #ffffff;
-  --color-soft: #fafaf9;
-  --color-ink: #0c0a09;
-  --color-ink-2: #44403c;
-  --color-muted: #78716c;
-  --color-faint: #a8a29e;
-  --color-line: #e7e5e4;
-  --color-primary: #171717;
-  --color-on-primary: #ffffff;
-  --color-link: #2563eb;
-
-  /* status */
-  --color-ok: #15803d;
-  --color-warn: #b45309;
-  --color-bad: #b91c1c;
-  --color-info: #1d4ed8;
-
-  /* status tints (background fills for policy chips) */
-  --color-ok-tint: #f0fdf4;
-  --color-warn-tint: #fffbeb;
-  --color-bad-tint: #fef2f2;
-  --color-info-tint: #eff6ff;
-
-  --radius-sm: 6px;
-  --radius: 8px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-pill: 999px;
-
-  --shadow-float: 0 12px 16px -16px rgba(0, 0, 0, 0.25);
-
-  /* On-ink surface tokens -- for text on the dark FinalCta section */
-  --color-on-ink-secondary: rgba(255, 255, 255, 0.65);
-  --color-on-ink-faint: rgba(255, 255, 255, 0.40);
+:root {
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-display: "Bricolage Grotesque", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --app: #f5f5f4; --surface: #ffffff; --soft: #fafaf9;
+  --ink: #0c0a09; --ink-2: #44403c; --muted: #78716c; --faint: #a8a29e;
+  --line: rgba(231, 229, 228, .65); --line-strong: #e7e5e4; --hover: rgba(231, 229, 228, .65);
+  --primary: #171717; --primary-ink: #ffffff; --link: #2563eb;
+  --ok: #15803d; --ok-tint: #f0fdf4; --ok-line: #bbf7d0;
+  --warn: #b45309; --warn-tint: #fffbeb; --warn-line: #fde68a;
+  --bad: #b91c1c; --bad-tint: #fef2f2; --bad-line: #fecaca;
+  --info: #1d4ed8; --info-tint: #eff6ff; --info-line: #bfdbfe;
+  --on-ink-2: #d6d3d1;
+  --r-sm: 6px; --r: 8px; --r-md: 10px; --r-lg: 12px;
+  --shadow-float: 0 12px 16px -16px rgba(0, 0, 0, .25);
+  color-scheme: light;
 }
 
-/* Visually hidden but screen-reader accessible */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-@layer base {
-  body {
-    font-family: var(--font-sans);
-    background: var(--color-app);
-    color: var(--color-ink);
-    margin: 0;
-  }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--app); color: var(--ink); font: 15px/1.55 var(--font-sans); -webkit-font-smoothing: antialiased; margin: 0; }
+::selection { background: #e7e5e4; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--muted); outline-offset: 2px; }
+p { margin: 0; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
 
-  :focus-visible {
-    outline: 3px solid var(--color-ink-2);
-    outline-offset: 2px;
-  }
+.wrap { max-width: 1440px; margin: 0 auto; padding-left: max(clamp(16px, 3vw, 40px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 3vw, 40px), env(safe-area-inset-right, 0px)); }
+.label { font-size: 13px; color: var(--muted); }
+.fn { font: 12px var(--font-mono); color: var(--muted); }
 
-  [data-reveal] {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity .5s ease, transform .5s ease;
-  }
+/* buttons + chips, as in the app */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 7px;
+  border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); font-size: 14px; font-weight: 500; white-space: nowrap;
+  transition: background-color .15s, border-color .15s; text-decoration: none; }
+.btn:hover { background: var(--soft); text-decoration: none; }
+.btn.primary { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+.btn.primary:hover { background: #262626; }
+.btn.quiet { border-color: transparent; background: transparent; color: var(--muted); font-weight: 400; }
+.btn.quiet:hover { background: var(--hover); color: var(--ink); }
+.btn.lg { height: 40px; padding: 0 18px; font-size: 15px; border-radius: var(--r); }
+.btn.sm { height: 28px; padding: 0 10px; font-size: 13px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: var(--r-sm); font-size: 12px; font-weight: 500;
+  border: 1px solid var(--line-strong); background: var(--soft); color: var(--ink-2); white-space: nowrap; }
+.chip.up { background: var(--ok-tint); border-color: var(--ok-line); color: var(--ok); }
+.chip.warn { background: var(--warn-tint); border-color: var(--warn-line); color: var(--warn); }
+.chip.run { background: var(--info-tint); border-color: var(--info-line); color: var(--info); }
+.chip.idle { color: var(--muted); border-style: dashed; background: transparent; }
+.chip.bad { background: var(--bad-tint); border-color: var(--bad-line); color: var(--bad); }
 
-  [data-reveal].is-visible {
-    opacity: 1;
-    transform: none;
-  }
+/* mascots */
+.mascot { display: block; flex: none; overflow: visible; }
+.mascot .m-face { transform: translate(var(--ex, 0px), var(--ey, 0px)); transition: transform .18s ease-out; }
+.mascot .m-char { transform-origin: 32px 64px; }
+.mascot.hop .m-char { animation: m-hop .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes m-hop { 0% { transform: translateY(0); } 40% { transform: translateY(-7px) scaleY(1.04); } 100% { transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) {
+  .mascot .m-eyes { transform-origin: 32px 34px; animation: m-blink 5s infinite; animation-delay: var(--blink, 0s); }
+  @keyframes m-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+}
+@media (prefers-reduced-motion: reduce) { .mascot.hop .m-char { animation: none; } }
 
-  @media (prefers-reduced-motion: reduce) {
-    [data-reveal] {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-}
-
-/* ──────────────────────────────────────────────────────────────
-   Motion utilities (subtle, MOTION dial ~2). All effects are gated
-   by prefers-reduced-motion so motion-sensitive users get none.
-   ────────────────────────────────────────────────────────────── */
-
-/* Card / surface hover: gentle lift + stronger shadow */
-.u-hover-lift {
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-  will-change: transform;
-}
-.u-hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-float);
-}
-
-/* Interactive row/card: hover tint + lift, press feedback */
-.u-interactive {
-  transition: transform .18s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
-}
-.u-interactive:hover {
-  transform: translateY(-2px);
-}
-.u-interactive:active {
-  transform: translateY(0) scale(.99);
-}
-
-/* Press feedback for buttons/links */
-.u-press {
-  transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease, background-color .2s ease;
-}
-.u-press:hover {
-  transform: translateY(-1px);
-}
-.u-press:active {
-  transform: translateY(0) scale(.97);
-}
-
-/* Icon tile that nudges/scales when its parent card is hovered */
-.u-icon-pop {
-  transition: transform .2s ease, background-color .2s ease;
-}
-.group:hover .u-icon-pop,
-.u-interactive:hover .u-icon-pop,
-.u-hover-lift:hover .u-icon-pop {
-  transform: scale(1.08);
-}
-
-/* Chevron nudge on hover (for list-item style cards) */
-.u-chevron {
-  transition: transform .2s ease;
-}
-.group:hover .u-chevron,
-.u-interactive:hover .u-chevron {
-  transform: translateX(3px);
-}
-
-/* Animated underline for nav/text links */
-.u-underline {
-  position: relative;
-}
-.u-underline::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  height: 2px;
-  width: 100%;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .22s ease;
-}
-.u-underline:hover::after,
-.u-underline:focus-visible::after {
-  transform: scaleX(1);
-}
-
-/* Gentle tilt + lift for phone mockups / visuals on hover */
-.u-tilt {
-  transition: transform .3s ease, box-shadow .3s ease;
-  will-change: transform;
-}
-.u-tilt:hover {
-  transform: translateY(-6px) rotate(-1deg);
-}
-
-/* Reveal stagger: children fade in sequentially (works with [data-reveal]) */
-.u-stagger > [data-reveal] { transition-delay: 0ms; }
-.u-stagger > [data-reveal]:nth-child(2) { transition-delay: 70ms; }
-.u-stagger > [data-reveal]:nth-child(3) { transition-delay: 140ms; }
-.u-stagger > [data-reveal]:nth-child(4) { transition-delay: 210ms; }
-.u-stagger > [data-reveal]:nth-child(5) { transition-delay: 280ms; }
-.u-stagger > [data-reveal]:nth-child(6) { transition-delay: 350ms; }
-
-@media (prefers-reduced-motion: reduce) {
-  .u-hover-lift,
-  .u-interactive,
-  .u-press,
-  .u-icon-pop,
-  .u-chevron,
-  .u-tilt {
-    transition: none;
-  }
-  .u-hover-lift:hover,
-  .u-interactive:hover,
-  .u-interactive:active,
-  .u-press:hover,
-  .u-press:active,
-  .u-tilt:hover,
-  .group:hover .u-icon-pop,
-  .group:hover .u-chevron,
-  .u-interactive:hover .u-icon-pop,
-  .u-interactive:hover .u-chevron {
-    transform: none;
-  }
-  .u-underline::after {
-    transition: none;
-  }
-}
+/* sections */
+section.block { padding-block: 72px; }
+.sh { max-width: 760px; margin-bottom: 32px; }
+.sh .label { font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.sh h2 { font: 500 clamp(32px, 4vw, 44px)/1.1 var(--font-display); letter-spacing: -.025em; margin: 12px 0; }
+.sh p { color: var(--ink-2); font-size: 16px; }

@@ -1,360 +1,338 @@
-// Salinan landing, Bahasa Indonesia.
-// Berdasar saga-os/README.md. Tanpa statistik, pelanggan, atau testimoni karangan.
-// Tanpa tanda em dash. Item roadmap (Codex) ditandai "akan datang", bukan tersedia.
-// Bukti nyata atau harga yang belum ada ditandai TODO untuk diisi pemilik.
+// Landing copy, Bahasa Indonesia (served at /id/).
+// Tanpa em dash. Tanpa statistik, pelanggan atau testimoni karangan.
+// Pratinjau produk memakai contoh bisnis fiktif dan diberi label contoh di halaman.
 
 import type { Content } from './types';
 
 export const content: Content = {
   meta: {
-    title: 'Saga OS, kantor tempat Anda memimpin tim staf AI',
+    title: 'Omilo, kembangkan bisnis Anda dengan tim staf AI',
     description:
-      'Saga OS adalah gerbang open-source untuk menjalankan tim staf AI. Agen Anda mengusulkan pekerjaan, Anda memutuskan di Inbox, dan pekerjaan yang disetujui berjalan di kode. Kendali tetap di tangan Anda.',
-    ogImageAlt: 'Workspace Saga OS menampilkan satu staf AI yang sedang bekerja sementara pemilik meninjau sebuah usulan.',
+      'Omilo memberi bisnis Anda tim helper AI yang menjalankan pekerjaan rutin sesuai jadwal, melapor, dan mengusulkan langkah berikutnya. Tidak ada hal penting yang terjadi sebelum Anda setujui.',
+    ogImageAlt: 'Inbox Omilo, berisi laporan kerja para helper AI dan satu usulan yang menunggu persetujuan.',
   },
 
   nav: {
-    brand: 'Saga OS',
+    brand: 'Omilo',
+    tagline: 'Staf AI untuk bisnis yang bertumbuh',
     links: [
-      { label: 'Staf AI Anda', href: '#agents' },
-      { label: 'Cara kerja', href: '#how-it-works' },
-      { label: 'Harga', href: '#pricing' },
-      { label: 'FAQ', href: '#faq' },
+      { label: 'Cara kerja', href: '#loop' },
+      { label: 'Helper', href: '#helpers' },
+      { label: 'Batasan', href: '#guardrails' },
+      { label: 'Paket', href: '#offer' },
     ],
-    primaryCta: { label: 'Gabung waitlist' },
-    homeAriaLabel: 'Saga OS, beranda',
+    cta: 'Akses awal',
+    homeAriaLabel: 'Omilo, beranda',
+    languageLabel: 'Bahasa',
   },
 
   hero: {
-    headline: 'Jalankan bisnis dengan tim staf AI, keputusan akhir tetap di Anda.',
+    kicker: 'Open source · kini akses awal',
+    headline: 'Kembangkan bisnis Anda',
+    headlineSoft: 'bersama tim helper AI.',
     subhead:
-      'Bisnis macet kalau semua tugas dan keputusan harus lewat Anda. Saga OS memberi Anda tim agen AI yang mengerjakan pekerjaan dan mengusulkan langkah berikutnya. Anda menyetujuinya di Inbox, lalu pekerjaan itu berjalan. Tidak ada yang keluar tanpa persetujuan Anda.',
-    ctaPrimary: { label: 'Gabung waitlist' },
-    ctaSecondary: { label: 'Lihat cara kerjanya' },
-    microcopy: 'Open-source dan di-hosting sendiri. Anda pakai Claude milik sendiri dan hanya membayar pemakaiannya.',
-    mock: {
-      navOverview: 'Ikhtisar',
-      navActiveRuns: 'Sedang berjalan',
-      agentName: 'Marketing',
-      agentRole: 'Shift pagi',
-      agentStatus: 'Bekerja',
-      agentReasoning: 'Membaca postingan pekan lalu, menyusun tiga draf untuk Anda tinjau.',
-      meterLabel: 'Anggaran token',
-      queuedRow1Name: 'Sales · Draf tindak lanjut',
-      queuedRow1State: 'antre',
-      queuedRow2Name: 'Ops · Rangkuman mingguan',
-      queuedRow2State: 'menunggu',
+      'Setiap helper memegang satu pekerjaan rutin: operasional, layanan pelanggan, keuangan, pemasaran, penjualan, bahkan kode. Mereka bekerja sesuai jadwal, melapor, dan mengusulkan langkah berikutnya. Tidak ada hal penting yang terjadi sebelum Anda setujui.',
+    ctaPrimary: 'Gabung waitlist',
+    ctaSecondary: 'Lihat cara kerjanya',
+    crewNote: 'Satu Chief of Staff dan enam helper, siap sejak hari pertama',
+    preview: {
+      company: 'Kopi Senja (contoh)',
+      groups: [
+        { label: 'Work', items: [{ key: 'inbox', label: 'Inbox' }, { key: 'workspace', label: 'Workspace' }, { key: 'plan', label: 'Plan' }, { key: 'docs', label: 'Docs' }, { key: 'monitor', label: 'Monitor' }] },
+        { label: 'Company', items: [{ key: 'team', label: 'Team' }, { key: 'hire', label: 'Hire' }, { key: 'company', label: 'Company' }, { key: 'settings', label: 'Settings' }] },
+        { label: 'Capabilities', items: [{ key: 'harness', label: 'Harness' }, { key: 'connectors', label: 'Connectors' }, { key: 'skills', label: 'Skills' }, { key: 'computer', label: 'Computer' }] },
+      ],
+      controlLabel: 'Control',
+      pause: 'Pause all helpers',
+      resume: 'Resume all helpers',
+      pausedChip: 'Dijeda',
+      user: 'Anda',
+      inboxTitle: 'Inbox',
+      waiting: '1 menunggu Anda',
+      proposal: {
+        title: 'Terbitkan 3 postingan soal area pengiriman baru',
+        meta: 'Pemasaran · usulan',
+        status: 'Menunggu',
+        why: 'Alasan: "bisa kirim ke daerah saya?" jadi pertanyaan pelanggan teratas minggu ini (dari Layanan).',
+        approve: 'Setujui',
+        reject: 'Tolak dengan catatan',
+        adjust: 'Sesuaikan dengan AI',
+        notePlaceholder: 'Beri tahu helper apa yang perlu diubah',
+        noteValue: 'Dua postingan saja, tambahkan promo akhir pekan.',
+        send: 'Kirim catatan',
+        approved: 'Disetujui. Pemasaran membuat draf postingan di run berikutnya.',
+        adjusted: 'Revisi 2: dua postingan plus naskah video singkat. Setujui atau tolak di bawah.',
+        rejectedPrefix: 'Ditolak dengan catatan: "',
+        rejectedSuffix: '". Run berikutnya membacanya.',
+      },
+      rows: [
+        { mascot: 'dev', title: 'Perubahan website siap ditinjau', meta: 'Dev · 13:00', status: 'Tinjau', tone: 'run' },
+        { mascot: 'ops', title: 'Pesanan, situs, dan pembayaran sehat', meta: 'Ops · 14:00', status: 'OK', tone: 'up' },
+        { mascot: 'support', title: 'Pesan kemarin, dikelompokkan jadi 4 tema', meta: 'Layanan · 06:30', status: 'Selesai', tone: 'up' },
+      ],
+      views: [
+        {
+          key: 'workspace', title: 'Workspace', subtitle: 'Chat dengan Chief of Staff atau helper mana pun',
+          chat: [
+            { who: 'you', name: 'Anda', text: 'Pelanggan paling banyak tanya soal apa minggu ini?' },
+            { who: 'chief', name: 'Chief of Staff', text: 'Area pengiriman, jauh di atas yang lain. Pemasaran sudah mengusulkan tiga postingan soal itu. Ada di Inbox Anda.' },
+            { who: 'you', name: 'Anda', text: 'Dua postingan saja, tambahkan promo akhir pekan.' },
+            { who: 'marketing', name: 'Pemasaran', text: 'Siap. Revisi 2 menunggu persetujuan Anda.' },
+          ],
+        },
+        {
+          key: 'plan', title: 'Plan', subtitle: 'Target dari Anda, dan pekerjaan yang menggerakkannya',
+          goals: [
+            { goal: 'Tambah pesanan online', jobs: [
+              { mascot: 'marketing', title: 'Postingan mingguan soal pengiriman', meta: 'Pemasaran', status: 'Bekerja', tone: 'run' },
+              { mascot: 'sales', title: 'Follow-up prospek katering', meta: 'Penjualan', status: 'Antre', tone: 'idle' },
+              { mascot: 'dev', title: 'Tambah zona pengiriman di website', meta: 'Dev', status: 'Menunggu Anda', tone: 'warn' },
+            ] },
+            { goal: 'Jaga pelanggan tetap puas', jobs: [
+              { mascot: 'support', title: 'Draf balasan dalam satu jam', meta: 'Layanan', status: 'Selesai', tone: 'up' },
+            ] },
+          ],
+        },
+        {
+          key: 'docs', title: 'Docs', subtitle: 'Yang diketahui dan diingat para helper',
+          rows: [
+            { icon: 'docs', title: 'Gaya bahasa brand', meta: 'Diubah oleh Anda · Sen', status: 'Disematkan', tone: 'idle' },
+            { icon: 'docs', title: 'Menu dan harga', meta: 'Diperbarui Ops · Sel', status: 'Dibagikan', tone: 'idle' },
+            { icon: 'docs', title: 'Pelajaran: postingan singkat dengan foto paling berhasil', meta: 'Retro mingguan · Jum', status: 'Memori', tone: 'run' },
+            { icon: 'docs', title: 'Log run: Layanan, Kamis', meta: 'Layanan · Kam 06:30', status: 'Log', tone: 'idle' },
+          ],
+        },
+        {
+          key: 'monitor', title: 'Monitor', subtitle: '7 hari terakhir',
+          stats: [
+            { label: 'Pekerjaan selesai', value: '46', note: 'naik dari 39', tone: 'up' },
+            { label: 'Tingkat sukses', value: '94%', note: '3 dicoba ulang', tone: 'up' },
+            { label: 'Menunggu Anda', value: '1', note: 'Usulan Pemasaran', tone: 'warn' },
+            { label: 'Biaya bulan ini', value: 'Rp 312 rb', note: 'dari budget Rp 1 jt' },
+          ],
+        },
+        {
+          key: 'team', title: 'Team', subtitle: 'Para helper dan yang sedang mereka kerjakan',
+          rows: [
+            { mascot: 'chief', title: 'Chief of Staff', meta: 'Membagi pekerjaan · retro mingguan', status: 'Siap', tone: 'idle' },
+            { mascot: 'marketing', title: 'Pemasaran', meta: 'Menyusun revisi 2', status: 'Bekerja', tone: 'run' },
+            { mascot: 'support', title: 'Layanan', meta: 'Run berikutnya 06:30', status: 'Siap', tone: 'idle' },
+            { mascot: 'ops', title: 'Ops', meta: 'Dicek 14:00', status: 'Siap', tone: 'idle' },
+            { mascot: 'sales', title: 'Penjualan', meta: 'Menunggu pembaruan target dari Anda', status: 'Menunggu', tone: 'warn' },
+          ],
+        },
+        {
+          key: 'hire', title: 'Hire', subtitle: 'Tambah helper dari template, atau jelaskan sendiri',
+          rows: [
+            { icon: 'team', title: 'Pembukuan', meta: 'Catat penjualan dan biaya, tandai yang janggal', status: 'Rekrut', tone: 'idle' },
+            { icon: 'team', title: 'Penulis konten', meta: 'Postingan, caption, dan newsletter', status: 'Rekrut', tone: 'idle' },
+            { icon: 'team', title: 'Peneliti', meta: 'Kompetitor, harga, dan pemasok', status: 'Rekrut', tone: 'idle' },
+            { icon: 'team', title: 'Customer success', meta: 'Sapa pelanggan dan tindak lanjut ulasan', status: 'Rekrut', tone: 'idle' },
+          ],
+        },
+        {
+          key: 'company', title: 'Company', subtitle: 'KPI, masing-masing dengan helper pemilik',
+          stats: [
+            { label: 'Omzet bulanan', value: 'Rp 48 jt', note: '+8% dari bulan lalu', tone: 'up' },
+            { label: 'Pesanan per minggu', value: '312', note: '+5%', tone: 'up' },
+            { label: 'Pelanggan kembali', value: '41%', note: 'target 45%', tone: 'warn' },
+            { label: 'Waktu balas pertama', value: '52 mnt', note: 'target 60 mnt', tone: 'up' },
+          ],
+        },
+        {
+          key: 'settings', title: 'Settings', subtitle: 'Aturan yang diikuti semua helper',
+          rows: [
+            { icon: 'settings', title: 'Strict mode', meta: 'Setiap aksi keluar menunggu Anda', status: 'Aktif', tone: 'up' },
+            { icon: 'settings', title: 'Budget bulanan', meta: 'Peringatan di 80% dan 100%', status: 'Rp 1 jt', tone: 'idle' },
+            { icon: 'settings', title: 'Zona waktu', meta: 'Jadwal mengikuti waktu lokal Anda', status: 'WIB', tone: 'idle' },
+          ],
+        },
+        {
+          key: 'harness', title: 'Harness', subtitle: 'Engine AI yang menjalankan helper Anda',
+          rows: [
+            { icon: 'harness', title: 'Claude Code', meta: 'Login Anda sendiri, di dalam container', status: 'Aktif', tone: 'up' },
+            { icon: 'harness', title: 'Claude API', meta: 'Batas biaya harian', status: 'Siaga', tone: 'idle' },
+            { icon: 'harness', title: 'Mode latihan', meta: 'Agen tiruan untuk mencoba', status: 'Mati', tone: 'idle' },
+          ],
+        },
+        {
+          key: 'connectors', title: 'Connectors', subtitle: 'Aplikasi yang bisa dijangkau helper',
+          rows: [
+            { icon: 'connectors', title: 'Gmail', meta: 'Baca dan buat draf', status: 'Terhubung', tone: 'up' },
+            { icon: 'connectors', title: 'Google Sheets', meta: 'Pesanan dan biaya', status: 'Terhubung', tone: 'up' },
+            { icon: 'connectors', title: 'Instagram', meta: 'Posting', status: 'Tanya dulu', tone: 'warn' },
+            { icon: 'connectors', title: 'Zapier', meta: 'Sisanya', status: 'Terhubung', tone: 'up' },
+          ],
+        },
+        {
+          key: 'skills', title: 'Skills', subtitle: 'Keahlian yang dipakai bersama para helper',
+          rows: [
+            { icon: 'skills', title: 'Menulis dengan gaya brand kami', meta: 'Dipakai Pemasaran, Layanan', status: '2 helper', tone: 'idle' },
+            { icon: 'skills', title: 'Laporan KPI mingguan', meta: 'Dipakai Keuangan', status: '1 helper', tone: 'idle' },
+            { icon: 'skills', title: 'Menjawab pertanyaan pengiriman', meta: 'Dipakai Layanan', status: '1 helper', tone: 'idle' },
+          ],
+        },
+        {
+          key: 'computer', title: 'Computer', subtitle: 'Tempat helper bekerja dengan file dan web',
+          rows: [
+            { icon: 'computer', title: 'Folder bersama', meta: 'website, laporan', status: '2 folder', tone: 'idle' },
+            { icon: 'computer', title: 'Browser', meta: 'Dev membuka halaman menu Anda · 13:02', status: 'Tangkapan', tone: 'run' },
+            { icon: 'computer', title: 'Terminal', meta: 'Build website berhasil · 13:05', status: 'OK', tone: 'up' },
+          ],
+        },
+      ],
+      sample: 'Contoh bisnis dan data · coba klik menunya',
     },
   },
 
-  socialProof: {
-    heading: 'Dibuat untuk pemilik yang kerja serba sendiri.',
-    body:
-      'Saga OS untuk pemilik usaha kecil dan menengah yang terlalu banyak kerja manual. Digitalkan cara bisnis berjalan, serahkan pekerjaan berulang ke staf AI, dan pantau angkanya di satu tempat, sementara setiap tindakan keluar tetap Anda yang pegang.',
-    note: 'TODO: pemilik mengisi bukti nyata di sini sebelum peluncuran publik (nama pengguna awal, jumlah star repo yang nyata, atau kutipan singkat dari yang sudah mencoba). Jangan tambahkan apa pun sampai itu nyata.',
-    proofPlaceholder: 'TODO: bukti sosial nyata menyusul',
-  },
-
-  agents: {
-    eyebrow: 'Staf AI Anda',
-    heading: 'Tim yang hadir sesuai jadwal shift-nya.',
+  loop: {
+    eyebrow: 'Cara kerja',
+    heading: 'Setiap helper menjalankan loop yang sama',
     subhead:
-      'Tiap agen punya satu pekerjaan, satu jadwal, dan engine yang menjalankannya. Chief of Staff memimpin tim dan membagi pekerjaan. Anda bisa menambah, menjeda, atau mengubah mereka dari halaman Team.',
-    roster: [
-      {
-        name: 'Chief of Staff',
-        job: 'Memimpin tim, membagi pekerjaan sesuai target Anda, dan memimpin retro mingguan.',
-        shift: 'Retro tiap Jumat, rangkuman tiap Senin',
-        engine: 'Claude Code',
-      },
-      {
-        name: 'Sales',
-        job: 'Memantau prospek dan deal, lalu menyusun tindak lanjut untuk Anda setujui.',
-        shift: 'Berjalan sesuai jadwal yang Anda atur',
-        engine: 'Claude Code',
-      },
-      {
-        name: 'Marketing',
-        job: 'Menyusun postingan dan kampanye dengan gaya bahasa Anda, lalu membawanya ke Inbox.',
-        shift: 'Berjalan sesuai jadwal yang Anda atur',
-        engine: 'Claude Code',
-      },
-      {
-        name: 'Dev',
-        job: 'Bekerja di folder yang Anda bagikan: install, build, test, dan mengusulkan perubahan.',
-        shift: 'Berjalan sesuai jadwal yang Anda atur',
-        engine: 'Claude Code',
-      },
-      {
-        name: 'Finance',
-        job: 'Menjaga KPI dan catatan tetap mutakhir, dan menandai apa yang butuh keputusan.',
-        shift: 'Berjalan sesuai jadwal yang Anda atur',
-        engine: 'Claude Code',
-      },
-      {
-        name: 'Support',
-        job: 'Membaca pesan, menyusun balasan, dan mengarahkan yang butuh manusia kepada Anda.',
-        shift: 'Berjalan sesuai jadwal yang Anda atur',
-        engine: 'Claude Code',
-      },
-      {
-        name: 'Ops',
-        job: 'Mengurus administrasi rutin dan menjaga pengetahuan perusahaan tetap terbarui.',
-        shift: 'Berjalan sesuai jadwal yang Anda atur',
-        engine: 'Claude Code',
-      },
-    ],
-    shiftNote:
-      'Shift adalah jadwal cron di zona waktu Anda sendiri. Tiap agen punya karakter SVG kecilnya sendiri, digambar aplikasi dari id dan pekerjaannya.',
-    shiftLabel: 'Shift',
-    engineLabel: 'Engine',
-  },
-
-  approvalLoop: {
-    eyebrow: 'Siapa yang pegang kendali',
-    heading: 'Agen mengusulkan. Anda memutuskan. Gerbang menjalankannya di kode.',
-    subhead:
-      'Setiap tugas, usulan, pertanyaan, dan laporan lewat Saga OS. Saat agen mau melakukan sesuatu di luar aplikasi, ia mengajukan usulan. Anda menyetujui, minta revisi, atau menolak dengan catatan. Baru setelah itu teks yang disetujui berjalan.',
+      'Helper dipicu, mengumpulkan konteks, mengerjakan tugas, lalu melapor dengan usulan. Anda yang memutuskan. Run berikutnya menjalankan yang Anda setujui.',
     steps: [
-      {
-        title: 'Usulkan',
-        body: 'Agen menyelesaikan shift lalu mengajukan rencana langkah berikutnya sebagai usulan, lengkap dengan alasannya dan teks persis yang akan dikirim.',
-      },
-      {
-        title: 'Putuskan',
-        body: 'Anda buka Inbox. Setujui untuk menjalankannya apa adanya, minta revisi untuk mendapat perbaikan, atau tolak dengan catatan yang dibaca agen sebelum run berikutnya.',
-      },
-      {
-        title: 'Jalankan di kode',
-        body: 'Pekerjaan yang disetujui berjalan sebagai tugas eksekusi yang persis sama dengan teks yang Anda setujui. Aturannya ada di kode, bukan di prompt yang bisa diakali agen.',
-      },
+      { title: 'Pemicu', body: 'Jadwal, kejadian, atau permintaan Anda lewat Chat.' },
+      { title: 'Konteks', body: 'Target, KPI, memori, dan catatan run sebelumnya.' },
+      { title: 'Kerjakan', body: 'Di dalam izin yang dikunci dan budget.' },
+      { title: 'Lapor', body: 'Apa yang terjadi, plus usulan.' },
+      { title: 'Anda putuskan', body: 'Setujui, atau tolak dengan catatan yang dibaca.' },
+      { title: 'Jalankan', body: 'Run berikutnya mengerjakan yang disetujui.' },
     ],
-    policyHeading: 'Anda yang menentukan aturan per jenis tindakan.',
-    policyLevels: [
-      { level: 'Off', body: 'Agen sama sekali tidak bisa melakukan tindakan ini.' },
-      { level: 'Ask', body: 'Agen mengusulkannya dan menunggu persetujuan Anda di Inbox.' },
-      { level: 'Do and tell', body: 'Agen melakukannya lalu mengirim pemberitahuan agar Anda tahu apa yang terjadi.' },
-      { level: 'Auto', body: 'Agen melakukannya tanpa bertanya. Ini Anda pilih per tindakan, secara sengaja.' },
-    ],
-    strictNote:
-      'Strict mode aktif secara default dan membatasi setiap tindakan keluar pada Ask. Agen tidak bisa mengirim, membelanjakan, merge, deploy, atau publish sendiri.',
-    guarantee:
-      'Retro yang menyetel tim Anda tiap pekan tidak pernah bisa mengubah izin, anggaran, engine, atau aturan inti.',
+    youIndex: 4,
+    retroTitle: 'Retro mingguan, Jumat 16:00.',
+    retroBody: 'Maksimal tiga perbaikan per minggu, masing-masing diukur, dengan rollback otomatis dan undo.',
   },
 
-  features: {
-    eyebrow: 'Yang Anda dapat',
-    heading: 'Satu kantor penuh, dalam satu layar.',
+  helpers: {
+    eyebrow: 'Tim Anda',
+    heading: 'Siapa kerja kapan',
     subhead:
-      'Saga OS menyatukan chat dan pekerjaan, dan mencatat semua yang dibaca atau dilakukan agen saat itu terjadi.',
+      'Chief of Staff membagikan pekerjaan menuju target Anda. Enam helper mengisi satu minggu. Mulai dari dua, lalu tambah satu per satu setelah Anda percaya.',
+    columns: { helper: 'Helper', when: 'Jalan (bawaan)', job: 'Tugas', output: 'Hasil untuk Anda' },
+    rows: [
+      { mascot: 'ops', name: 'Ops', when: 'Tiap jam', job: 'Cek situs, pesanan, pembayaran, dan antrean.', output: 'Peringatan bila ada masalah', tone: 'up' },
+      { mascot: 'support', name: 'Layanan', when: 'Harian 06:30', job: 'Baca pesan pelanggan kemarin dan kelompokkan.', output: 'Tema + draf balasan', tone: 'up' },
+      { mascot: 'finance', name: 'Keuangan', when: 'Sen 07:00', job: 'Perbarui omzet, biaya, churn, dan runway.', output: 'Scorecard KPI', tone: 'up' },
+      { mascot: 'marketing', name: 'Pemasaran', when: 'Sen 08:00', job: 'Rencanakan postingan minggu ini dari pertanyaan pelanggan nyata.', output: 'Usulan konten', tone: 'warn' },
+      { mascot: 'sales', name: 'Penjualan', when: 'Sel · Kam 09:00', job: 'Riset prospek dan siapkan draf follow-up.', output: 'Draf, tidak dikirim', tone: 'idle' },
+      { mascot: 'dev', name: 'Dev', when: '01:00 · 13:00', job: 'Ambil satu tugas siap di website atau aplikasi Anda lalu kerjakan.', output: '1 perubahan untuk ditinjau', tone: 'run' },
+      { mascot: 'chief', name: 'Chief of Staff', when: 'Jum 16:00', job: 'Tinjau minggu ini dan setel cara kerja semua helper.', output: 'Maks 3 perubahan', tone: 'idle' },
+    ],
+    note: 'Jadwal berjalan di zona waktu Anda. Ubah jadwal, jeda helper, atau rekrut helper baru untuk pekerjaan yang berulang.',
+  },
+
+  workspace: {
+    eyebrow: 'Ruang kerja',
+    heading: 'Lihat yang jalan, yang macet, dan yang menunggu Anda',
     items: [
-      {
-        title: 'Work',
-        body: 'Shift berubah jadi tugas. Worker menjalankannya satu per agen, menulis checkpoint sambil jalan, dan membuat laporan di akhir.',
-      },
-      {
-        title: 'Inbox',
-        body: 'Papan berisi usulan, pertanyaan, dan peringatan. Setujui, minta revisi, atau tolak dari drawer yang bisa dibuka dari mana saja.',
-      },
-      {
-        title: 'Policy',
-        body: 'Atur off, ask, do and tell, atau auto per jenis tindakan, per agen. Strict mode menahan setiap tindakan keluar pada ask.',
-      },
-      {
-        title: 'Chat',
-        body: 'Thread utama dengan Chief of Staff, plus thread per agen, tugas, dan usulan. Balasan tampil seperti Claude: kode, tabel, dan pratinjau file.',
-      },
-      {
-        title: 'Workspace',
-        body: 'Pantau agen bekerja langsung: alasannya, tiap panggilan tool beserta input dan output-nya, sumber yang dibaca, dan meter token, biaya, serta waktu.',
-      },
-      {
-        title: 'Docs',
-        body: 'Lemari catatan Markdown bergaya Obsidian dengan wiki link, backlink, riwayat versi penuh, dan tampilan graph. Isinya folder biasa yang bisa Anda buka di Obsidian juga.',
-      },
-      {
-        title: 'Monitor',
-        body: 'Lihat 24 jam, 7 hari, atau 30 hari terakhir: token dan biaya, jumlah job selesai dan tingkat keberhasilan, apa yang menunggu Anda, dan kenapa job gagal. Tetapkan anggaran bulanan per agen dengan peringatan di 80 dan 100 persen.',
-      },
+      { icon: 'plan', title: 'Rencana', body: 'Anda tetapkan target; Chief memecahnya jadi pekerjaan. Work Map menelusuri tiap pekerjaan ke targetnya.' },
+      { icon: 'inbox', title: 'Inbox', body: 'Satu antrean keputusan. Usulan menyimpan riwayat revisinya.' },
+      { icon: 'chat', title: 'Chat', body: 'Tanya soal run mana pun, atau jalankan ulang helper dengan instruksi Anda. Chat bisa mengusulkan; hanya Anda yang menyetujui.' },
+      { icon: 'kpi', title: 'KPI', body: 'Nilai, tren, target, dan sumber di tiap KPI, dengan helper pemilik yang menjaganya tetap terbaru.' },
+      { icon: 'monitor', title: 'Monitor', body: 'Dashboard sederhana, atau kantor virtual tempat Anda melihat helper bekerja. Hanya kejadian nyata yang bergerak.' },
+      { icon: 'docs', title: 'Dokumen & memori', body: 'Pelajaran, log run, dan pengetahuan perusahaan tersimpan sebagai dokumen yang bisa Anda baca dan ubah.' },
     ],
   },
 
-  integrations: {
-    eyebrow: 'Engine-nya',
-    heading: 'Claude yang berpikir. Claude-nya dari Anda.',
+  guardrails: {
+    eyebrow: 'Batasan',
+    heading: 'Helper mengusulkan. Anda memutuskan.',
+    subhead: 'Aturan keras dijaga oleh policy engine, bukan sekadar prompt. Setiap aksi tercatat di audit log.',
+    neverHeading: 'Tidak pernah tanpa Anda',
+    never: [
+      'Mengirim apa pun ke pelanggan',
+      'Mengeluarkan uang',
+      'Menerbitkan, merge kode, atau deploy',
+      'Mengubah data produksi Anda',
+      'Mengarang fakta atau menjanjikan yang belum ada',
+    ],
+    alwaysHeading: 'Selalu aktif',
+    always: [
+      'Izin, budget, dan persetujuan yang dikunci',
+      'Coba ulang otomatis saat rate limit atau gangguan singkat',
+      'Posting sosial diatur "Tanya saya dulu"',
+      'Host sendiri, atau biarkan kami jalankan di cloud kami',
+      'Beberapa bisnis, terpisah penuh, satu login',
+    ],
+  },
+
+  engines: {
+    eyebrow: 'Engine',
+    heading: 'Pakai AI milik Anda',
     subhead:
-      'Pilih cara Saga OS terhubung ke Claude. Keduanya menjalankan agen lewat Claude Code dan tool Saga, dan keduanya mencatat tiap panggilan tool.',
+      'Pilih engine per helper. Mode latihan menjalankan seluruh alur dengan agen tiruan, jadi Anda bisa mencobanya tanpa biaya.',
     engines: [
-      {
-        name: 'Pool Claude Code',
-        body: 'Tambahkan langganan Claude Anda dan tempatkan agen pada pool. Tiap job memakai akun yang paling lama menganggur. Saat satu akun kena batas pemakaian, job lanjut di akun lain, jadi tidak ada pekerjaan yang hilang.',
-      },
-      {
-        name: 'Built-in Claude',
-        body: 'Pakai Claude API key Anda sendiri. Saga OS memasang Claude Code dan menjalankan tiap agen dengan key Anda. Pemakaian ditagih ke key Anda dan tampil sebagai biaya nyata.',
-      },
-    ],
-    capabilitiesLabel: 'Yang bisa dijangkau agen Anda',
-    capabilities: [
-      {
-        title: 'Konektor MCP',
-        body: 'Hubungkan MCP server mana pun lewat alamat web atau sebagai program lokal. Konektor "tanya dulu" tetap terkunci sampai Anda menyetujui permintaan. Tambahkan aplikasi sosial dan kerja lewat Composio atau Zapier.',
-      },
-      {
-        title: 'Skills',
-        body: 'Taruh file SKILL.md untuk memberi agen sebuah panduan. Skill standar berlaku di mana saja, yang lain diaktifkan per chat.',
-      },
-      {
-        title: 'Folder bersama',
-        body: 'Bagikan folder di mesin yang menjalankan Saga OS, masing-masing diatur baca saja, atau baca dan edit. Bahkan dengan hak edit, agen tidak bisa push, publish, deploy, atau menjalankan perintah merusak sendiri.',
-      },
-    ],
-    roadmapLabel: 'Akan datang',
-    roadmapNote:
-      'Codex di dalam harness ada di roadmap dan belum tersedia. Saat ini engine-nya adalah Claude.',
-  },
-
-  multiCompany: {
-    eyebrow: 'Lebih dari satu bisnis',
-    heading: 'Jalankan setiap perusahaan Anda dari satu Saga OS.',
-    body:
-      'Ganti perusahaan dari atas sidebar, dan badge-nya menunjukkan apa yang menunggu di perusahaan lain. Tiap perusahaan benar-benar terpisah, jadi pekerjaan di satu tempat tidak pernah menyentuh yang lain.',
-    points: [
-      {
-        title: 'Terpisah secara default',
-        body: 'Tiap perusahaan punya agen, job, Inbox, Docs, pengetahuan, anggaran, konektor, folder bersama, dan pool Claude sendiri.',
-      },
-      {
-        title: 'Satu login',
-        body: 'Hanya sign-in Anda yang dibagi antar perusahaan. Selebihnya tetap di tempatnya masing-masing.',
-      },
-      {
-        title: 'Datanya sendiri',
-        body: 'Tiap perusahaan punya database dan vault sendiri. Dengan Postgres, Anda bisa memberi tiap perusahaan database terpisah.',
-      },
-    ],
-    diagram: {
-      loginHeading: 'Satu login',
-      loginSub: 'Akun Anda',
-      companyDetail: 'Agen + Inbox sendiri',
-      isolatedLabel: 'Sepenuhnya terpisah',
-    },
-  },
-
-  howItWorks: {
-    eyebrow: 'Mulai',
-    heading: 'Dari kosong jadi tim yang bekerja dalam tiga langkah.',
-    subhead: 'Tanpa perlu jago teknis. Wizard yang menyiapkan semuanya dari pertanyaan sederhana.',
-    steps: [
-      {
-        title: 'Jawab wizard onboarding',
-        body: 'Sembilan langkah singkat dengan contoh dan pilihan sekali ketuk mencakup bisnis, pelanggan, penawaran, target, gaya bahasa, alat, dan aturan Anda. Saga OS menulis file pengetahuan Anda, menyarankan tim dari target Anda, dan menjalankan satu job latihan agar Anda langsung melihat persetujuan di Inbox.',
-      },
-      {
-        title: 'Agen menjalankan shift-nya',
-        body: 'Tiap agen bangun saat shift-nya, mengerjakan tugas, dan mengajukan usulan beserta alasannya. Anda bisa mengikutinya langsung di Workspace.',
-      },
-      {
-        title: 'Anda menyetujui, lalu berjalan',
-        body: 'Buka Inbox, setujui yang sudah pas, minta revisi, atau tolak dengan catatan. Pekerjaan yang disetujui berjalan persis seperti teksnya, dan catatan Anda jadi pelajaran yang dibaca agen di run berikutnya.',
-      },
+      { label: 'Claude Code', title: 'Login milik Anda', body: 'Jalan dengan login Claude Code atau API key Anda, di container di server Anda.' },
+      { label: 'Claude API', title: 'Batas biaya harian', body: 'Panggilan API langsung yang berhenti di batas yang Anda tetapkan.' },
+      { label: 'Mode latihan', title: 'Gratis dicoba', body: 'Agen tiruan menjalani setiap langkah agar Anda memahami alurnya.' },
     ],
   },
 
-  pricing: {
-    eyebrow: 'Harga',
-    heading: 'Software-nya gratis. Anda hanya membayar Claude yang Anda pakai.',
-    body:
-      'Saga OS open-source dan di-hosting sendiri. Tidak ada paket SaaS per kursi. Anda menjalankannya di mesin atau server sendiri dan memakai Claude milik Anda, baik Claude API key maupun pool langganan Claude Code, dan membayar pemakaian itu langsung.',
-    points: [
+  offer: {
+    eyebrow: 'Cara memakai Omilo',
+    heading: 'Inti open source. Bantuan saat Anda butuh.',
+    subhead:
+      'Omilo open source, jadi Anda bisa menjalankannya sendiri secara gratis. Bila tidak ingin repot sendiri, kami siapkan bersama Anda, dukung, atau jalankan untuk Anda.',
+    plans: [
       {
-        title: 'Software gratis, open-source',
-        body: 'Hosting sendiri Saga OS dengan lisensi MIT. Kodenya milik Anda untuk dijalankan dan dibaca.',
+        label: 'Open source',
+        title: 'Host sendiri',
+        body: 'Platform lengkap, gratis dijalankan di server Anda dengan AI milik Anda.',
+        points: ['Semua fitur di halaman ini', 'Data tetap di server Anda', 'Bantuan komunitas di GitHub'],
+        cta: 'Lihat kode sumber',
+        action: 'repo',
       },
       {
-        title: 'Pakai Claude milik sendiri',
-        body: 'Gunakan Claude API key Anda, atau tambahkan langganan Claude Code ke pool. Pemakaian ditagih ke Anda, bukan ke kami.',
+        label: 'Konsultasi',
+        title: 'Onboarding & dukungan',
+        body: 'Kami petakan pekerjaan berulang di bisnis Anda dan siapkan helper yang pas.',
+        points: ['Setup di server Anda atau server kami', 'Helper, target, dan KPI dirancang bersama Anda', 'Dukungan berkelanjutan dan penyetelan mingguan'],
+        cta: 'Hubungi kami',
+        action: 'waitlist',
+        highlight: true,
       },
       {
-        title: 'Lihat biayanya',
-        body: 'Monitor menampilkan token dan biaya per agen, dan Anda bisa menetapkan anggaran bulanan dengan peringatan sebelum agen menjeda dirinya sendiri.',
+        label: 'Cloud',
+        title: 'Dikelola kami',
+        body: 'Kami host, perbarui, dan backup Omilo untuk Anda. Tidak perlu instalasi.',
+        points: ['Siap dalam sehari', 'Pembaruan dan backup kami urus', 'Pakai AI sendiri atau dari kami'],
+        cta: 'Gabung waitlist cloud',
+        action: 'waitlist',
       },
     ],
-    ctaPrimary: { label: 'Gabung waitlist' },
-    earlyAccessNote:
-      'TODO: pemilik mengonfirmasi apakah akan ada opsi hosting terkelola, dan dengan ketentuan apa, sebelum peluncuran publik. Sampai saat itu, jalur yang ditampilkan hanya hosting sendiri plus waitlist.',
+    note: 'Harga konsultasi, dukungan, dan cloud disesuaikan per bisnis selama masa akses awal.',
   },
 
-  faq: {
-    eyebrow: 'Pertanyaan',
-    heading: 'Yang ditanyakan pemilik sebelum percaya.',
+  growth: {
+    eyebrow: 'Kenapa pemilik bisnis memakainya',
+    heading: 'Bertumbuh sebelum merekrut',
+    subhead:
+      'Banyak bisnis yang sedang tumbuh menabrak tembok yang sama: pemiliknya jadi penghambat. Omilo mengambil alih pekerjaan berulang, sehingga waktu Anda dipakai untuk keputusan yang hanya bisa Anda buat.',
     items: [
-      {
-        q: 'Bisakah agen mengirim, membelanjakan, atau publish tanpa saya?',
-        a: 'Tidak. Strict mode aktif secara default dan menahan setiap tindakan keluar pada ask, jadi agen hanya mengusulkan dan menunggu. Agen tidak bisa mengirim, membelanjakan, merge, deploy, atau publish sendiri. Anda yang menentukan aturan per jenis tindakan dan baru mengubah tindakan tertentu jadi auto kalau Anda memang mau.',
-      },
-      {
-        q: 'Di mana data saya tersimpan?',
-        a: 'Di mesin tempat Anda menjalankan Saga OS. Ini di-hosting sendiri, dengan catatan tersimpan sebagai vault Markdown biasa yang bisa dibuka di Obsidian, serta database lokal (SQLite, atau Postgres kalau Anda mau).',
-      },
-      {
-        q: 'Apakah saya harus jago teknis untuk memasangnya?',
-        a: 'Wizard onboarding dibuat untuk yang bukan engineer: pertanyaan sederhana, contoh, dan pilihan sekali ketuk. Menjalankan server-nya memang butuh setup sekali di awal, dan tersedia opsi CLI serta Docker untuk itu.',
-      },
-      {
-        q: 'Engine apa yang menjalankan agen?',
-        a: 'Claude, baik lewat pool langganan Claude Code dengan failover otomatis saat kena batas pemakaian, maupun lewat Claude API key Anda sendiri dengan built-in Claude. Codex ada di roadmap dan belum tersedia.',
-      },
-      {
-        q: 'Bisakah saya menjalankan lebih dari satu bisnis?',
-        a: 'Bisa. Jalankan beberapa perusahaan yang benar-benar terpisah dari satu Saga OS. Masing-masing punya agen, Inbox, Docs, anggaran, konektor, dan pool Claude sendiri. Hanya login Anda yang dibagi.',
-      },
-      {
-        q: 'Bagaimana agen belajar dari saya?',
-        a: 'Tiap job rutin adalah sebuah loop. Saat Anda menolak atau minta revisi, catatan Anda jadi pelajaran yang dibaca agen sebelum run berikutnya. Tiap pekan Chief of Staff menjalankan retro dan membuat beberapa perubahan terukur, yang otomatis dibatalkan kalau hasilnya menurun.',
-      },
+      { label: 'Waktu', title: 'Jam kembali setiap minggu', body: 'Laporan, follow-up, balasan, dan pengecekan selesai sesuai jadwal tanpa Anda memulainya.' },
+      { label: 'Fokus', title: 'Keputusan, bukan kesibukan', body: 'Anda melihat antrean usulan singkat beserta alasannya, lalu bilang ya, tidak, atau ubah ini.' },
+      { label: 'Kejelasan', title: 'Satu tampilan bisnis', body: 'Target, KPI, dan pekerjaan setiap helper di satu tempat, diperbarui oleh para helper sendiri.' },
     ],
   },
 
   finalCta: {
-    headline: 'Berhenti jadi penghambat di bisnis Anda sendiri.',
-    subtext:
-      'Gabung waitlist untuk mulai menjalankan Saga OS: tim staf AI yang mengusulkan pekerjaan, dan Inbox tempat keputusan akhir tetap di tangan Anda.',
-    ctaPrimary: { label: 'Gabung waitlist' },
-    microcopy: 'Open-source dan di-hosting sendiri. Pakai Claude milik Anda.',
+    headline: 'Rekrut staf AI pertama Anda',
+    subtext: 'Ceritakan bisnis Anda dan pekerjaan apa yang berulang tiap minggu. Kami bantu siapkan dua helper pertama Anda.',
+    cta: 'Gabung waitlist',
+    microcopy: 'Gratis dan open source untuk di-host sendiri. Onboarding, dukungan, dan cloud dari tim kami.',
   },
 
   footer: {
-    tagline: 'Kantor tempat Anda memimpin tim staf AI.',
-    linkGroups: [
-      {
-        heading: 'Produk',
-        links: [
-          { label: 'Staf AI Anda', href: '#agents' },
-          { label: 'Cara kerja', href: '#how-it-works' },
-          { label: 'Harga', href: '#pricing' },
-          { label: 'FAQ', href: '#faq' },
-        ],
-      },
-    ],
-    contact: {
-      email: 'hello@saga.co.id',
-      repo: 'TODO: tautan repositori publik untuk ditambahkan sebelum peluncuran',
-      contactHeading: 'Kontak',
-      repoLabel: 'GitHub',
-      repoComingLabel: 'Tautan repo segera hadir',
-    },
-    legal: [
-      { label: 'Privasi', href: '/privasi' },
-      { label: 'Ketentuan', href: '/ketentuan' },
-    ],
-    copyright: '© 2026 Saga OS. Berlisensi MIT.',
-    homeAriaLabel: 'Saga OS, beranda',
-    comingSoonLabel: 'segera hadir',
+    tagline: 'Staf AI untuk bisnis yang bertumbuh.',
+    note: 'Akses awal. Sebagian fitur masih diuji dengan akun nyata.',
+    contactLabel: 'Kontak',
+    sourceLabel: 'Kode sumber',
+    email: 'omilio@saga.co.id',
+    copyright: '© 2026 Omilo',
   },
 
   waitlist: {
-    title: 'Gabung waitlist Saga OS',
+    title: 'Gabung waitlist Omilo',
     subtitle: 'Ceritakan sedikit soal bisnis Anda, dan kami akan menghubungi saat tiba giliran Anda.',
     nameLabel: 'Nama Anda',
     namePlaceholder: 'Nama lengkap Anda',
@@ -365,8 +343,9 @@ export const content: Content = {
     interestLabel: 'Anda mencari apa?',
     selectPlaceholder: 'Pilih salah satu...',
     interestOptions: [
-      { value: 'self-host', label: 'Saya mau hosting sendiri' },
-      { value: 'managed', label: 'Saya lebih suka opsi terkelola' },
+      { value: 'self-host', label: 'Host sendiri versi open source' },
+      { value: 'managed', label: 'Cloud terkelola' },
+      { value: 'consulting', label: 'Onboarding dan dukungan' },
       { value: 'exploring', label: 'Masih melihat-lihat dulu' },
     ],
     submitLabel: 'Gabung waitlist',
@@ -374,7 +353,7 @@ export const content: Content = {
     successTitle: 'Anda sudah masuk daftar.',
     successMessage: 'Anda sudah masuk daftar. Kami akan menghubungi Anda.',
     closeLabel: 'Tutup',
-    errorMessage: 'Ada yang tidak beres. Coba lagi, atau email ke hello@saga.co.id.',
+    errorMessage: 'Ada yang tidak beres. Coba lagi, atau email ke omilio@saga.co.id.',
     validationNameRequired: 'Nama wajib diisi.',
     validationEmailRequired: 'Email wajib diisi.',
     validationEmailInvalid: 'Masukkan alamat email yang valid.',

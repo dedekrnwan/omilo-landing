@@ -1,0 +1,14 @@
+---
+/** Growth.astro: why business owners use Omilo. */
+import type { Content } from '../../data/types';
+import SectionHead from '../ui/SectionHead.astro';
+import StatRow from '../ui/StatRow.astro';
+interface Props { content: Content['growth'] }
+const { content } = Astro.props;
+---
+<section class="block" id="growth" aria-labelledby="growth-h">
+  <div class="wrap">
+    <SectionHead id="growth-h" eyebrow={content.eyebrow} heading={content.heading} subhead={content.subhead} />
+    <StatRow items={content.items} />
+  </div>
+</section>

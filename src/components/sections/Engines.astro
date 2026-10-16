@@ -1,0 +1,14 @@
+---
+/** Engines.astro: which AI runs the helpers. */
+import type { Content } from '../../data/types';
+import SectionHead from '../ui/SectionHead.astro';
+import StatRow from '../ui/StatRow.astro';
+interface Props { content: Content['engines'] }
+const { content } = Astro.props;
+---
+<section class="block" id="engines" aria-labelledby="engines-h">
+  <div class="wrap">
+    <SectionHead id="engines-h" eyebrow={content.eyebrow} heading={content.heading} subhead={content.subhead} />
+    <StatRow items={content.engines} />
+  </div>
+</section>

@@ -60,15 +60,15 @@ test('social preview is a 1200 by 630 PNG', async () => {
   assert.equal(image.readUInt32BE(20), 630);
 });
 
-test('GET / returns 200 with complete Saga OS SEO metadata', async () => {
+test('GET / returns 200 with complete Omilo SEO metadata', async () => {
   const response = await fetch(origin);
   assert.equal(response.status, 200);
   const html = await response.text();
 
   assert.ok(html.includes('<html lang="en"'), 'Expected <html lang="en" in the response');
   assert.ok(
-    html.includes('<meta property="og:site_name" content="Saga OS">'),
-    'Missing og:site_name "Saga OS"',
+    html.includes('<meta property="og:site_name" content="Omilo">'),
+    'Missing og:site_name "Omilo"',
   );
   assert.ok(
     html.includes('<meta property="og:locale" content="en_US">'),

@@ -41,15 +41,13 @@ test('both content files declare the same top-level section keys', () => {
     'meta',
     'nav',
     'hero',
-    'socialProof',
-    'agents',
-    'approvalLoop',
-    'features',
-    'integrations',
-    'multiCompany',
-    'howItWorks',
-    'pricing',
-    'faq',
+    'loop',
+    'helpers',
+    'workspace',
+    'guardrails',
+    'engines',
+    'offer',
+    'growth',
     'finalCta',
     'footer',
     'waitlist',
@@ -63,4 +61,11 @@ test('both content files declare the same top-level section keys', () => {
   const enSorted = [...enKeys].sort();
   const idSorted = [...idKeys].sort();
   assert.deepEqual(enSorted, idSorted, 'EN and ID must declare the same top-level section keys');
+});
+
+test('no content file mentions Sahabat Warga or the old Saga OS brand', () => {
+  for (const [name, src] of [['en', enSource], ['id', idSource]]) {
+    assert.ok(!src.includes('Sahabat Warga'), `content.${name}.ts must not mention Sahabat Warga`);
+    assert.ok(!src.includes('Saga OS'), `content.${name}.ts must use the Omilo brand`);
+  }
 });

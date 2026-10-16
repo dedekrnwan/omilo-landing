@@ -1,0 +1,10 @@
+---
+/** SectionHead.astro: eyebrow, heading and optional subhead used by every section. */
+interface Props { eyebrow: string; heading: string; subhead?: string; id: string }
+const { eyebrow, heading, subhead, id } = Astro.props;
+---
+<div class="sh">
+  <div class="label">{eyebrow}</div>
+  <h2 id={id}>{heading}</h2>
+  {subhead && <p>{subhead}</p>}
+</div>

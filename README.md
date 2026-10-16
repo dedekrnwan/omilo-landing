@@ -1,6 +1,6 @@
-# Saga OS Landing
+# Omilo Landing
 
-Marketing landing page for [Saga OS](https://github.com/saga-os), built with Astro 5 (SSR) and Tailwind v4.
+Marketing landing page for Omilo, the open source AI staff platform for growing businesses, built with Astro 5 (SSR) and Tailwind v4.
 
 - English at `/`
 - Indonesian at `/id/`
@@ -30,8 +30,9 @@ src/
   data/          content.en.ts + content.id.ts + types.ts
   layouts/       Base.astro (SEO, OG, JSON-LD)
   components/
-    sections/    All 13 landing sections
-    ui/          Button, Reveal, SectionHeader, ...
+    Home.astro   The full page for one locale (pages only pick the locale)
+    sections/    Nav, Hero, Growth, Loop, Helpers, Workspace, Guardrails, Engines, Offer, FinalCta, Footer
+    ui/          Mascot (helper drawings), Icon, SectionHead, StatRow
     waitlist/    WaitlistDialog (client-side modal + /api/waitlist)
   pages/         index.astro + id/index.astro
   styles/        global.css (design tokens + Tailwind)

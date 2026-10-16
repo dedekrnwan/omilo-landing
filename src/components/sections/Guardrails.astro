@@ -1,0 +1,34 @@
+---
+/** Guardrails.astro: what helpers never do without the owner, and what is always on. */
+import type { Content } from '../../data/types';
+import SectionHead from '../ui/SectionHead.astro';
+import Icon from '../ui/Icon.astro';
+interface Props { content: Content['guardrails'] }
+const { content } = Astro.props;
+---
+<section class="block" id="guardrails" aria-labelledby="guardrails-h">
+  <div class="wrap">
+    <SectionHead id="guardrails-h" eyebrow={content.eyebrow} heading={content.heading} subhead={content.subhead} />
+    <div class="grid2">
+      <div class="rl never">
+        <h3>{content.neverHeading}</h3>
+        <ul>{content.never.map((t) => <li><span class="chip bad"><Icon name="x" /></span>{t}</li>)}</ul>
+      </div>
+      <div class="rl">
+        <h3>{content.alwaysHeading}</h3>
+        <ul>{content.always.map((t) => <li><span class="chip up"><Icon name="check" /></span>{t}</li>)}</ul>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+  .rl { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 6px 18px 8px; }
+  .rl.never { background: var(--soft); }
+  h3 { font: 600 15px/1.3 var(--font-display); padding: 12px 0 8px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  li .chip { width: 22px; padding: 0; justify-content: center; }
+  li :global(.icon) { width: 12px; height: 12px; stroke-width: 2.4; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+</style>

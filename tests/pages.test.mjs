@@ -20,20 +20,18 @@ const port = 4334;
 const origin = `http://${host}:${port}`;
 
 // Known headline substrings pulled directly from the content files.
-const EN_HERO_HEADLINE = 'Run your business with a team of AI staff, and keep the final say.';
-const ID_HERO_HEADLINE = 'Jalankan bisnis dengan tim staf AI, keputusan akhir tetap di Anda.';
+const EN_HERO_HEADLINE = 'Grow your business';
+const ID_HERO_HEADLINE = 'Kembangkan bisnis Anda';
 
-// All 11 section anchor ids that must appear in every locale's page.
+// All section anchor ids that must appear in every locale's page.
 const SECTION_IDS = [
-  'social-proof',
-  'agents',
-  'approval-loop',
-  'features',
-  'integrations',
-  'multi-company',
-  'how-it-works',
-  'pricing',
-  'faq',
+  'growth',
+  'loop',
+  'helpers',
+  'workspace',
+  'guardrails',
+  'engines',
+  'offer',
   'final-cta',
 ];
 
@@ -91,7 +89,7 @@ after(() => {
 // Tests
 // ---------------------------------------------------------------------------
 
-test('GET / returns 200 with EN hero headline and all 10 section ids', async () => {
+test('GET / returns 200 with EN hero headline and all section ids', async () => {
   const response = await fetch(origin + '/');
   assert.equal(response.status, 200, 'Expected GET / to return 200');
 
@@ -113,7 +111,7 @@ test('GET / returns 200 with EN hero headline and all 10 section ids', async () 
   assert.ok(html.includes('<main'), 'Expected <main> element in GET / HTML');
 });
 
-test('GET /id/ returns 200 with ID hero headline and all 10 section ids', async () => {
+test('GET /id/ returns 200 with ID hero headline and all section ids', async () => {
   const response = await fetch(origin + '/id/');
   assert.equal(response.status, 200, 'Expected GET /id/ to return 200');
 

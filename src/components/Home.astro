@@ -1,0 +1,35 @@
+---
+/** Home.astro: the full landing page for one locale. Pages only pick the locale. */
+import Base from '../layouts/Base.astro';
+import { getContent, type Locale } from '../i18n';
+import Nav from './sections/Nav.astro';
+import Hero from './sections/Hero.astro';
+import Growth from './sections/Growth.astro';
+import Loop from './sections/Loop.astro';
+import Helpers from './sections/Helpers.astro';
+import Workspace from './sections/Workspace.astro';
+import Guardrails from './sections/Guardrails.astro';
+import Engines from './sections/Engines.astro';
+import Offer from './sections/Offer.astro';
+import FinalCta from './sections/FinalCta.astro';
+import Footer from './sections/Footer.astro';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = getContent(locale);
+---
+<Base title={c.meta.title} description={c.meta.description} locale={locale} ogImageAlt={c.meta.ogImageAlt}>
+  <Nav content={c.nav} locale={locale} />
+  <main>
+    <Hero content={c.hero} locale={locale} />
+    <Growth content={c.growth} />
+    <Loop content={c.loop} />
+    <Helpers content={c.helpers} />
+    <Workspace content={c.workspace} />
+    <Guardrails content={c.guardrails} />
+    <Engines content={c.engines} />
+    <Offer content={c.offer} />
+    <FinalCta content={c.finalCta} />
+  </main>
+  <Footer content={c.footer} locale={locale} brand={c.nav.brand} homeAriaLabel={c.nav.homeAriaLabel} />
+</Base>

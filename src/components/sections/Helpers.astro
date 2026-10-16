@@ -1,0 +1,40 @@
+---
+/** Helpers.astro: the default team and when each helper runs. */
+import type { Content } from '../../data/types';
+import SectionHead from '../ui/SectionHead.astro';
+import Mascot from '../ui/Mascot.astro';
+interface Props { content: Content['helpers'] }
+const { content } = Astro.props;
+---
+<section class="block" id="helpers" aria-labelledby="helpers-h">
+  <div class="wrap">
+    <SectionHead id="helpers-h" eyebrow={content.eyebrow} heading={content.heading} subhead={content.subhead} />
+    <div class="paper">
+      <table>
+        <thead><tr><th scope="col">{content.columns.helper}</th><th scope="col">{content.columns.when}</th><th scope="col">{content.columns.job}</th><th scope="col">{content.columns.output}</th></tr></thead>
+        <tbody>
+          {content.rows.map((r) => (
+            <tr>
+              <td><div class="who"><Mascot name={r.mascot} size={32} /><b>{r.name}</b></div></td>
+              <td class="when">{r.when}</td>
+              <td>{r.job}</td>
+              <td><span class={`chip ${r.tone}`}>{r.output}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">{content.note}</p>
+  </div>
+</section>
+<style>
+  .paper { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 6px 18px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 680px; }
+  th { font-size: 12px; font-weight: 500; color: var(--muted); text-align: left; padding: 12px 12px 10px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line); vertical-align: middle; font-size: 14px; }
+  tr:last-child td { border-bottom: 0; }
+  .who { display: flex; align-items: center; gap: 10px; }
+  .who b { font-weight: 500; white-space: nowrap; }
+  .when { font: 13px var(--font-mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .note { margin-top: 12px; font-size: 13px; color: var(--muted); }
+</style>

@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 
-const VALID_INTEREST = ['self-host', 'managed', 'exploring'] as const;
+const VALID_INTEREST = ['self-host', 'managed', 'consulting', 'exploring'] as const;
 type Interest = (typeof VALID_INTEREST)[number];
 
 function isValidInterest(value: unknown): value is Interest {

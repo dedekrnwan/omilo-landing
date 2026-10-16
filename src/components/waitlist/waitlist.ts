@@ -1,5 +1,5 @@
 /**
- * Waitlist dialog client logic — Saga OS Landing.
+ * Waitlist dialog client logic — Omilo Landing.
  *
  * Exposes:
  *   window.openWaitlist()  — opens the dialog, saves last-focused element

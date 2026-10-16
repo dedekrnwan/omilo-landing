@@ -1,0 +1,60 @@
+---
+/**
+ * Mascot.astro
+ * A helper drawn exactly like the Saga OS app's mascots (same body, face and tile;
+ * see saga-os/apps/web/components/Avatar.tsx). Eyes follow the cursor and the
+ * mascot hops on click via the script in Base.astro.
+ * Props: name (MascotKey), size (px), label (accessible name; omit for decorative).
+ */
+import type { MascotKey } from '../../data/types';
+
+interface Props { name: MascotKey; size?: number; label?: string }
+const { name, size = 32, label } = Astro.props;
+
+const LOOKS: Record<MascotKey, { color: string; shape: 'blob' | 'box' | 'bean'; prop: string }> = {
+  brand: { color: '#6366f1', shape: 'blob', prop: 'spark' },
+  chief: { color: '#6366f1', shape: 'blob', prop: 'crown' },
+  ops: { color: '#0ea5e9', shape: 'box', prop: 'gear' },
+  dev: { color: '#14b8a6', shape: 'blob', prop: 'glasses' },
+  support: { color: '#ec4899', shape: 'bean', prop: 'headset' },
+  finance: { color: '#65a30d', shape: 'box', prop: 'coin' },
+  marketing: { color: '#f97316', shape: 'blob', prop: 'megaphone' },
+  sales: { color: '#8b5cf6', shape: 'bean', prop: 'tie' },
+  retro: { color: '#64748b', shape: 'blob', prop: 'magnifier' },
+};
+const look = LOOKS[name];
+const INK = '#1c1917';
+const uid = 'mt' + Math.random().toString(36).slice(2, 9);
+const blink = (Math.random() * 4).toFixed(1) + 's';
+
+const bodies = {
+  box: `<rect x="13" y="17" width="38" height="52" rx="13" fill="${look.color}"/>`,
+  bean: `<ellipse cx="32" cy="44" rx="20" ry="27" fill="${look.color}"/>`,
+  blob: `<path d="M10 70 C10 34 19 16 32 16 C45 16 54 34 54 70 Z" fill="${look.color}"/>`,
+};
+const props: Record<string, string> = {
+  crown: `<path d="M21 19 L23.5 8.5 L28.5 14 L32 7 L35.5 14 L40.5 8.5 L43 19 Z" fill="#facc15" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`,
+  glasses: `<g stroke="${INK}" stroke-width="2" fill="#fff" fill-opacity=".25"><circle cx="25" cy="34" r="6"/><circle cx="39" cy="34" r="6"/><path d="M31 34 h2"/></g>`,
+  headset: `<g stroke="${INK}" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="M14 36 A18 18 0 0 1 50 36"/><rect x="10.5" y="33" width="6" height="10" rx="3" fill="${INK}"/><rect x="47.5" y="33" width="6" height="10" rx="3" fill="${INK}"/><path d="M50 42 Q48 50 38 50" stroke-width="2"/><circle cx="37" cy="50" r="2" fill="${INK}"/></g>`,
+  megaphone: `<g stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"><path d="M45 47 L58 40 L58 56 L45 50 Z" fill="#fff"/><rect x="41" y="46" width="5" height="6" rx="1.5" fill="#fff"/></g>`,
+  tie: `<path d="M29.5 51 h5 l-1 3 l3 9 l-4.5 4 l-4.5 -4 l3 -9 Z" fill="#dc2626" stroke="${INK}" stroke-width="1.3" stroke-linejoin="round"/>`,
+  coin: `<g><circle cx="50" cy="52" r="8" fill="#facc15" stroke="${INK}" stroke-width="1.6"/><text x="50" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="${INK}" font-family="ui-sans-serif, system-ui">$</text></g>`,
+  gear: `<g transform="translate(50 52)"><path d="M-2 -9 h4 l1 3 l3 -1.5 l2.6 2.6 l-1.5 3 l3 1 v4 l-3 1 l1.5 3 l-2.6 2.6 l-3 -1.5 l-1 3 h-4 l-1 -3 l-3 1.5 l-2.6 -2.6 l1.5 -3 l-3 -1 v-4 l3 -1 l-1.5 -3 l2.6 -2.6 l3 1.5 Z" fill="#e7e5e4" stroke="${INK}" stroke-width="1.4" stroke-linejoin="round"/><circle r="2.6" fill="${INK}"/></g>`,
+  spark: `<g><path d="M32 0.5 C33 6 34.3 7.4 39.5 8.3 C34.3 9.2 33 10.6 32 16 C31 10.6 29.7 9.2 24.5 8.3 C29.7 7.4 31 6 32 0.5 Z" fill="#f59e0b" stroke="${INK}" stroke-width="1.4" stroke-linejoin="round"/><circle cx="44" cy="5" r="1.6" fill="#f59e0b"/></g>`,
+  magnifier: `<g stroke="${INK}" stroke-linecap="round"><circle cx="49" cy="49" r="6.5" fill="#fff" fill-opacity=".7" stroke-width="2.2"/><path d="M53.5 53.5 L59 59" stroke-width="3"/></g>`,
+};
+const face = `<g class="m-eyes"><circle cx="25" cy="34" r="3.6" fill="${INK}"/><circle cx="39" cy="34" r="3.6" fill="${INK}"/><circle cx="26.2" cy="32.8" r="1.2" fill="#fff"/><circle cx="40.2" cy="32.8" r="1.2" fill="#fff"/></g><path d="M27.5 42.5 Q32 47 36.5 42.5" stroke="${INK}" stroke-width="2.2" stroke-linecap="round" fill="none"/><circle cx="20.5" cy="41" r="2.6" fill="#fff" opacity=".3"/><circle cx="43.5" cy="41" r="2.6" fill="#fff" opacity=".3"/>`;
+const p = look.prop;
+const inner = `<defs><clipPath id="${uid}"><rect width="64" height="64" rx="18"/></clipPath></defs><g clip-path="url(#${uid})"><rect width="64" height="64" fill="#fff"/><rect width="64" height="64" fill="${look.color}" opacity=".16"/><g class="m-char">${bodies[look.shape]}<g class="m-face">${face}${p === 'glasses' ? props[p] : ''}</g>${p !== 'glasses' ? props[p] ?? '' : ''}</g></g>`;
+---
+<svg
+  class="mascot"
+  width={size}
+  height={size}
+  viewBox="0 0 64 64"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  style={`--blink:${blink}`}
+  set:html={inner}
+/>

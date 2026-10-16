@@ -1,0 +1,27 @@
+---
+/** Workspace.astro: the six main areas of the app. */
+import type { Content } from '../../data/types';
+import SectionHead from '../ui/SectionHead.astro';
+import Icon from '../ui/Icon.astro';
+interface Props { content: Content['workspace'] }
+const { content } = Astro.props;
+---
+<section class="block" id="workspace" aria-labelledby="workspace-h">
+  <div class="wrap">
+    <SectionHead id="workspace-h" eyebrow={content.eyebrow} heading={content.heading} subhead={content.subhead} />
+    <div class="cards">
+      {content.items.map((it) => (
+        <div class="card"><span class="ic"><Icon name={it.icon} /></span><b>{it.title}</b><p>{it.body}</p></div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .ic { width: 32px; height: 32px; border-radius: var(--r); background: var(--soft); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-2); }
+  .card b { font: 600 17px/1.25 var(--font-display); letter-spacing: -.01em; margin-top: 6px; }
+  .card p { font-size: 14px; color: var(--muted); }
+  @media (max-width: 900px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+</style>

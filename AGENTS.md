@@ -1,4 +1,4 @@
-# Saga OS Landing, Agent Guide
+# Omilo Landing, Agent Guide
 
 Astro 5 (SSR) + Tailwind v4 landing page. Node 22.x. Output `server` via `@astrojs/vercel`.
 

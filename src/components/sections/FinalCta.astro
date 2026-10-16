@@ -1,152 +1,25 @@
 ---
-/**
- * FinalCta.astro -- Closing call-to-action section.
- *
- * Props: content (Content['finalCta']), locale (Locale).
- * Root id="final-cta".
- *
- * Renders:
- *   - headline (large display heading) from slice.
- *   - subtext (supporting line) from slice.
- *   - Primary Button with data-open="waitlist" and slice ctaPrimary.label.
- *   - microcopy (small reassurance line) from slice.
- *
- * Design notes:
- *   - Ink/dark treatment (--color-ink bg, white text) for emphasis.
- *     This is a deliberate inverse block to close the page -- the only dark
- *     section, so it carries visual weight without a global dark theme.
- *   - Centered layout with a max-width constraint to keep the copy readable.
- *   - Flat/minimal: no glow, no shadow, no decorative dots.
- *   - All copy from content. No hardcoded strings. No em dashes.
- *   - Visible :focus-visible on the CTA button (ghost-inverse variant handles it).
- */
-import type { FinalCtaContent } from '../../data/types';
-import type { Locale } from '../../i18n';
-import Reveal from '../ui/Reveal.astro';
-import Button from '../ui/Button.astro';
-
-interface Props {
-  content: FinalCtaContent;
-  locale: Locale;
-}
-
-// locale reserved for future i18n use.
-const { content, locale: _locale } = Astro.props;
+/** FinalCta.astro: closing call to join the waitlist. */
+import type { Content } from '../../data/types';
+import Mascot from '../ui/Mascot.astro';
+interface Props { content: Content['finalCta'] }
+const { content } = Astro.props;
 ---
-
-<section id="final-cta" class="fcta-section">
-  <div class="fcta-container">
-
-    <Reveal>
-      <h2 class="fcta-headline">{content.headline}</h2>
-    </Reveal>
-
-    <Reveal delay={100}>
-      <p class="fcta-subtext">{content.subtext}</p>
-    </Reveal>
-
-    <Reveal delay={200}>
-      <div class="fcta-actions">
-        <Button
-          href="#"
-          variant="secondary-inverse"
-          data-open="waitlist"
-        >
-          {content.ctaPrimary.label}
-        </Button>
-      </div>
-    </Reveal>
-
-    <Reveal delay={280}>
-      <p class="fcta-microcopy">{content.microcopy}</p>
-    </Reveal>
-
+<section class="cta" id="final-cta" aria-labelledby="final-cta-h">
+  <div class="wrap">
+    <div class="card">
+      <Mascot name="chief" size={56} />
+      <h2 id="final-cta-h">{content.headline}</h2>
+      <p>{content.subtext}</p>
+      <button type="button" class="btn primary lg" data-open="waitlist">{content.cta}</button>
+      <span class="micro">{content.microcopy}</span>
+    </div>
   </div>
 </section>
-
 <style>
-  /* ── Ink (dark) treatment -- deliberate inverse block at page close ──
-     Rationale: a single dark section at the end creates a strong visual
-     anchor. It is the ONLY dark section, so it reads as a decision, not
-     a default dark theme. This is the correct use per antislop-ui R-21.
-  */
-  .fcta-section {
-    background: var(--color-ink);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .fcta-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    padding: 96px 48px 112px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    text-align: center;
-  }
-
-  /* ── Headline ── */
-  .fcta-headline {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 800;
-    color: var(--color-surface);
-    margin: 0;
-    line-height: 1.15;
-    max-width: 680px;
-    letter-spacing: -0.01em;
-  }
-
-  /* ── Supporting line ── */
-  .fcta-subtext {
-    font-family: var(--font-sans);
-    font-size: clamp(15px, 2vw, 17px);
-    font-weight: 400;
-    color: var(--color-on-ink-secondary);
-    margin: 0;
-    line-height: 1.6;
-    max-width: 560px;
-  }
-
-  /* ── CTA row ── */
-  .fcta-actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 8px;
-  }
-
-  /* ── Microcopy ── */
-  .fcta-microcopy {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--color-on-ink-faint);
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  /* ── Responsive ── */
-
-  @media (max-width: 1023px) {
-    .fcta-container {
-      padding: 80px 32px 96px;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .fcta-container {
-      padding: 64px 20px 80px;
-      gap: 20px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .fcta-container {
-      padding: 52px 16px 68px;
-      gap: 18px;
-    }
-  }
+  .cta { padding-block: 40px 80px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 48px 24px; text-align: center; display: grid; justify-items: center; gap: 14px; }
+  h2 { font: 500 clamp(32px, 4.4vw, 48px)/1.1 var(--font-serif); letter-spacing: -.02em; color: #1c1917; }
+  p { color: var(--ink-2); max-width: 34em; }
+  .micro { font-size: 13px; color: var(--muted); }
 </style>

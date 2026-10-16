@@ -1,0 +1,35 @@
+---
+/** Loop.astro: the six-step cycle every helper runs, plus the weekly retro. */
+import type { Content } from '../../data/types';
+import SectionHead from '../ui/SectionHead.astro';
+import Mascot from '../ui/Mascot.astro';
+interface Props { content: Content['loop'] }
+const { content } = Astro.props;
+---
+<section class="block" id="loop" aria-labelledby="loop-h">
+  <div class="wrap">
+    <SectionHead id="loop-h" eyebrow={content.eyebrow} heading={content.heading} subhead={content.subhead} />
+    <ol class="loop">
+      {content.steps.map((s, i) => (
+        <li class:list={['step', { you: i === content.youIndex }]}>
+          <span class="fn">{String(i + 1).padStart(2, '0')}</span>
+          <b>{s.title}</b>
+          <p>{s.body}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="retro"><Mascot name="chief" size={32} /><span><b>{content.retroTitle}</b> {content.retroBody}</span></div>
+  </div>
+</section>
+<style>
+  .loop { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .step b { font: 600 17px/1.25 var(--font-display); letter-spacing: -.01em; margin-top: 4px; }
+  .step p { font-size: 13px; color: var(--muted); }
+  .step.you { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .step.you .fn, .step.you p { color: var(--on-ink-2); }
+  .retro { margin-top: 8px; display: flex; align-items: center; gap: 12px; background: var(--soft); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px 16px; font-size: 14px; color: var(--ink-2); }
+  .retro b { color: var(--ink); font-weight: 500; }
+  @media (max-width: 960px) { .loop { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

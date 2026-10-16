@@ -1,352 +1,279 @@
 ---
 /**
- * Hero.astro — Saga OS landing page hero.
- *
- * Props: content (Content['hero']), locale (Locale).
- *
- * Layout:
- *   Desktop: two-column flex. Left = copy + CTAs. Right = AppShell workspace mock.
- *   Mobile: single column, stacked (copy above, AppShell below, scaled to fit).
- *
- * Design principles (antislop-ui):
- *   - No gradients, no glow, no grid backgrounds, no floating blobs.
- *   - One shadow used once, on the AppShell card (via AppShell itself).
- *   - Headline in font-display (Bricolage Grotesque), large, tight tracking.
- *   - Left-aligned — not centered. Centering everything is slop.
- *   - The AppShell is the visual; it must feel like the real product.
- *
- * All copy from content prop. No hardcoded strings, no em dashes.
+ * Hero.astro: the promise, then a clickable preview of the app.
+ * The preview sidebar mirrors the Saga OS app's NAV (Shell.tsx): Work, Company, Capabilities, Control.
+ * Every page is example data, labelled on the page.
  */
-import type { HeroContent } from '../../data/types';
+import type { Content, NavKey } from '../../data/types';
 import type { Locale } from '../../i18n';
-import Reveal from '../ui/Reveal.astro';
-import AppShell from '../ui/AppShell.astro';
+import Mascot from '../ui/Mascot.astro';
+import Icon from '../ui/Icon.astro';
+import PreviewRow from '../ui/PreviewRow.astro';
 
-interface Props {
-  content: HeroContent;
-  locale: Locale;
-}
-
-// locale is reserved for future i18n use (e.g. locale-specific copy variants).
-const { content, locale: _locale } = Astro.props;
+interface Props { content: Content['hero']; locale: Locale }
+const { content } = Astro.props;
+const pv = content.preview;
+const pr = pv.proposal;
+const crew = ['chief', 'ops', 'support', 'finance', 'marketing', 'sales', 'dev'] as const;
+const ICON: Record<NavKey, string> = {
+  inbox: 'inbox', workspace: 'workspace', plan: 'tree', docs: 'book', monitor: 'dashboard',
+  team: 'team', hire: 'hire', company: 'building', settings: 'settings',
+  harness: 'harness', connectors: 'connectors', skills: 'skills', computer: 'computer',
+};
+const titles: Record<string, string> = { inbox: pv.inboxTitle };
+for (const v of pv.views) titles[v.key] = v.title;
 ---
-
-<section class="hero-section bg-surface">
-  <div class="hero-container">
-    <div class="hero-inner">
-
-      {/* ─── LEFT: Copy + CTAs ─── */}
-      <div class="hero-copy">
-
-        <Reveal>
-          <h1 class="hero-headline">
-            {content.headline}
-          </h1>
-        </Reveal>
-
-        <Reveal delay={80}>
-          <p class="hero-subhead">
-            {content.subhead}
-          </p>
-        </Reveal>
-
-        <Reveal delay={160}>
-          <div class="hero-ctas">
-            {/* Primary CTA */}
-            <a
-              href="#"
-              data-open="waitlist"
-              class="cta-primary"
-            >
-              {content.ctaPrimary.label}
-            </a>
-
-            {/* Secondary CTA — scrolls to #how-it-works */}
-            <a
-              href="#how-it-works"
-              class="cta-secondary"
-            >
-              {content.ctaSecondary.label}
-            </a>
-          </div>
-        </Reveal>
-
-        <Reveal delay={220}>
-          <p class="hero-microcopy">
-            {/* Inline check icon */}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden="true"
-              class="hero-check"
-            >
-              <circle cx="7" cy="7" r="6" stroke="var(--color-muted)" stroke-width="1.2"/>
-              <path
-                d="M4.5 7l1.8 1.8L9.5 5.5"
-                stroke="var(--color-muted)"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            {content.microcopy}
-          </p>
-        </Reveal>
-
+<section class="hero">
+  <div class="wrap">
+    <div class="intro">
+      <div>
+        <span class="kicker"><span class="dot"><i></i></span>{content.kicker}</span>
+        <h1>{content.headline}<br /><span class="soft">{content.headlineSoft}</span></h1>
       </div>
-      {/* ─── END LEFT ─── */}
-
-      {/* ─── RIGHT: AppShell workspace mock ─── */}
-      <Reveal delay={120} class="hero-visual-wrapper">
-        <div class="hero-visual-scale">
-          <AppShell
-            class="hero-app-shell"
-            navOverview={content.mock.navOverview}
-            navActiveRuns={content.mock.navActiveRuns}
-            agentName={content.mock.agentName}
-            agentRole={content.mock.agentRole}
-            agentStatus={content.mock.agentStatus}
-            agentReasoning={content.mock.agentReasoning}
-            meterLabel={content.mock.meterLabel}
-            queuedRow1Name={content.mock.queuedRow1Name}
-            queuedRow1State={content.mock.queuedRow1State}
-            queuedRow2Name={content.mock.queuedRow2Name}
-            queuedRow2State={content.mock.queuedRow2State}
-          />
+      <div class="side-copy">
+        <p class="lede">{content.subhead}</p>
+        <div class="ctas">
+          <button type="button" class="btn primary lg" data-open="waitlist">{content.ctaPrimary}</button>
+          <a class="btn lg" href="#loop">{content.ctaSecondary}</a>
         </div>
-      </Reveal>
-      {/* ─── END RIGHT ─── */}
+        <div class="crew">
+          <div class="faces">{crew.map((k) => <Mascot name={k} size={36} />)}</div>
+          <span class="label">{content.crewNote}</span>
+        </div>
+      </div>
+    </div>
 
+    <div class="appwin" id="pv" aria-label="Product preview" data-titles={JSON.stringify(titles)}>
+      <aside class="aside">
+        <div class="brandrow"><Mascot name="brand" size={24} /><b>Omilo</b></div>
+        <div class="co"><Mascot name="marketing" size={20} /><span>{pv.company}</span></div>
+        <nav class="pnav" aria-label="Preview menu">
+          {pv.groups.map((g) => (
+            <div class="grp">
+              <p>{g.label}</p>
+              {g.items.map((it) => (
+                <button type="button" class="navlink" data-view={it.key} aria-pressed={it.key === 'inbox' ? 'true' : 'false'}>
+                  <Icon name={ICON[it.key]} />{it.label}
+                  {it.key === 'inbox' && <span class="count">1</span>}
+                </button>
+              ))}
+            </div>
+          ))}
+          <div class="grp">
+            <p>{pv.controlLabel}</p>
+            <button type="button" class="navlink" id="pv-pause" data-pause={pv.pause} data-resume={pv.resume} aria-pressed="false">
+              <span class="pi pi-pause"><Icon name="pause" /></span><span class="pi pi-play" hidden><Icon name="play" /></span><span class="pl">{pv.pause}</span>
+            </button>
+          </div>
+        </nav>
+        <div class="foot"><span class="avatar">{pv.user.slice(0, 1)}</span>{pv.user}</div>
+      </aside>
+
+      <div class="ws">
+        <div class="topbar">
+          <span class="crumb"><span id="pv-crumb-ic"><Icon name="inbox" /></span><span id="pv-crumb">{pv.inboxTitle}</span></span>
+          <span class="chip warn" id="pv-paused" hidden>{pv.pausedChip}</span>
+          <span class="sp"></span>
+          <span class="chip bad">{pv.waiting}</span>
+        </div>
+        <div class="panel">
+          <div class="view" data-panel="inbox">
+            <div class="item open" id="proposal" data-approved={pr.approved} data-adjusted={pr.adjusted} data-rej-pre={pr.rejectedPrefix} data-rej-suf={pr.rejectedSuffix}>
+              <div class="h"><Mascot name="marketing" size={32} /><div class="t"><b>{pr.title}</b><span>{pr.meta}</span></div><span class="chip warn">{pr.status}</span></div>
+              <div class="b">
+                <p class="why">{pr.why}</p>
+                <div class="acts" id="pv-acts">
+                  <button type="button" class="btn primary sm" id="pv-approve">{pr.approve}</button>
+                  <button type="button" class="btn sm" id="pv-reject">{pr.reject}</button>
+                  <button type="button" class="btn quiet sm" id="pv-adjust">{pr.adjust}</button>
+                </div>
+                <form class="note" id="pv-form" hidden>
+                  <input id="pv-note" name="note" autocomplete="off" aria-label={pr.notePlaceholder} placeholder={pr.notePlaceholder} value={pr.noteValue} />
+                  <button type="submit" class="btn primary sm">{pr.send}</button>
+                </form>
+                <p class="result" id="pv-result" role="status" hidden></p>
+              </div>
+            </div>
+            {pv.rows.map((r) => <PreviewRow row={r} />)}
+          </div>
+
+          {pv.views.map((v) => (
+            <div class="view" data-panel={v.key} hidden>
+              <p class="sub">{v.subtitle}</p>
+              {v.rows && v.rows.map((r) => <PreviewRow row={r} />)}
+              {v.stats && (
+                <div class="stats">{v.stats.map((s) => (
+                  <div class="stat"><span class="label">{s.label}</span><div class="num">{s.value}</div>{s.note && <span class={`fn ${s.tone ?? ''}`}>{s.note}</span>}</div>
+                ))}</div>
+              )}
+              {v.chat && (
+                <div class="chat">{v.chat.map((m) => (
+                  <div class:list={['msg', { me: m.who === 'you' }]}>
+                    {m.who === 'you' ? <span class="avatar">{m.name.slice(0, 1)}</span> : <Mascot name={m.who} size={28} />}
+                    <div class="bubble"><b>{m.name}</b><p>{m.text}</p></div>
+                  </div>
+                ))}</div>
+              )}
+              {v.goals && v.goals.map((g) => (
+                <div class="goal">
+                  <div class="gh"><Icon name="tree" /><b>{g.goal}</b></div>
+                  <div class="jobs">{g.jobs.map((j) => <PreviewRow row={j} />)}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <p class="sample fn">{pv.sample}</p>
+      </div>
     </div>
   </div>
 </section>
 
+<script>
+  const pv = document.getElementById('pv');
+  if (pv) {
+    const titles: Record<string, string> = JSON.parse(pv.dataset.titles ?? '{}');
+    const crumb = document.getElementById('pv-crumb');
+    const crumbIc = document.getElementById('pv-crumb-ic');
+    pv.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.view!;
+        pv.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        pv.querySelectorAll<HTMLElement>('[data-panel]').forEach((p) => { p.hidden = p.dataset.panel !== key; });
+        if (crumb) crumb.textContent = titles[key] ?? key;
+        const svg = btn.querySelector('svg');
+        if (crumbIc && svg) crumbIc.replaceChildren(svg.cloneNode(true));
+      });
+    });
+
+    const pause = document.getElementById('pv-pause') as HTMLButtonElement | null;
+    const chip = document.getElementById('pv-paused');
+    pause?.addEventListener('click', () => {
+      const on = pause.getAttribute('aria-pressed') !== 'true';
+      pause.setAttribute('aria-pressed', String(on));
+      const label = pause.querySelector('.pl');
+      if (label) label.textContent = on ? pause.dataset.resume! : pause.dataset.pause!;
+      if (chip) chip.hidden = !on;
+      (pause.querySelector('.pi-pause') as HTMLElement).hidden = on;
+      (pause.querySelector('.pi-play') as HTMLElement).hidden = !on;
+      pv.classList.toggle('paused', on);
+    });
+
+    const box = document.getElementById('proposal');
+    const acts = document.getElementById('pv-acts');
+    const form = document.getElementById('pv-form') as HTMLFormElement | null;
+    const res = document.getElementById('pv-result');
+    if (box && acts && form && res) {
+      const show = (text: string, tone: 'ok' | 'warn', keepActs = false) => {
+        acts.hidden = !keepActs; form.hidden = true; res.hidden = false;
+        res.className = `result ${tone}`; res.textContent = text;
+      };
+      document.getElementById('pv-approve')?.addEventListener('click', () => show(box.dataset.approved ?? '', 'ok'));
+      document.getElementById('pv-adjust')?.addEventListener('click', () => show(box.dataset.adjusted ?? '', 'warn', true));
+      document.getElementById('pv-reject')?.addEventListener('click', () => {
+        acts.hidden = true; res.hidden = true; form.hidden = false;
+        (document.getElementById('pv-note') as HTMLInputElement | null)?.focus();
+      });
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const n = (document.getElementById('pv-note') as HTMLInputElement).value.trim() || '-';
+        show(`${box.dataset.rejPre}${n}${box.dataset.rejSuf}`, 'warn');
+      });
+    }
+  }
+</script>
+
 <style>
-  .hero-section {
-    background: var(--color-surface);
-  }
+  .hero { padding-block: 56px 48px; }
+  .intro { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: end; margin-bottom: 40px; }
+  @media (max-width: 960px) { .intro { grid-template-columns: 1fr; gap: 20px; } }
+  .kicker { display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px 0 4px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); font-size: 13px; color: var(--ink-2); }
+  .kicker .dot { width: 20px; height: 20px; border-radius: 999px; background: var(--ok-tint); display: grid; place-items: center; }
+  .kicker .dot i { width: 6px; height: 6px; border-radius: 9px; background: var(--ok); }
+  h1 { font: 500 clamp(42px, 6vw, 80px)/1.02 var(--font-display); letter-spacing: -.035em; margin-top: 18px; }
+  h1 .soft { color: var(--muted); }
+  .lede { font-size: 17px; color: var(--ink-2); max-width: 34em; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .crew { display: flex; align-items: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .faces { display: flex; }
+  .faces :global(svg) { margin-left: -6px; border-radius: 12px; box-shadow: 0 0 0 2px var(--app); }
+  .faces :global(svg:first-child) { margin-left: 0; }
 
-  .hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    padding: 72px 48px 96px;
-  }
+  /* app frame: sidebar + inset workspace, as in Saga OS */
+  .appwin { display: grid; grid-template-columns: 236px minmax(0, 1fr); background: var(--app); border: 1px solid var(--line-strong); border-radius: 18px; padding: 8px 8px 8px 0; box-shadow: 0 40px 80px -48px rgba(28, 25, 23, .4); }
+  .aside { display: flex; flex-direction: column; padding: 6px 0 4px; min-width: 0; }
+  .brandrow { display: flex; align-items: center; gap: 10px; padding: 4px 16px 10px; }
+  .brandrow b { font: 600 15px/1.2 var(--font-display); letter-spacing: -.01em; }
+  .co { margin: 0 8px 4px; padding: 7px 10px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-md); display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
+  .co span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .pnav { padding: 8px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .grp > p { margin: 0 0 4px; padding: 0 12px; font-size: 11px; line-height: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+  .navlink { display: flex; align-items: center; gap: 8px; width: 100%; height: 30px; padding: 0 12px; border: 0; border-radius: var(--r); background: transparent; color: var(--ink); font-size: 13.5px; text-align: left; }
+  .navlink :global(.icon) { color: var(--muted); }
+  .navlink:hover { background: var(--hover); }
+  .navlink[aria-pressed="true"] { background: var(--hover); font-weight: 500; }
+  .navlink[aria-pressed="true"] :global(.icon) { color: var(--ink); }
+  .count { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--primary); color: #fff; font-size: 11px; font-weight: 600; display: inline-grid; place-items: center; }
+  .pi { display: inline-grid; }
+  .foot { display: flex; align-items: center; gap: 8px; padding: 8px 16px 2px; font-size: 13px; font-weight: 500; }
+  .avatar { width: 26px; height: 26px; border-radius: 999px; background: var(--line-strong); color: var(--ink-2); display: inline-grid; place-items: center; font-size: 12px; font-weight: 600; flex: none; }
 
-  .hero-inner {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 64px;
-  }
+  .ws { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); min-width: 0; display: flex; flex-direction: column; }
+  .topbar { display: flex; align-items: center; gap: 10px; padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .crumb { display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 14px; }
+  .crumb :global(.icon) { color: var(--muted); }
+  .sp { flex: 1; }
+  .panel { padding: 18px 20px; flex: 1; min-height: 470px; }
+  .view { display: grid; gap: 8px; align-content: start; }
+  .sub { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .sample { padding: 0 20px 14px; text-align: right; }
+  .appwin.paused :global(.mascot) { filter: grayscale(.7); opacity: .75; }
 
-  /* ── Copy column ── */
-  .hero-copy {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
+  .item { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+  .item.open { border-color: var(--line-strong); box-shadow: var(--shadow-float); }
+  .item.open > .h { border-bottom: 1px solid var(--line); }
+  .h { padding: 10px 12px; display: flex; gap: 10px; align-items: center; }
+  .t { flex: 1; min-width: 0; }
+  .t b { display: block; font-weight: 500; font-size: 14px; }
+  .t span { display: block; font-size: 13px; color: var(--muted); }
+  .b { padding: 12px; display: grid; gap: 10px; }
+  .why { font-size: 13px; color: var(--muted); background: var(--soft); border: 1px solid var(--line); border-radius: var(--r); padding: 8px 10px; }
+  .acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .note { display: flex; gap: 8px; flex-wrap: wrap; }
+  .note input { flex: 1 1 200px; min-width: 0; font: 14px/20px var(--font-sans); color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r); padding: 6px 10px; min-height: 32px; }
+  .note input:focus { outline: none; border-color: var(--faint); box-shadow: 0 0 0 3px rgba(168, 162, 158, .25); }
+  .result { font-size: 13px; border-radius: var(--r); padding: 8px 10px; border: 1px solid; }
+  .result.ok { background: var(--ok-tint); border-color: var(--ok-line); color: var(--ok); }
+  .result.warn { background: var(--warn-tint); border-color: var(--warn-line); color: var(--warn); }
 
-  .hero-headline {
-    font-family: var(--font-display);
-    font-size: 56px;
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    color: var(--color-ink);
-    margin: 0;
-  }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .stat { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 14px 16px; display: grid; gap: 4px; }
+  .num { font: 400 26px/34px var(--font-mono); font-variant-numeric: tabular-nums; }
+  .fn.up { color: var(--ok); } .fn.warn { color: var(--warn); }
+  @media (max-width: 900px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-  .hero-subhead {
-    font-family: var(--font-sans);
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.65;
-    color: var(--color-muted);
-    margin: 0;
-    max-width: 52ch;
-  }
+  .chat { display: grid; gap: 14px; max-width: 640px; }
+  .msg { display: flex; gap: 10px; align-items: flex-start; }
+  .bubble { background: var(--soft); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 10px 12px; min-width: 0; }
+  .bubble b { font-size: 13px; font-weight: 600; }
+  .bubble p { font-size: 14px; color: var(--ink-2); margin-top: 2px; }
+  .msg.me .bubble { background: var(--surface); }
 
-  /* CTA row */
-  .hero-ctas {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-  }
+  .goal { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px; display: grid; gap: 8px; }
+  .gh { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .gh :global(.icon) { color: var(--muted); }
+  .gh b { font-weight: 600; }
+  .jobs { display: grid; gap: 8px; padding-left: 14px; margin-left: 7px; border-left: 1px dashed var(--line-strong); }
 
-  .cta-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    padding: 0 28px;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    border-radius: var(--radius-pill);
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: opacity 0.15s ease;
-    flex-shrink: 0;
-  }
-
-  .cta-primary:hover {
-    opacity: 0.85;
-  }
-
-  .cta-primary:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-  }
-
-  .cta-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    padding: 0 28px;
-    background: transparent;
-    color: var(--color-ink);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-pill);
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.15s ease, border-color 0.15s ease;
-    flex-shrink: 0;
-  }
-
-  .cta-secondary:hover {
-    background: var(--color-soft);
-    border-color: var(--color-ink-2);
-  }
-
-  .cta-secondary:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-  }
-
-  /* Microcopy */
-  .hero-microcopy {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--color-muted);
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  .hero-check {
-    flex-shrink: 0;
-    display: block;
-  }
-
-  /* ── Visual column ── */
-  .hero-visual-wrapper {
-    flex-shrink: 0;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    width: 520px;
-  }
-
-  .hero-visual-scale {
-    width: 100%;
-    transform-origin: top left;
-  }
-
-  .hero-app-shell {
-    width: 100%;
-  }
-
-  /* ── Responsive ── */
-
-  /* Tablet: tighten spacing, scale AppShell */
-  @media (max-width: 1100px) {
-    .hero-container {
-      padding: 56px 32px 72px;
-    }
-
-    .hero-inner {
-      gap: 40px;
-    }
-
-    .hero-headline {
-      font-size: 44px;
-    }
-
-    .hero-visual-wrapper {
-      width: 420px;
-    }
-  }
-
-  /* Below 1024px: stack vertically */
-  @media (max-width: 1023px) {
-    .hero-container {
-      padding: 48px 24px 64px;
-    }
-
-    .hero-inner {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 48px;
-    }
-
-    .hero-visual-wrapper {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .hero-visual-scale {
-      max-width: 560px;
-      margin: 0 auto;
-      transform: none;
-    }
-  }
-
-  /* Mobile: smaller type */
-  @media (max-width: 640px) {
-    .hero-container {
-      padding: 36px 16px 52px;
-    }
-
-    .hero-headline {
-      font-size: 36px;
-      letter-spacing: -0.025em;
-    }
-
-    .hero-subhead {
-      font-size: 16px;
-    }
-
-    .cta-primary,
-    .cta-secondary {
-      height: 46px;
-      padding: 0 22px;
-      font-size: 14px;
-    }
-  }
-
-  /* Narrow mobile: shrink AppShell */
-  @media (max-width: 480px) {
-    .hero-headline {
-      font-size: 30px;
-      letter-spacing: -0.02em;
-    }
+  /* phone: the sidebar becomes a scrolling row of menu chips */
+  @media (max-width: 720px) {
+    .appwin { grid-template-columns: 1fr; padding: 8px; }
+    .brandrow, .co, .foot, .grp > p { display: none; }
+    .pnav { flex-direction: row; gap: 4px; overflow-x: auto; padding: 0 0 8px; }
+    .grp { display: flex; gap: 4px; }
+    .navlink { width: auto; white-space: nowrap; border: 1px solid var(--line-strong); background: var(--surface); }
+    .panel { padding: 14px; min-height: 0; }
+    .topbar { padding: 12px 14px; }
+    .sample { padding: 0 14px 12px; }
   }
 </style>
