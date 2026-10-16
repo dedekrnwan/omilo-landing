@@ -26,6 +26,12 @@
   --color-bad: #b91c1c;
   --color-info: #1d4ed8;
 
+  /* status tints (background fills for policy chips) */
+  --color-ok-tint: #f0fdf4;
+  --color-warn-tint: #fffbeb;
+  --color-bad-tint: #fef2f2;
+  --color-info-tint: #eff6ff;
+
   --radius-sm: 6px;
   --radius: 8px;
   --radius-md: 10px;
