@@ -131,7 +131,7 @@ function getCapabilityIcon(title: string): string {
     {/* Capabilities -- three secondary items */}
     {content.capabilities && content.capabilities.length > 0 && (
       <div class="ig-capabilities">
-        <p class="ig-cap-label">What your agents can reach</p>
+        <p class="ig-cap-label">{content.capabilitiesLabel}</p>
         <div class="ig-cap-grid">
           {content.capabilities.map((cap, i) => (
             <Reveal delay={200 + i * 70} class="ig-cap-reveal">

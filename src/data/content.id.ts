@@ -183,6 +183,7 @@ export const content: Content = {
         body: 'Pakai Claude API key Anda sendiri. Saga OS memasang Claude Code dan menjalankan tiap agen dengan key Anda. Pemakaian ditagih ke key Anda dan tampil sebagai biaya nyata.',
       },
     ],
+    capabilitiesLabel: 'Yang bisa dijangkau agen Anda',
     capabilities: [
       {
         title: 'Konektor MCP',

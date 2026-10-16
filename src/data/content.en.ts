@@ -183,6 +183,7 @@ export const content: Content = {
         body: 'Use your own Claude API key instead. Saga OS installs Claude Code and runs every agent with your key. Usage is billed to your key and shown as real spend.',
       },
     ],
+    capabilitiesLabel: 'What your agents can reach',
     capabilities: [
       {
         title: 'MCP connectors',

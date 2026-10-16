@@ -127,6 +127,7 @@ export interface IntegrationsContent {
   heading: string;
   subhead: string;
   engines: IntegrationEngine[];
+  capabilitiesLabel: string;
   capabilities: FeatureItem[];
   roadmapLabel: string;
   roadmapNote: string;
