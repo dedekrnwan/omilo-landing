@@ -83,14 +83,18 @@ export const content: Content = {
         {
           key: 'plan', title: 'Plan', subtitle: 'Goals you set, and the jobs that move them',
           goals: [
-            { goal: 'Grow online orders', jobs: [
-              { mascot: 'marketing', title: 'Weekly posts about delivery', meta: 'Marketing', status: 'Working', tone: 'run' },
-              { mascot: 'sales', title: 'Follow up catering leads', meta: 'Sales', status: 'Queued', tone: 'idle' },
-              { mascot: 'dev', title: 'Add delivery zones to the website', meta: 'Dev', status: 'Waits on you', tone: 'warn' },
-            ] },
-            { goal: 'Keep customers happy', jobs: [
-              { mascot: 'support', title: 'Draft replies within the hour', meta: 'Support', status: 'Done', tone: 'up' },
-            ] },
+            {
+              goal: 'Grow online orders', jobs: [
+                { mascot: 'marketing', title: 'Weekly posts about delivery', meta: 'Marketing', status: 'Working', tone: 'run' },
+                { mascot: 'sales', title: 'Follow up catering leads', meta: 'Sales', status: 'Queued', tone: 'idle' },
+                { mascot: 'dev', title: 'Add delivery zones to the website', meta: 'Dev', status: 'Waits on you', tone: 'warn' },
+              ]
+            },
+            {
+              goal: 'Keep customers happy', jobs: [
+                { mascot: 'support', title: 'Draft replies within the hour', meta: 'Support', status: 'Done', tone: 'up' },
+              ]
+            },
           ],
         },
         {
@@ -278,9 +282,9 @@ export const content: Content = {
         label: 'Open source',
         title: 'Self-host it',
         body: 'The full platform, free to run on your own server with your own AI.',
-        points: ['Every feature on this page', 'Your data stays on your server', 'Community help on GitHub'],
-        cta: 'View the source',
-        action: 'repo',
+        points: ['Every feature on this page', 'Your data stays on your server', 'Source available at launch'],
+        cta: 'Join the waitlist',
+        action: 'waitlist',
       },
       {
         label: 'Consulting',
@@ -369,9 +373,9 @@ export const content: Content = {
     tagline: 'AI staff for growing businesses.',
     note: 'Early access. Some features are still being tested with real accounts.',
     contactLabel: 'Contact',
-    sourceLabel: 'Source code',
+    sourceLabel: 'Join the waitlist',
     email: 'omilio@saga.co.id',
-    copyright: '© 2026 Omilo',
+    copyright: '© 2026 Omilo by Saga Tekno',
   },
 
   waitlist: {

@@ -83,14 +83,18 @@ export const content: Content = {
         {
           key: 'plan', title: 'Plan', subtitle: 'Target dari Anda, dan pekerjaan yang menggerakkannya',
           goals: [
-            { goal: 'Tambah pesanan online', jobs: [
-              { mascot: 'marketing', title: 'Postingan mingguan soal pengiriman', meta: 'Pemasaran', status: 'Bekerja', tone: 'run' },
-              { mascot: 'sales', title: 'Follow-up prospek katering', meta: 'Penjualan', status: 'Antre', tone: 'idle' },
-              { mascot: 'dev', title: 'Tambah zona pengiriman di website', meta: 'Dev', status: 'Menunggu Anda', tone: 'warn' },
-            ] },
-            { goal: 'Jaga pelanggan tetap puas', jobs: [
-              { mascot: 'support', title: 'Draf balasan dalam satu jam', meta: 'Layanan', status: 'Selesai', tone: 'up' },
-            ] },
+            {
+              goal: 'Tambah pesanan online', jobs: [
+                { mascot: 'marketing', title: 'Postingan mingguan soal pengiriman', meta: 'Pemasaran', status: 'Bekerja', tone: 'run' },
+                { mascot: 'sales', title: 'Follow-up prospek katering', meta: 'Penjualan', status: 'Antre', tone: 'idle' },
+                { mascot: 'dev', title: 'Tambah zona pengiriman di website', meta: 'Dev', status: 'Menunggu Anda', tone: 'warn' },
+              ]
+            },
+            {
+              goal: 'Jaga pelanggan tetap puas', jobs: [
+                { mascot: 'support', title: 'Draf balasan dalam satu jam', meta: 'Layanan', status: 'Selesai', tone: 'up' },
+              ]
+            },
           ],
         },
         {
@@ -278,9 +282,9 @@ export const content: Content = {
         label: 'Open source',
         title: 'Host sendiri',
         body: 'Platform lengkap, gratis dijalankan di server Anda dengan AI milik Anda.',
-        points: ['Semua fitur di halaman ini', 'Data tetap di server Anda', 'Bantuan komunitas di GitHub'],
-        cta: 'Lihat kode sumber',
-        action: 'repo',
+        points: ['Semua fitur di halaman ini', 'Data tetap di server Anda', 'Kode sumber tersedia saat peluncuran'],
+        cta: 'Gabung waitlist',
+        action: 'waitlist',
       },
       {
         label: 'Konsultasi',
@@ -369,9 +373,9 @@ export const content: Content = {
     tagline: 'Staf AI untuk bisnis yang bertumbuh.',
     note: 'Akses awal. Sebagian fitur masih diuji dengan akun nyata.',
     contactLabel: 'Kontak',
-    sourceLabel: 'Kode sumber',
+    sourceLabel: 'Gabung waitlist',
     email: 'omilio@saga.co.id',
-    copyright: '© 2026 Omilo',
+    copyright: '© 2026 Omilo by Saga Tekno',
   },
 
   waitlist: {

@@ -1,8 +1,7 @@
 ---
-/** Footer.astro: brand, early-access note, contact and source links. */
+/** Footer.astro: brand, early-access note, contact and a waitlist link. */
 import type { Content } from '../../data/types';
 import { localizePath, type Locale } from '../../i18n';
-import { REPO_URL } from '../../config';
 import Mascot from '../ui/Mascot.astro';
 interface Props { content: Content['footer']; locale: Locale; brand: string; homeAriaLabel: string }
 const { content, locale, brand, homeAriaLabel } = Astro.props;
@@ -12,7 +11,7 @@ const { content, locale, brand, homeAriaLabel } = Astro.props;
     <a class="brand" href={localizePath('/', locale)} aria-label={homeAriaLabel}><Mascot name="brand" size={22} /><b>{brand}</b><span>{content.tagline}</span></a>
     <nav class="links" aria-label="Footer">
       <span>{content.contactLabel}: <a href={`mailto:${content.email}`}>{content.email}</a></span>
-      <a href={REPO_URL} target="_blank" rel="noopener">{content.sourceLabel}</a>
+      <button type="button" class="as-link" data-open="waitlist">{content.sourceLabel}</button>
     </nav>
   </div>
   <div class="wrap row small"><span>{content.note}</span><span>{content.copyright}</span></div>
@@ -24,6 +23,8 @@ const { content, locale, brand, homeAriaLabel } = Astro.props;
   .brand:hover { text-decoration: none; }
   .brand b { font: 600 14px/1 var(--font-display); }
   .brand span { color: var(--muted); }
-  .links { display: flex; gap: 16px; flex-wrap: wrap; }
+  .links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .as-link { background: none; border: 0; padding: 0; font: inherit; color: var(--link); cursor: pointer; }
+  .as-link:hover { text-decoration: underline; }
   .small { font-size: 12px; }
 </style>
