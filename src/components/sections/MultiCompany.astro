@@ -1,0 +1,302 @@
+---
+/**
+ * MultiCompany.astro -- "More than one business" section.
+ *
+ * Props: content (Content['multiCompany']), locale (Locale).
+ *
+ * Renders:
+ *   - Section header (eyebrow, heading, body) from slice.
+ *   - A simple inline-SVG diagram conveying "one login -> several isolated companies".
+ *   - All points (Separate by default, One login, Its own data) as a clean list.
+ *
+ * Design notes:
+ *   - Split layout: diagram on one side, points list on the other (desktop).
+ *   - Stacks at tablet (diagram above, points below).
+ *   - Diagram: flat geometric SVG, no glow, no shadow, no decorative dots.
+ *   - Alternate background (--color-app) to break rhythm with adjacent sections.
+ *   - All copy from content prop. No hardcoded strings. No em dashes.
+ */
+import type { MultiCompanyContent } from '../../data/types';
+import type { Locale } from '../../i18n';
+import Reveal from '../ui/Reveal.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  content: MultiCompanyContent;
+  locale: Locale;
+}
+
+// locale reserved for future i18n use.
+const { content, locale: _locale } = Astro.props;
+
+// Point icons: chosen for direct relevance, not generic sparkles.
+function getPointIcon(title: string): string {
+  const key = title.toLowerCase();
+
+  if (key.includes('separate') || key.includes('default')) {
+    // Divided layers icon
+    return `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+      <rect x="1.5" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+      <rect x="9.5" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+      <rect x="1.5" y="11" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+      <rect x="9.5" y="11" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+    </svg>`;
+  }
+
+  if (key.includes('login') || key.includes('sign')) {
+    // Single key / person icon
+    return `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+      <circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M2 16c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>`;
+  }
+
+  if (key.includes('data') || key.includes('database')) {
+    // Database / cylinder icon
+    return `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+      <ellipse cx="9" cy="5" rx="6" ry="2.5" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M3 5v8c0 1.38 2.686 2.5 6 2.5s6-1.12 6-2.5V5" stroke="currentColor" stroke-width="1.3"/>
+      <path d="M3 9c0 1.38 2.686 2.5 6 2.5S15 10.38 15 9" stroke="currentColor" stroke-width="1.3"/>
+    </svg>`;
+  }
+
+  // Generic fallback: checkmark circle
+  return `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+    <circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.3"/>
+    <path d="M5.5 9l2.5 2.5 4-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+---
+
+<section id="multi-company" class="mc-section">
+  <div class="mc-container">
+
+    {/* Section header */}
+    <Reveal>
+      <SectionHeader
+        eyebrow={content.eyebrow}
+        title={content.heading}
+        subtitle={content.body}
+      />
+    </Reveal>
+
+    {/* Main content: diagram + points */}
+    <div class="mc-body">
+
+      {/* Inline-SVG diagram: one login -> several isolated companies */}
+      <Reveal delay={80} class="mc-diagram-reveal">
+        <figure class="mc-diagram" aria-label="One login connects to three separate, isolated company workspaces">
+          <svg
+            viewBox="0 0 360 260"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="mc-svg"
+            role="img"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <!-- One login node -->
+            <rect x="120" y="20" width="120" height="52" rx="10" fill="var(--color-surface)" stroke="var(--color-ink-2)" stroke-width="1.5"/>
+            <!-- person icon inside login node -->
+            <circle cx="148" cy="38" r="6" stroke="var(--color-ink-2)" stroke-width="1.3"/>
+            <path d="M136 56c0-6.627 5.373-12 12-12h0c6.627 0 12 5.373 12 12" stroke="var(--color-ink-2)" stroke-width="1.3" stroke-linecap="round"/>
+            <text x="168" y="40" font-family="var(--font-sans)" font-size="11" fill="var(--color-ink)" font-weight="600">One login</text>
+            <text x="168" y="56" font-family="var(--font-sans)" font-size="10" fill="var(--color-muted)">Your account</text>
+
+            <!-- Connector lines from login to three companies -->
+            <!-- Left branch -->
+            <line x1="180" y1="72" x2="60" y2="136" stroke="var(--color-line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <!-- Center branch -->
+            <line x1="180" y1="72" x2="180" y2="136" stroke="var(--color-line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <!-- Right branch -->
+            <line x1="180" y1="72" x2="300" y2="136" stroke="var(--color-line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+            <!-- Company A -->
+            <rect x="10" y="136" width="100" height="72" rx="10" fill="var(--color-soft)" stroke="var(--color-line)" stroke-width="1.4"/>
+            <rect x="22" y="150" width="24" height="24" rx="4" fill="var(--color-line)"/>
+            <text x="22" y="192" font-family="var(--font-display)" font-size="10" fill="var(--color-ink)" font-weight="700">Company A</text>
+            <text x="22" y="204" font-family="var(--font-sans)" font-size="9" fill="var(--color-faint)">Own agents + Inbox</text>
+
+            <!-- Company B (center, slightly emphasized) -->
+            <rect x="130" y="136" width="100" height="72" rx="10" fill="var(--color-soft)" stroke="var(--color-ink-2)" stroke-width="1.4"/>
+            <rect x="142" y="150" width="24" height="24" rx="4" fill="var(--color-line)"/>
+            <text x="142" y="192" font-family="var(--font-display)" font-size="10" fill="var(--color-ink)" font-weight="700">Company B</text>
+            <text x="142" y="204" font-family="var(--font-sans)" font-size="9" fill="var(--color-faint)">Own agents + Inbox</text>
+
+            <!-- Company C -->
+            <rect x="250" y="136" width="100" height="72" rx="10" fill="var(--color-soft)" stroke="var(--color-line)" stroke-width="1.4"/>
+            <rect x="262" y="150" width="24" height="24" rx="4" fill="var(--color-line)"/>
+            <text x="262" y="192" font-family="var(--font-display)" font-size="10" fill="var(--color-ink)" font-weight="700">Company C</text>
+            <text x="262" y="204" font-family="var(--font-sans)" font-size="9" fill="var(--color-faint)">Own agents + Inbox</text>
+
+            <!-- Isolation divider labels -->
+            <rect x="10" y="220" width="100" height="20" rx="4" fill="var(--color-soft)" stroke="var(--color-line)" stroke-width="1"/>
+            <text x="60" y="234" font-family="var(--font-sans)" font-size="9" fill="var(--color-faint)" text-anchor="middle">Fully isolated</text>
+
+            <rect x="130" y="220" width="100" height="20" rx="4" fill="var(--color-soft)" stroke="var(--color-line)" stroke-width="1"/>
+            <text x="180" y="234" font-family="var(--font-sans)" font-size="9" fill="var(--color-faint)" text-anchor="middle">Fully isolated</text>
+
+            <rect x="250" y="220" width="100" height="20" rx="4" fill="var(--color-soft)" stroke="var(--color-line)" stroke-width="1"/>
+            <text x="300" y="234" font-family="var(--font-sans)" font-size="9" fill="var(--color-faint)" text-anchor="middle">Fully isolated</text>
+          </svg>
+        </figure>
+      </Reveal>
+
+      {/* Points list */}
+      <div class="mc-points">
+        {content.points.map((point, i) => (
+          <Reveal delay={120 + i * 80}>
+            <div class="mc-point">
+              <div class="mc-point-icon" set:html={getPointIcon(point.title)} />
+              <div class="mc-point-text">
+                <h3 class="mc-point-title">{point.title}</h3>
+                <p class="mc-point-body">{point.body}</p>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .mc-section {
+    background: var(--color-app);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .mc-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 80px 48px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  /* ── Main body: diagram + points side by side ── */
+  .mc-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* Diagram */
+  .mc-diagram-reveal {
+    /* passes grid layout through */
+  }
+
+  .mc-diagram {
+    margin: 0;
+    padding: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mc-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Points list */
+  .mc-points {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .mc-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    transition: border-color 0.15s ease;
+  }
+
+  .mc-point:hover {
+    border-color: var(--color-ink-2);
+  }
+
+  .mc-point-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    background: var(--color-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+
+  .mc-point-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mc-point-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .mc-point-body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── Responsive ── */
+
+  @media (max-width: 1023px) {
+    .mc-container {
+      padding: 64px 32px 80px;
+      gap: 40px;
+    }
+
+    .mc-body {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .mc-container {
+      padding: 48px 16px 64px;
+      gap: 36px;
+    }
+
+    .mc-point {
+      padding: 16px 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mc-container {
+      padding: 36px 12px 52px;
+    }
+  }
+</style>

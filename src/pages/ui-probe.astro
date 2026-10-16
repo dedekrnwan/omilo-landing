@@ -17,6 +17,8 @@ import SocialProof from '../components/sections/SocialProof.astro';
 import AgentsTeam from '../components/sections/AgentsTeam.astro';
 import ApprovalLoop from '../components/sections/ApprovalLoop.astro';
 import Features from '../components/sections/Features.astro';
+import Integrations from '../components/sections/Integrations.astro';
+import MultiCompany from '../components/sections/MultiCompany.astro';
 import { getContent } from '../i18n';
 
 const c = getContent('en');
@@ -105,5 +107,11 @@ const c = getContent('en');
 
     <!-- Task 8: Features -->
     <Features content={c.features} locale="en" />
+
+    <!-- Task 9: Integrations -->
+    <Integrations content={c.integrations} locale="en" />
+
+    <!-- Task 9: MultiCompany -->
+    <MultiCompany content={c.multiCompany} locale="en" />
   </body>
 </html>
