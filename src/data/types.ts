@@ -177,6 +177,9 @@ export interface FinalCtaContent {
 export interface FooterContact {
   email: string;
   repo: string;
+  contactHeading: string;
+  repoLabel: string;
+  repoComingLabel: string;
 }
 
 export interface FooterContent {

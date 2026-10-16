@@ -44,7 +44,7 @@ const { content, locale: _locale } = Astro.props;
     </Reveal>
 
     {/* Accordion */}
-    <div class="faq-list" role="list">
+    <div class="faq-list">
       {content.items.map((item, i) => (
         <Reveal delay={80 + i * 70}>
           <details class="faq-item">
@@ -56,7 +56,6 @@ const { content, locale: _locale } = Astro.props;
                   height="18"
                   viewBox="0 0 18 18"
                   fill="none"
-                  aria-hidden="true"
                   focusable="false"
                 >
                   <path

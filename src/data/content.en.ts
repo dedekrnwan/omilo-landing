@@ -323,6 +323,9 @@ export const content: Content = {
     contact: {
       email: 'hello@saga.co.id',
       repo: 'TODO: public repository link to add before launch',
+      contactHeading: 'Contact',
+      repoLabel: 'GitHub',
+      repoComingLabel: 'Repo link coming',
     },
     legal: [
       { label: 'Privacy', href: '/privacy' },

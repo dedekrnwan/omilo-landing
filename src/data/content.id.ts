@@ -323,6 +323,9 @@ export const content: Content = {
     contact: {
       email: 'hello@saga.co.id',
       repo: 'TODO: tautan repositori publik untuk ditambahkan sebelum peluncuran',
+      contactHeading: 'Kontak',
+      repoLabel: 'GitHub',
+      repoComingLabel: 'Tautan repo segera hadir',
     },
     legal: [
       { label: 'Privasi', href: '/privasi' },

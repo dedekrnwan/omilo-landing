@@ -89,7 +89,7 @@ const isRepoTodo = content.contact.repo.trimStart().startsWith('TODO:');
 
       {/* Contact column */}
       <div class="footer-link-group">
-        <h3 class="footer-group-heading">Contact</h3>
+        <h3 class="footer-group-heading">{content.contact.contactHeading}</h3>
         <ul class="footer-link-list" role="list">
           <li>
             <a href={`mailto:${content.contact.email}`} class="footer-link">
@@ -99,7 +99,7 @@ const isRepoTodo = content.contact.repo.trimStart().startsWith('TODO:');
           <li>
             {isRepoTodo ? (
               <span class="footer-repo-todo">
-                Repo link coming
+                {content.contact.repoComingLabel}
               </span>
             ) : (
               <a
@@ -108,7 +108,7 @@ const isRepoTodo = content.contact.repo.trimStart().startsWith('TODO:');
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                GitHub
+                {content.contact.repoLabel}
               </a>
             )}
           </li>
