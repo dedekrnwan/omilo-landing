@@ -71,7 +71,7 @@ const homeHref = localizePath('/', locale);
   </nav>
 
   {/* ── Mobile nav ── */}
-  <nav class="lg:hidden" aria-label="Main navigation">
+  <nav class="lg:hidden" aria-label="Main navigation, mobile">
     <div class="flex items-center justify-between h-14 px-4 sm:px-6">
       {/* Brand */}
       <a
@@ -135,8 +135,6 @@ const homeHref = localizePath('/', locale);
     <div
       id="nav-mobile-menu"
       class="hidden border-t border-line"
-      role="region"
-      aria-label="Mobile navigation menu"
     >
       <ul class="flex flex-col list-none m-0 px-4 sm:px-6 py-3 gap-0.5">
         {content.links.map((link) => (
@@ -212,6 +210,12 @@ const homeHref = localizePath('/', locale);
     color: var(--color-ink);
   }
 
+  .nav-link:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
   /* Primary CTA button */
   .nav-cta {
     display: inline-flex;
@@ -276,6 +280,11 @@ const homeHref = localizePath('/', locale);
   .mobile-link:hover {
     background: var(--color-soft);
     color: var(--color-ink);
+  }
+
+  .mobile-link:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
   }
 </style>
 

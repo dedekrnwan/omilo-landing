@@ -27,7 +27,8 @@ interface Props {
   locale: Locale;
 }
 
-const { content } = Astro.props;
+// locale is reserved for future i18n use (e.g. locale-specific copy variants).
+const { content, locale: _locale } = Astro.props;
 ---
 
 <section class="hero-section bg-surface">
