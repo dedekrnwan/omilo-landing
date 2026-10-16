@@ -9,7 +9,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'server',
   adapter: vercel(),
-  site: 'https://saga-os.co.id',
+  site: 'https://omilo.saga.co.id',
 
   vite: {
     plugins: [tailwindcss()]
