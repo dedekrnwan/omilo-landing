@@ -95,7 +95,7 @@ export const POST: APIRoute = async ({ request }) => {
   const nameEsc = escapeSlack(String(name).trim());
   const emailEsc = escapeSlack(String(email).trim());
   const companyDisplay = company && String(company).trim() ? escapeSlack(String(company).trim()) : '-';
-  const interestDisplay = interest && String(interest).trim() ? interest : '-';
+  const interestDisplay = interest && String(interest).trim() ? escapeSlack(String(interest).trim()) : '-';
 
   const blocks = [
     {

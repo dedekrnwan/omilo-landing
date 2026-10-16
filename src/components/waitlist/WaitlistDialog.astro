@@ -88,7 +88,7 @@ const wl = getContent(locale).waitlist;
             type="text"
             required
             autocomplete="name"
-            placeholder="Your full name"
+            placeholder={wl.namePlaceholder}
             class="waitlist-input"
             aria-describedby="wl-name-error"
           />
@@ -106,7 +106,7 @@ const wl = getContent(locale).waitlist;
             type="email"
             required
             autocomplete="email"
-            placeholder="you@example.com"
+            placeholder={wl.emailPlaceholder}
             class="waitlist-input"
             aria-describedby="wl-email-error"
           />
@@ -123,7 +123,7 @@ const wl = getContent(locale).waitlist;
             name="company"
             type="text"
             autocomplete="organization"
-            placeholder="Your company or project"
+            placeholder={wl.companyPlaceholder}
             class="waitlist-input"
           />
         </div>
@@ -139,7 +139,7 @@ const wl = getContent(locale).waitlist;
             aria-describedby="wl-interest-error"
             class="waitlist-input waitlist-select"
           >
-            <option value="">Select one...</option>
+            <option value="">{wl.selectPlaceholder}</option>
             {wl.interestOptions.map((opt) => (
               <option value={opt.value}>{opt.label}</option>
             ))}
@@ -153,7 +153,12 @@ const wl = getContent(locale).waitlist;
         </div>
 
         <!-- Submit -->
-        <button type="submit" class="waitlist-submit-btn">
+        <button
+          type="submit"
+          class="waitlist-submit-btn"
+          data-label-default={wl.submitLabel}
+          data-label-sending={wl.submitSending}
+        >
           {wl.submitLabel}
         </button>
       </form>
@@ -176,14 +181,14 @@ const wl = getContent(locale).waitlist;
             />
           </svg>
         </div>
-        <h3 class="waitlist-success-title">You are on the list.</h3>
+        <h3 class="waitlist-success-title">{wl.successTitle}</h3>
         <p class="waitlist-success-msg">{wl.successMessage}</p>
         <button
           id="waitlist-success-close"
           type="button"
           class="waitlist-submit-btn"
         >
-          Close
+          {wl.closeLabel}
         </button>
       </div>
     </div>

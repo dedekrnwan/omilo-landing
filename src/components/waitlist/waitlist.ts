@@ -172,6 +172,7 @@ function validateForm(form: HTMLFormElement): boolean {
 
   clearFieldError('wl-name');
   clearFieldError('wl-email');
+  clearFieldError('wl-interest');
 
   if (!name) {
     showFieldError('wl-name', 'Name is required.');
@@ -205,7 +206,7 @@ async function handleSubmit(e: SubmitEvent) {
   const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]');
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
+    submitBtn.textContent = submitBtn.dataset.labelSending ?? 'Sending...';
   }
 
   const errorView = document.getElementById('waitlist-error');
@@ -250,7 +251,7 @@ async function handleSubmit(e: SubmitEvent) {
       }
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Join the waitlist';
+        submitBtn.textContent = submitBtn.dataset.labelDefault ?? 'Join the waitlist';
       }
     }
   } catch {
@@ -261,7 +262,7 @@ async function handleSubmit(e: SubmitEvent) {
     }
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Join the waitlist';
+      submitBtn.textContent = submitBtn.dataset.labelDefault ?? 'Join the waitlist';
     }
   }
 }

@@ -195,12 +195,19 @@ export interface WaitlistContent {
   title: string;
   subtitle: string;
   nameLabel: string;
+  namePlaceholder: string;
   emailLabel: string;
+  emailPlaceholder: string;
   companyLabel: string;
+  companyPlaceholder: string;
   interestLabel: string;
+  selectPlaceholder: string;
   interestOptions: WaitlistInterestOption[];
   submitLabel: string;
+  submitSending: string;
+  successTitle: string;
   successMessage: string;
+  closeLabel: string;
   errorMessage: string;
 }
 
