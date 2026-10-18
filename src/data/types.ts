@@ -137,6 +137,21 @@ export interface ExampleHelper { mascot: MascotKey; role: string; body: string }
 export interface ExampleCard { label: string; title: string; helpers: ExampleHelper[] }
 export interface ExamplesContent extends SectionHead { cards: ExampleCard[] }
 
+/** Connectors section. Apps match the real catalog (omilo-pieces) plus the MCP templates in the app. */
+export type ConnectorKey = 'gmail' | 'gcal' | 'gsheets' | 'whatsapp' | 'instagram' | 'facebook' | 'zapier' | 'github' | 'postgres' | 'browser' | 'mcp';
+/** One line of example activity: a helper using an app. `ask` marks actions that wait for the owner. */
+export interface ConnectorActivity { mascot: MascotKey; app: ConnectorKey; text: string; ask?: boolean }
+export interface ConnectorsContent extends SectionHead {
+  cta: string;
+  askChip: string;
+  autoChip: string;
+  addLabel: string;
+  apps: { key: ConnectorKey; name: string }[];
+  helpers: { mascot: MascotKey; name: string }[];
+  activity: ConnectorActivity[];
+  features: Item[];
+}
+
 export interface FinalCtaContent { headline: string; subtext: string; cta: string; microcopy: string }
 
 export interface FooterContent { tagline: string; note: string; contactLabel: string; email: string; sourceLabel: string; copyright: string }
@@ -145,6 +160,8 @@ export interface WaitlistInterestOption { value: string; label: string }
 
 export interface WaitlistContent {
   title: string; subtitle: string;
+  /** Line under the helper avatars at the top of the dialog. */
+  crewNote: string;
   nameLabel: string; namePlaceholder: string;
   emailLabel: string; emailPlaceholder: string;
   companyLabel: string; companyPlaceholder: string;
@@ -165,6 +182,7 @@ export interface Content {
   loop: LoopContent;
   helpers: HelpersContent;
   examples: ExamplesContent;
+  connectors: ConnectorsContent;
   workspace: WorkspaceContent;
   guardrails: GuardrailsContent;
   engines: EnginesContent;

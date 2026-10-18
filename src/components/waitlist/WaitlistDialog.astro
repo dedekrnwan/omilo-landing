@@ -12,6 +12,8 @@
 
 import { getContent } from '../../i18n';
 import type { Locale } from '../../i18n';
+import Mascot from '../ui/Mascot.astro';
+import type { MascotKey } from '../../data/types';
 
 interface Props {
   locale?: Locale;
@@ -19,6 +21,8 @@ interface Props {
 
 const { locale = 'en' } = Astro.props;
 const wl = getContent(locale).waitlist;
+// The team that waves at the top of the dialog (same mascots as the app).
+const CREW: MascotKey[] = ['chief', 'ops', 'support', 'finance', 'marketing', 'sales', 'dev'];
 ---
 
 <!--
@@ -56,9 +60,20 @@ const wl = getContent(locale).waitlist;
       </svg>
     </button>
 
+    <!-- Face: Omilo reacts to what you do (like the app's dialogs) -->
+    <div class="wl-face" aria-hidden="true"><Mascot name="brand" size={76} /></div>
+
     <!-- Title -->
     <h2 id="waitlist-title" class="waitlist-title">{wl.title}</h2>
     <p class="waitlist-subtitle">{wl.subtitle}</p>
+
+    <!-- The helpers you get -->
+    <div class="wl-crew" aria-hidden="true">
+      <div class="wl-stack">
+        {CREW.map((m, i) => <span class="wl-av" style={`--i:${i}`}><Mascot name={m} size={30} /></span>)}
+      </div>
+      <span class="wl-crew-note">{wl.crewNote}</span>
+    </div>
 
     <!-- ------------------------------------------------------------------ -->
     <!-- Form view                                                            -->
@@ -174,18 +189,6 @@ const wl = getContent(locale).waitlist;
     <!-- ------------------------------------------------------------------ -->
     <div id="waitlist-success" hidden class="waitlist-success-view">
       <div tabindex="-1" class="waitlist-success-inner">
-        <div class="waitlist-success-icon" aria-hidden="true">
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-            <circle cx="20" cy="20" r="20" fill="#e5e5e5" />
-            <path
-              d="M12 20.5L17.5 26L28 14"
-              stroke="#171717"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
         <h3 class="waitlist-success-title">{wl.successTitle}</h3>
         <p class="waitlist-success-msg">{wl.successMessage}</p>
         <button
@@ -202,231 +205,135 @@ const wl = getContent(locale).waitlist;
 
 <script>
   import './waitlist.ts';
+
+  // Omilo's mood follows the form, like the app's dialog: happy over the button or after joining,
+  // worried when a field is wrong or you point at close, sad (with a tear) when sending failed.
+  const dlg = document.getElementById('waitlist-dialog');
+  if (dlg) {
+    const face = dlg.querySelector<SVGSVGElement>('.wl-face svg.mascot');
+    const panel = dlg.querySelector<HTMLElement>('.waitlist-panel');
+    let point: 'yes' | 'no' | null = null;
+    let wasDone = false;
+    const hop = (el: Element | null) => {
+      if (!el) return;
+      el.classList.remove('hop'); void (el as HTMLElement).getBoundingClientRect(); el.classList.add('hop');
+      setTimeout(() => el.classList.remove('hop'), 520);
+    };
+    const update = () => {
+      if (!face || !panel) return;
+      const done = !(document.getElementById('waitlist-success')?.hidden ?? true);
+      const failed = !(document.getElementById('waitlist-error')?.hidden ?? true);
+      const invalid = !!dlg.querySelector('[aria-invalid="true"]');
+      const sending = !!dlg.querySelector<HTMLButtonElement>('.waitlist-submit-btn:disabled');
+      const mood = done ? 'happy' : failed ? 'sad' : point === 'no' ? 'worried' : sending || point === 'yes' ? 'happy' : invalid ? 'worried' : '';
+      face.classList.remove('mood-happy', 'mood-worried', 'mood-sad');
+      if (mood) face.classList.add(`mood-${mood}`);
+      panel.classList.toggle('lean-yes', point === 'yes' && !done);
+      panel.classList.toggle('lean-no', point === 'no' && !done);
+      panel.classList.toggle('sending', sending);
+      panel.classList.toggle('done', done);
+      if (done && !wasDone) { hop(face); dlg.querySelectorAll('.wl-av svg.mascot').forEach((m, i) => setTimeout(() => hop(m), 120 + i * 70)); }
+      wasDone = done;
+    };
+    // Pointer for both; keyboard focus only for the button (focus lands on close when the dialog opens).
+    const lean = (sel: string, v: 'yes' | 'no') => dlg.querySelectorAll(sel).forEach((el) => {
+      el.addEventListener('pointerenter', () => { point = v; update(); });
+      el.addEventListener('pointerleave', () => { point = null; update(); });
+      if (v === 'yes') {
+        el.addEventListener('focus', () => { point = v; update(); });
+        el.addEventListener('blur', () => { point = null; update(); });
+      }
+    });
+    lean('.waitlist-submit-btn', 'yes');
+    lean('#waitlist-close', 'no');
+    new MutationObserver(update).observe(dlg, { subtree: true, attributes: true, attributeFilter: ['hidden', 'aria-invalid', 'disabled'] });
+    update();
+  }
 </script>
 
 <style>
-  .waitlist-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-
-  .waitlist-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(2px);
-  }
+  /* Same look as the app's dialog (DialogHost): warm scrim, round white card, a mascot that reacts. */
+  .waitlist-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .waitlist-overlay[hidden] { display: none; }
+  .waitlist-backdrop { position: absolute; inset: 0; background: rgba(28, 25, 23, .32); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: wl-fade .15s ease-out; }
+  @keyframes wl-fade { from { opacity: 0; } }
 
   .waitlist-panel {
-    position: relative;
-    z-index: 1;
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e5e5e5;
-    padding: 2rem 1.5rem;
-    width: 100%;
-    max-width: 28rem;
-    max-height: calc(100dvh - 2rem);
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    position: relative; z-index: 1; width: min(440px, 100%); max-height: calc(100dvh - 32px); overflow-y: auto;
+    background: var(--surface); border-radius: 20px; padding: 26px 24px 22px;
+    box-shadow: 0 30px 80px rgba(28, 25, 23, .28); animation: wl-pop .26s cubic-bezier(.3, 1.4, .5, 1);
   }
-
-  @media (min-width: 640px) {
-    .waitlist-panel {
-      padding: 2.5rem 2rem;
-    }
-  }
+  @keyframes wl-pop { from { transform: translateY(10px) scale(.94); opacity: 0; } }
 
   .waitlist-close-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    border: none;
-    background: transparent;
-    color: #737373;
-    cursor: pointer;
-    transition: background 0.15s;
+    position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 36px; height: 36px;
+    border-radius: 10px; border: 0; background: transparent; color: var(--muted); transition: background-color .15s, color .15s;
   }
+  .waitlist-close-btn:hover { background: var(--hover); color: var(--ink); }
+  .waitlist-close-btn svg { width: 16px; height: 16px; }
 
-  .waitlist-close-btn:hover {
-    background: #f5f5f5;
+  .wl-face { display: grid; place-items: center; width: 104px; height: 104px; margin: -2px auto 12px; border-radius: 36%;
+    background: radial-gradient(circle at 50% 35%, #eef0ff, #f6f5ff 60%, transparent 70%);
+    transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+  .waitlist-panel.lean-yes .wl-face { transform: translateY(-4px) scale(1.06); }
+  .waitlist-panel.lean-no .wl-face { transform: translateY(3px) scale(.96); }
+  .waitlist-panel.done .wl-face { background: radial-gradient(circle at 50% 35%, var(--ok-tint), #f7fef9 60%, transparent 70%); }
+  @media (prefers-reduced-motion: no-preference) {
+    .waitlist-panel.sending .wl-face :global(svg.mascot .m-char) { animation: wl-bounce .6s ease-in-out infinite; transform-origin: 32px 64px; }
   }
+  @keyframes wl-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px) scaleY(1.03); } }
 
-  .waitlist-close-btn:focus-visible {
-    outline: 3px solid #171717;
-    outline-offset: 2px;
+  .waitlist-title { font: 500 24px/1.2 var(--font-serif); letter-spacing: -.01em; color: var(--ink); margin: 0 0 8px; text-align: center; padding: 0 12px; }
+  .waitlist-subtitle { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin: 0 auto; max-width: 340px; text-align: center; }
+
+  .wl-crew { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 16px 0 20px; }
+  .wl-stack { display: flex; padding-left: 8px; }
+  .wl-av { display: grid; width: 34px; height: 34px; margin-left: -8px; border-radius: 11px; background: var(--surface); padding: 2px;
+    box-shadow: 0 0 0 1px var(--line-strong); transition: transform .2s cubic-bezier(.3, 1.6, .5, 1); position: relative; }
+  .wl-av:hover { transform: translateY(-3px); z-index: 2; }
+  .wl-av :global(svg.mascot) { width: 30px; height: 30px; cursor: pointer; }
+  .wl-crew-note { font-size: 12px; color: var(--muted); }
+  @media (prefers-reduced-motion: no-preference) {
+    .wl-av { animation: wl-in .4s cubic-bezier(.3, 1.4, .5, 1) backwards; animation-delay: calc(.12s + var(--i) * .05s); }
   }
+  @keyframes wl-in { from { transform: translateY(8px) scale(.8); opacity: 0; } }
 
-  .waitlist-title {
-    font-size: 1.375rem;
-    font-weight: 700;
-    color: #171717;
-    margin: 0 0 0.375rem;
-    padding-right: 2.5rem;
-  }
-
-  .waitlist-subtitle {
-    font-size: 0.9rem;
-    color: #737373;
-    margin: 0 0 1.5rem;
-    line-height: 1.5;
-  }
-
-  .waitlist-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-    margin-bottom: 1.125rem;
-  }
-
-  .waitlist-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #171717;
-  }
-
-  .waitlist-required {
-    color: #dc2626;
-    margin-left: 0.1em;
-  }
-
-  .waitlist-optional {
-    font-weight: 400;
-    color: #737373;
-    margin-left: 0.25em;
-  }
-
+  .waitlist-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; text-align: left; }
+  .waitlist-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .waitlist-required { color: var(--bad); margin-left: .1em; }
+  .waitlist-optional { font-weight: 400; color: var(--muted); margin-left: .25em; }
   .waitlist-input {
-    font-size: 1rem;
-    color: #171717;
-    background: #ffffff;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    width: 100%;
-    min-height: 2.75rem;
-    box-sizing: border-box;
-    transition: border-color 0.15s;
-    appearance: none;
+    font: 15px var(--font-sans); color: var(--ink); background: var(--soft); width: 100%; height: 42px; box-sizing: border-box;
+    border: 1px solid var(--line-strong); border-radius: var(--r-md); padding: 0 12px; appearance: none;
+    transition: border-color .15s, box-shadow .15s, background-color .15s;
   }
-
-  .waitlist-input:focus {
-    outline: none;
-    border-color: #171717;
-    box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.1);
-  }
-
-  .waitlist-input[aria-invalid="true"] {
-    border-color: #dc2626;
-  }
-
-  .waitlist-input[aria-invalid="true"]:focus {
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
-  }
-
+  .waitlist-input::placeholder { color: var(--faint); }
+  .waitlist-input:hover { border-color: #d6d3d1; }
+  .waitlist-input:focus { outline: none; background: var(--surface); border-color: #a8a29e; box-shadow: 0 0 0 3px rgba(99, 102, 241, .14); }
+  .waitlist-input[aria-invalid="true"] { border-color: var(--bad-line); background: var(--bad-tint); }
+  .waitlist-input[aria-invalid="true"]:focus { box-shadow: 0 0 0 3px rgba(185, 28, 28, .12); }
   .waitlist-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23737373' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    padding-right: 2.5rem;
-    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%2378716c' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; cursor: pointer;
   }
-
-  .waitlist-field-error {
-    font-size: 0.8125rem;
-    color: #dc2626;
-    margin: 0;
-  }
-
-  .waitlist-global-error {
-    background: #fef2f2;
-    border: 1px solid #dc2626;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .waitlist-error-msg {
-    font-size: 0.875rem;
-    color: #dc2626;
-    margin: 0;
-  }
+  .waitlist-field-error { font-size: 12px; color: var(--bad); margin: 0; }
+  .waitlist-global-error { background: var(--bad-tint); border: 1px solid var(--bad-line); border-radius: var(--r-md); padding: 10px 12px; margin-bottom: 12px; text-align: left; }
+  .waitlist-error-msg { font-size: 13px; color: var(--bad); margin: 0; }
 
   .waitlist-submit-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 2.875rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #ffffff;
-    background: #171717;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    margin-top: 0.5rem;
+    display: flex; align-items: center; justify-content: center; width: 100%; height: 44px; margin-top: 6px;
+    font-size: 15px; font-weight: 600; color: var(--primary-ink); background: var(--primary); border: 0; border-radius: 12px;
+    transition: background-color .15s, transform .15s;
   }
+  .waitlist-submit-btn:hover:not(:disabled) { background: #262626; }
+  .waitlist-submit-btn:active:not(:disabled) { transform: scale(.98); }
+  .waitlist-submit-btn:disabled { opacity: .6; cursor: progress; }
 
-  .waitlist-submit-btn:hover:not(:disabled) {
-    opacity: 0.85;
-  }
-
-  .waitlist-submit-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .waitlist-submit-btn:focus-visible {
-    outline: 3px solid #171717;
-    outline-offset: 2px;
-  }
-
-  /* Success view */
-  .waitlist-success-view {
-    padding: 0.5rem 0;
-  }
-
-  .waitlist-success-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0.75rem;
-  }
-
-  .waitlist-success-inner:focus {
-    outline: none;
-  }
-
-  .waitlist-success-icon {
-    margin-bottom: 0.25rem;
-  }
-
-  .waitlist-success-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #171717;
-    margin: 0;
-  }
-
-  .waitlist-success-msg {
-    font-size: 0.9375rem;
-    color: #737373;
-    margin: 0 0 0.5rem;
-    line-height: 1.55;
-  }
+  /* Success: the face above is already cheering, the crew hops */
+  .waitlist-panel.done .waitlist-title, .waitlist-panel.done .waitlist-subtitle { display: none; }
+  .waitlist-success-view { padding: 0; }
+  .waitlist-success-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+  .waitlist-success-inner:focus { outline: none; }
+  .waitlist-success-title { font: 500 24px/1.2 var(--font-serif); letter-spacing: -.01em; color: var(--ink); margin: 0; }
+  .waitlist-success-msg { font-size: 14px; color: var(--ink-2); margin: 0 0 8px; line-height: 1.55; max-width: 320px; }
 </style>

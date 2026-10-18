@@ -26,6 +26,9 @@
   --bad: #b91c1c; --bad-tint: #fef2f2; --bad-line: #fecaca;
   --info: #1d4ed8; --info-tint: #eff6ff; --info-line: #bfdbfe;
   --on-ink-2: #d6d3d1;
+  /* connectors field: soft painted sky over stone */
+  --field-base: #fafaf9; --field-indigo: #e0e7ff; --field-sky: #e0f2fe; --field-sage: #ecfccb; --field-amber: #fef3c7; --field-rose: #fce7f3;
+  --wire: rgba(120, 113, 108, .38); --wire-strong: #d6d3d1;
   --r-sm: 6px; --r: 8px; --r-md: 10px; --r-lg: 12px;
   --shadow-float: 0 12px 16px -16px rgba(0, 0, 0, .25);
   color-scheme: light;
@@ -78,6 +81,22 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
   @keyframes m-blink { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
 }
 @media (prefers-reduced-motion: reduce) { .mascot.hop .m-char { animation: none; } }
+
+/* mascot moods (same faces as the app): hidden parts, switched on by a mood-* class or by hover */
+.mascot .m-brows, .mascot .m-mouth-worried, .mascot .m-mouth-sad, .mascot .m-mouth-happy, .mascot .m-tear { opacity: 0; transition: opacity .15s; }
+.mascot .m-mouth { transition: opacity .15s; }
+svg.mascot:not(.mood-sad):not(.mood-worried):hover .m-mouth-happy, .mascot.mood-happy .m-mouth-happy { opacity: 1; }
+svg.mascot:not(.mood-sad):not(.mood-worried):hover .m-mouth, .mascot.mood-happy .m-mouth { opacity: 0; }
+.mascot.mood-worried .m-brows-worried, .mascot.mood-worried .m-mouth-worried { opacity: 1; }
+.mascot.mood-sad .m-brows-sad, .mascot.mood-sad .m-mouth-sad, .mascot.mood-sad .m-tear { opacity: 1; }
+.mascot.mood-worried .m-mouth, .mascot.mood-sad .m-mouth { opacity: 0; }
+.mascot.mood-sad .m-char { transform: translateY(2px) scale(1, .97); transition: transform .3s; }
+@media (prefers-reduced-motion: no-preference) {
+  .mascot.mood-sad .m-tear { animation: m-tear 1.6s ease-in infinite; transform-box: view-box; }
+  .mascot.mood-worried .m-char { animation: m-shiver .9s ease-in-out infinite; }
+}
+@keyframes m-tear { 0% { transform: translateY(-2px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(14px); opacity: 0; } }
+@keyframes m-shiver { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-.7px); } 75% { transform: translateX(.7px); } }
 
 /* sections */
 section.block { padding-block: 72px; }

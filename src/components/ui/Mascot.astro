@@ -43,7 +43,17 @@ const props: Record<string, string> = {
   spark: `<g><path d="M32 0.5 C33 6 34.3 7.4 39.5 8.3 C34.3 9.2 33 10.6 32 16 C31 10.6 29.7 9.2 24.5 8.3 C29.7 7.4 31 6 32 0.5 Z" fill="#f59e0b" stroke="${INK}" stroke-width="1.4" stroke-linejoin="round"/><circle cx="44" cy="5" r="1.6" fill="#f59e0b"/></g>`,
   magnifier: `<g stroke="${INK}" stroke-linecap="round"><circle cx="49" cy="49" r="6.5" fill="#fff" fill-opacity=".7" stroke-width="2.2"/><path d="M53.5 53.5 L59 59" stroke-width="3"/></g>`,
 };
-const face = `<g class="m-eyes"><circle cx="25" cy="34" r="3.6" fill="${INK}"/><circle cx="39" cy="34" r="3.6" fill="${INK}"/><circle cx="26.2" cy="32.8" r="1.2" fill="#fff"/><circle cx="40.2" cy="32.8" r="1.2" fill="#fff"/></g><path d="M27.5 42.5 Q32 47 36.5 42.5" stroke="${INK}" stroke-width="2.2" stroke-linecap="round" fill="none"/><circle cx="20.5" cy="41" r="2.6" fill="#fff" opacity=".3"/><circle cx="43.5" cy="41" r="2.6" fill="#fff" opacity=".3"/>`;
+// Face with every mood drawn in (hidden by default); a mood-* class on the svg picks one, as in the app:
+// mood-worried (brows + small open mouth), mood-sad (brows down, frown, tear), mood-happy (big open smile).
+const face = `<g class="m-eyes"><circle cx="25" cy="34" r="3.6" fill="${INK}"/><circle cx="39" cy="34" r="3.6" fill="${INK}"/><circle cx="26.2" cy="32.8" r="1.2" fill="#fff"/><circle cx="40.2" cy="32.8" r="1.2" fill="#fff"/></g>`
+  + `<g class="m-brows m-brows-worried" stroke="${INK}" stroke-width="2" stroke-linecap="round" fill="none"><path d="M21 27.5 Q24.5 25.5 28 27"/><path d="M43 27.5 Q39.5 25.5 36 27"/></g>`
+  + `<g class="m-brows m-brows-sad" stroke="${INK}" stroke-width="2" stroke-linecap="round" fill="none"><path d="M20.5 29.5 L28 27.5"/><path d="M43.5 29.5 L36 27.5"/></g>`
+  + `<path class="m-mouth" d="M27.5 42.5 Q32 47 36.5 42.5" stroke="${INK}" stroke-width="2.2" stroke-linecap="round" fill="none"/>`
+  + `<ellipse class="m-mouth-worried" cx="32" cy="44.5" rx="2.6" ry="3" fill="${INK}"/>`
+  + `<path class="m-mouth-sad" d="M27.5 46.5 Q32 41.5 36.5 46.5" stroke="${INK}" stroke-width="2.2" stroke-linecap="round" fill="none"/>`
+  + `<path class="m-mouth-happy" d="M27 42 Q32 50 37 42 Z" fill="${INK}" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`
+  + `<path class="m-tear" d="M41.5 38.5 C40 41.5 40 43.5 41.5 44 C43 43.5 43 41.5 41.5 38.5 Z" fill="#7dd3fc" stroke="#0284c7" stroke-width=".8"/>`
+  + `<circle cx="20.5" cy="41" r="2.6" fill="#fff" opacity=".3"/><circle cx="43.5" cy="41" r="2.6" fill="#fff" opacity=".3"/>`;
 const p = look.prop;
 const inner = `<defs><clipPath id="${uid}"><rect width="64" height="64" rx="18"/></clipPath></defs><g clip-path="url(#${uid})"><rect width="64" height="64" fill="#fff"/><rect width="64" height="64" fill="${look.color}" opacity=".16"/><g class="m-char">${bodies[look.shape]}<g class="m-face">${face}${p === 'glasses' ? props[p] : ''}</g>${p !== 'glasses' ? props[p] ?? '' : ''}</g></g>`;
 ---

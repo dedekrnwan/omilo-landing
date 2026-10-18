@@ -9,6 +9,7 @@ import Growth from './sections/Growth.astro';
 import Loop from './sections/Loop.astro';
 import Helpers from './sections/Helpers.astro';
 import Examples from './sections/Examples.astro';
+import Connectors from './sections/Connectors.astro';
 import Workspace from './sections/Workspace.astro';
 import Guardrails from './sections/Guardrails.astro';
 import Engines from './sections/Engines.astro';
@@ -29,6 +30,7 @@ const c = getContent(locale);
     <Loop content={c.loop} />
     <Helpers content={c.helpers} />
     <Examples content={c.examples} />
+    <Connectors content={c.connectors} />
     <Workspace content={c.workspace} />
     <Guardrails content={c.guardrails} />
     <Engines content={c.engines} />

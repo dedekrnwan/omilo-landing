@@ -31,8 +31,8 @@ src/
   layouts/       Base.astro (SEO, OG, JSON-LD)
   components/
     Home.astro   The full page for one locale (pages only pick the locale)
-    sections/    Nav, Hero, Growth, Loop, Helpers, Workspace, Guardrails, Engines, Offer, FinalCta, Footer
-    ui/          Mascot (helper drawings), Icon, SectionHead, StatRow
+    sections/    Nav, Hero, Demo, Growth, Loop, Helpers, Examples, Connectors, Workspace, Guardrails, Engines, Offer, FinalCta, Footer
+    ui/          Mascot (helper drawings), BrandIcon (app logos, Simple Icons CC0), Icon, SectionHead, StatRow
     waitlist/    WaitlistDialog (client-side modal + /api/waitlist)
   pages/         index.astro + id/index.astro
   styles/        global.css (design tokens + Tailwind)

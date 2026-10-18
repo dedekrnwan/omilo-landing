@@ -30,6 +30,7 @@ const SECTION_IDS = [
   'loop',
   'helpers',
   'examples',
+  'connectors',
   'workspace',
   'guardrails',
   'engines',
