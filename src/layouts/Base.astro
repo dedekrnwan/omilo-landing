@@ -87,6 +87,7 @@ const jsonLd = {
     <WaitlistDialog locale={locale} />
 
     <script>
+      import { playMascot } from '../components/ui/mascotSounds';
       // Mascots: eyes follow the cursor, hop on click (same behaviour as the Saga OS app).
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!reduce) {
@@ -112,6 +113,13 @@ const jsonLd = {
           setTimeout(() => m.classList.remove('hop'), 520);
         }, { passive: true });
       }
+
+      // Each mascot makes its own little sound when clicked (see mascotSounds.ts). Sound is not motion,
+      // so it plays even with reduced motion on.
+      document.addEventListener('pointerdown', (e) => {
+        const m = (e.target as Element | null)?.closest?.('svg.mascot') as SVGElement | null;
+        if (m) playMascot(m.dataset.m);
+      }, { passive: true });
     </script>
   </body>
 </html>
