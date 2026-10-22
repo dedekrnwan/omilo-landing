@@ -20,6 +20,8 @@ export interface NavContent {
   tagline: string;
   links: NavLink[];
   cta: string;
+  /** Label for the GitHub / source link. */
+  github: string;
   homeAriaLabel: string;
   languageLabel: string;
 }
@@ -75,6 +77,8 @@ export interface HeroContent {
   ctaPrimary: string;
   ctaSecondary: string;
   crewNote: string;
+  /** Helper "speech bubbles" that orbit the hero mascot, each a concrete job. */
+  bubbles: { mascot: MascotKey; text: string }[];
   preview: HeroPreview;
 }
 

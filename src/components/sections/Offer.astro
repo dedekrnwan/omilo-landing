@@ -1,6 +1,7 @@
 ---
-/** Offer.astro: ways to use Omilo. Every CTA opens the waitlist while we are pre-launch. */
+/** Offer.astro: ways to use Omilo. A 'repo' CTA links to the source; others open the waitlist. */
 import type { Content } from '../../data/types';
+import { GITHUB_URL } from '../../config';
 import SectionHead from '../ui/SectionHead.astro';
 import Icon from '../ui/Icon.astro';
 interface Props { content: Content['offer'] }
@@ -16,7 +17,9 @@ const { content } = Astro.props;
           <h3>{p.title}</h3>
           <p class="body">{p.body}</p>
           <ul>{p.points.map((pt) => <li><Icon name="check" />{pt}</li>)}</ul>
-          <button type="button" class:list={['btn lg', { primary: p.highlight }]} data-open="waitlist">{p.cta}</button>
+          {p.action === 'repo'
+            ? <a class:list={['btn lg', { primary: p.highlight }]} href={GITHUB_URL} target="_blank" rel="noopener noreferrer">{p.cta}</a>
+            : <button type="button" class:list={['btn lg', { primary: p.highlight }]} data-open="waitlist">{p.cta}</button>}
         </div>
       ))}
     </div>

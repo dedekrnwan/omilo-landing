@@ -26,20 +26,30 @@ for (const v of pv.views) titles[v.key] = v.title;
 <section class="hero">
   <div class="wrap">
     <div class="intro">
-      <div>
+      <div class="copy">
         <span class="kicker"><span class="dot"><i></i></span>{content.kicker}</span>
-        <h1>{content.headline}<br /><span class="soft">{content.headlineSoft}</span></h1>
-      </div>
-      <div class="side-copy">
+        <h1>{content.headline} <span class="soft">{content.headlineSoft}</span></h1>
         <p class="lede">{content.subhead}</p>
         <div class="ctas">
           <button type="button" class="btn primary lg" data-open="waitlist">{content.ctaPrimary}</button>
           <a class="btn lg" href="#loop">{content.ctaSecondary}</a>
         </div>
         <div class="crew">
-          <div class="faces">{crew.map((k) => <Mascot name={k} size={36} />)}</div>
+          <div class="faces">{crew.map((k) => <Mascot name={k} size={32} />)}</div>
           <span class="label">{content.crewNote}</span>
         </div>
+      </div>
+      <div class="stage">
+        {content.bubbles.map((b, i) => (
+          <div class={`bubble b${i + 1}`}>
+            <Mascot name={b.mascot} size={26} />
+            <span>{b.text}</span>
+          </div>
+        ))}
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="/pets/omilo/frames/idle/00.png" />
+          <img class="pet" id="hero-pet" src="/pets/omilo/omilo-idle.webp" data-idle="/pets/omilo/omilo-idle.webp" data-jump="/pets/omilo/omilo-jump.webp" alt="" width="128" height="128" loading="eager" decoding="async" />
+        </picture>
       </div>
     </div>
 
@@ -181,23 +191,58 @@ for (const v of pv.views) titles[v.key] = v.title;
       });
     }
   }
+
+  // Click the hero pet: play the one-shot "jump" state, then settle back to idle.
+  const pet = document.getElementById('hero-pet') as HTMLImageElement | null;
+  if (pet) {
+    let timer: number | undefined;
+    pet.addEventListener('click', () => {
+      pet.src = pet.dataset.jump!;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => { pet.src = pet.dataset.idle!; }, 760);
+    });
+  }
 </script>
 
 <style>
   .hero { padding-block: 56px 48px; }
-  .intro { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: end; margin-bottom: 40px; }
-  @media (max-width: 960px) { .intro { grid-template-columns: 1fr; gap: 20px; } }
+  .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; margin-bottom: 40px; }
+  .copy { min-width: 0; }
   .kicker { display: inline-flex; align-items: center; gap: 8px; height: 28px; padding: 0 10px 0 4px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); font-size: 13px; color: var(--ink-2); }
   .kicker .dot { width: 20px; height: 20px; border-radius: 999px; background: var(--ok-tint); display: grid; place-items: center; }
   .kicker .dot i { width: 6px; height: 6px; border-radius: 9px; background: var(--ok); }
-  h1 { font: 500 clamp(42px, 6vw, 80px)/1.02 var(--font-display); letter-spacing: -.035em; margin-top: 18px; }
+  h1 { font: 500 clamp(38px, 4.6vw, 60px)/1.04 var(--font-display); letter-spacing: -.035em; margin-top: 18px; }
   h1 .soft { color: var(--muted); }
-  .lede { font-size: 17px; color: var(--ink-2); max-width: 34em; }
-  .ctas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-  .crew { display: flex; align-items: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .lede { font-size: 17px; color: var(--ink-2); max-width: 38ch; margin-top: 20px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .crew { display: flex; align-items: center; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
   .faces { display: flex; }
   .faces :global(svg) { margin-left: -6px; border-radius: 12px; box-shadow: 0 0 0 2px var(--app); }
   .faces :global(svg:first-child) { margin-left: 0; }
+
+  /* a 3x3 grid keeps the pet in the true centre cell; one bubble per corner */
+  .stage { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-rows: 1fr auto 1fr; align-items: center; justify-items: center; column-gap: 16px; row-gap: 22px; min-height: 420px; }
+  picture { display: contents; }
+  .pet { grid-area: 2 / 2; width: 132px; height: 132px; object-fit: contain; cursor: pointer; filter: drop-shadow(0 18px 24px rgba(28, 25, 23, .14)); animation: bob 5s ease-in-out infinite; }
+  .bubble { display: inline-flex; align-items: center; gap: 8px; max-width: 200px; padding: 7px 12px 7px 8px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-float); font-size: 13px; font-weight: 500; color: var(--ink); text-align: left; animation: float 6s ease-in-out infinite; }
+  .bubble :global(svg) { flex: none; }
+  .bubble span { min-width: 0; }
+  .b1 { grid-area: 1 / 1; justify-self: end; animation-delay: -.4s; }
+  .b2 { grid-area: 1 / 3; justify-self: start; animation-delay: -2.2s; }
+  .b3 { grid-area: 3 / 1; justify-self: end; animation-delay: -3.4s; }
+  .b4 { grid-area: 3 / 3; justify-self: start; animation-delay: -1.3s; }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .pet, .bubble { animation: none; } }
+
+  /* single column: pet sits in the middle of the stack, two bubbles above and two below */
+  @media (max-width: 960px) {
+    .intro { grid-template-columns: 1fr; gap: 12px; }
+    .stage { display: flex; flex-direction: column; align-items: stretch; gap: 10px; min-height: 0; margin-top: 4px; }
+    .pet { align-self: center; order: 0; width: 100px; height: 100px; margin: 6px 0; animation: none; }
+    .bubble { max-width: none; animation: none; }
+    .b1 { order: -2; } .b2 { order: -1; } .b3 { order: 1; } .b4 { order: 2; }
+  }
 
   /* app frame: sidebar + inset workspace, as in Saga OS */
   .appwin { display: grid; grid-template-columns: 236px minmax(0, 1fr); background: var(--app); border: 1px solid var(--line-strong); border-radius: 18px; padding: 8px 8px 8px 0; box-shadow: 0 40px 80px -48px rgba(28, 25, 23, .4); }

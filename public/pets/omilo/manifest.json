@@ -1,0 +1,53 @@
+{
+  "name": "Omilo",
+  "atlas": "omilo-sprites.png",
+  "frameWidth": 314,
+  "frameHeight": 314,
+  "columns": 4,
+  "states": {
+    "idle": {
+      "row": 0,
+      "frames": 4,
+      "durations": [
+        480,
+        140,
+        120,
+        480
+      ],
+      "animatedImage": "omilo-idle.webp"
+    },
+    "jump": {
+      "row": 1,
+      "frames": 4,
+      "durations": [
+        140,
+        180,
+        220,
+        180
+      ],
+      "animatedImage": "omilo-jump.webp"
+    },
+    "greet": {
+      "row": 2,
+      "frames": 4,
+      "durations": [
+        220,
+        220,
+        220,
+        220
+      ],
+      "animatedImage": "omilo-greet.webp"
+    },
+    "think": {
+      "row": 3,
+      "frames": 4,
+      "durations": [
+        400,
+        400,
+        400,
+        400
+      ],
+      "animatedImage": "omilo-think.webp"
+    }
+  }
+}

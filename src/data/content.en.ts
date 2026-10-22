@@ -22,6 +22,7 @@ export const content: Content = {
       { label: 'Plans', href: '#offer' },
     ],
     cta: 'Early access',
+    github: 'GitHub',
     homeAriaLabel: 'Omilo, home',
     languageLabel: 'Language',
   },
@@ -35,6 +36,12 @@ export const content: Content = {
     ctaPrimary: 'Join the waitlist',
     ctaSecondary: 'See how it works',
     crewNote: 'A Chief of Staff and six helpers, ready on day one',
+    bubbles: [
+      { mascot: 'support', text: 'Draft replies to yesterday’s messages.' },
+      { mascot: 'ops', text: 'Orders, site and payments all healthy.' },
+      { mascot: 'marketing', text: 'Plan this week’s posts.' },
+      { mascot: 'finance', text: 'Update revenue, costs and runway.' },
+    ],
     preview: {
       company: 'Kopi Senja (example)',
       groups: [
@@ -282,9 +289,9 @@ export const content: Content = {
         label: 'Open source',
         title: 'Self-host it',
         body: 'The full platform, free to run on your own server with your own AI.',
-        points: ['Every feature on this page', 'Your data stays on your server', 'Source available at launch'],
-        cta: 'Join the waitlist',
-        action: 'waitlist',
+        points: ['Every feature on this page', 'Your data stays on your server', 'Source available on GitHub'],
+        cta: 'View on GitHub',
+        action: 'repo',
       },
       {
         label: 'Consulting',
@@ -428,7 +435,7 @@ export const content: Content = {
     tagline: 'AI staff for growing businesses.',
     note: 'Early access. Some features are still being tested with real accounts.',
     contactLabel: 'Contact',
-    sourceLabel: 'Join the waitlist',
+    sourceLabel: 'View source on GitHub',
     email: 'omilio@saga.co.id',
     copyright: '© 2026 Omilo by Saga Tekno',
   },

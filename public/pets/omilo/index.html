@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omilo · Motion bundle</title>
+<style>
+  :root { font: 16px system-ui,sans-serif; color: #242238; background: #f5f4ff; }
+  body { max-width: 760px; margin: 8vh auto; padding: 24px; }
+  h1 { font-size: 36px; letter-spacing: -1px; }
+  .stage { display: grid; place-items: center; min-height: 340px; border-radius: 32px; background: white; }
+  img { width: 280px; height: 280px; object-fit: contain; }
+  nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+  button { font: inherit; border: 1px solid #ccc9e6; border-radius: 999px; padding: 10px 22px; background: white; cursor: pointer; }
+  button[aria-pressed="true"] { color: white; background: #6366f1; border-color: #6366f1; }
+  p { line-height: 1.6; color: #615d78; }
+</style>
+<h1>Meet Omilo.</h1>
+<p>Four little ways to bring Omilo to life.</p>
+<div class="stage"><img id="pet" src="omilo-idle.webp" alt="Omilo mascot"></div>
+<nav aria-label="Animation state">
+  <button data-state="idle" aria-pressed="true">Idle</button>
+  <button data-state="jump" aria-pressed="false">Jump</button>
+  <button data-state="greet" aria-pressed="false">Greeting</button>
+  <button data-state="think" aria-pressed="false">Thinking</button>
+</nav>
+<p>Transparent raster animations · PNG sprite atlas · Animated WebP</p>
+<script>
+  const pet = document.querySelector('#pet');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let state = 'idle';
+  function render() {
+    pet.src = reduced.matches ? `frames/${state}/00.png` : `omilo-${state}.webp`;
+    document.querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.state === state));
+    });
+  }
+  document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', () => { state = button.dataset.state; render(); });
+  });
+  reduced.addEventListener('change', render);
+  render();
+</script>
+</html>

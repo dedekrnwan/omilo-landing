@@ -22,6 +22,7 @@ export const content: Content = {
       { label: 'Paket', href: '#offer' },
     ],
     cta: 'Akses awal',
+    github: 'GitHub',
     homeAriaLabel: 'Omilo, beranda',
     languageLabel: 'Bahasa',
   },
@@ -35,6 +36,12 @@ export const content: Content = {
     ctaPrimary: 'Gabung waitlist',
     ctaSecondary: 'Lihat cara kerjanya',
     crewNote: 'Satu Chief of Staff dan enam helper, siap sejak hari pertama',
+    bubbles: [
+      { mascot: 'support', text: 'Siapkan balasan untuk pesan kemarin.' },
+      { mascot: 'ops', text: 'Pesanan, situs, dan pembayaran aman.' },
+      { mascot: 'marketing', text: 'Susun postingan minggu ini.' },
+      { mascot: 'finance', text: 'Perbarui pendapatan, biaya, dan runway.' },
+    ],
     preview: {
       company: 'Kopi Senja (contoh)',
       groups: [
@@ -282,9 +289,9 @@ export const content: Content = {
         label: 'Open source',
         title: 'Host sendiri',
         body: 'Platform lengkap, gratis dijalankan di server Anda dengan AI milik Anda.',
-        points: ['Semua fitur di halaman ini', 'Data tetap di server Anda', 'Kode sumber tersedia saat peluncuran'],
-        cta: 'Gabung waitlist',
-        action: 'waitlist',
+        points: ['Semua fitur di halaman ini', 'Data tetap di server Anda', 'Kode sumber tersedia di GitHub'],
+        cta: 'Lihat di GitHub',
+        action: 'repo',
       },
       {
         label: 'Konsultasi',
@@ -428,7 +435,7 @@ export const content: Content = {
     tagline: 'Staf AI untuk bisnis yang bertumbuh.',
     note: 'Akses awal. Sebagian fitur masih diuji dengan akun nyata.',
     contactLabel: 'Kontak',
-    sourceLabel: 'Gabung waitlist',
+    sourceLabel: 'Lihat sumber di GitHub',
     email: 'omilio@saga.co.id',
     copyright: '© 2026 Omilo by Saga Tekno',
   },

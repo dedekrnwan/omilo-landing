@@ -1,7 +1,8 @@
 ---
-/** Footer.astro: brand, early-access note, contact and a waitlist link. */
+/** Footer.astro: brand, early-access note, contact and a source link. */
 import type { Content } from '../../data/types';
 import { localizePath, type Locale } from '../../i18n';
+import { GITHUB_URL } from '../../config';
 import Mascot from '../ui/Mascot.astro';
 interface Props { content: Content['footer']; locale: Locale; brand: string; homeAriaLabel: string }
 const { content, locale, brand, homeAriaLabel } = Astro.props;
@@ -11,7 +12,7 @@ const { content, locale, brand, homeAriaLabel } = Astro.props;
     <a class="brand" href={localizePath('/', locale)} aria-label={homeAriaLabel}><Mascot name="brand" size={22} /><b>{brand}</b><span>{content.tagline}</span></a>
     <nav class="links" aria-label="Footer">
       <span>{content.contactLabel}: <a href={`mailto:${content.email}`}>{content.email}</a></span>
-      <button type="button" class="as-link" data-open="waitlist">{content.sourceLabel}</button>
+      <a class="as-link" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">{content.sourceLabel}</a>
     </nav>
   </div>
   <div class="wrap row small"><span>{content.note}</span><span>{content.copyright}</span></div>
